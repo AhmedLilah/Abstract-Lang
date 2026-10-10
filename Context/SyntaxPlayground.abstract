@@ -1,0 +1,2441 @@
+// Adding a mtlab like syntax for sectioned code regions by comments
+// -----------------------------------------------------------------
+// using someting like the matlab `%%` syntax for code sectioning
+
+// "This Code Region Name"
+///// This Code Region Name
+//* This Code Reagion Name *//
+
+
+
+
+
+
+
+
+
+
+// Using compile time constants in structs to set teh self pointer that could be used by self invoked functions or making the function take the address of teh first element as the self pointer.
+
+
+
+
+
+
+
+
+// Streaming Ideas
+// -----------------------------------------------------------------
+// Make a node graph based DAW.
+// It should be done for node graph first.
+// It should support normal mixing.
+// The node graph should be as powerfull as the best compositing SW.
+// It should support VST plugins.
+//
+// This could be a fun project in jai.
+
+
+
+
+
+
+
+
+
+
+
+// Why this is better
+// -----------------------------------------------------------------
+// C Declaration
+char* (*f(float fp, float (*lambda)(float lp)))(float rfp) {
+	// code in here;
+}
+
+// Abstract Declaration
+f :: (fp     : f32,
+      lambda : (lp  : f32) -> (lr : f32  )
+     ) -> rf : (rfp : f32) -> (s  : [] u8) {
+        // code in here;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// reserved Syntax
+// -----------------------------------------------------------------
+// Symbols
+!
+"
+#
+$
+%
+&
+'
+(
+)
+*
++
+,
+-
+.
+/
+:
+:
+;
+<
+=
+>
+?
+@
+\
+^
+_
+`
+|
+~
+
+
+
+!!
+!=
+!~
+#!
+##
+#(
+#:
+#=
+#?
+#[
+#_
+#{
+$$
+$>
+%%
+()
+)#
+**
+*>
+++
++>
+--
+-:
+->
+-|
+.-
+..
+.=
+/*
+*/
+//
+/=
+/>
+/\
+:-
+::
+:<
+:=
+:>
+;;
+<$
+<*
+<+
+<-
+</
+<:
+<<
+<=
+<>
+<|
+==
+=>
+=|
+=~
+>:
+>=
+>>
+?.
+??
+[]
+[|
+\/
+\\
+]#
+^=
+{|
+{}
+|-
+|=
+|>
+|]
+||
+|}
+}#
+~-
+~=
+~@
+~~
+
+
+
+!==
+###
+####
+#_(
+#{}
+***
++++
+---
+-->
+-<-
+->-
+-||
+...
+..<
+..=
+///
+:::
+::<
+::=
+::>
+:<:
+:>:
+<!--
+<$>
+<*>
+<+>
+<--
+<-<
+<->
+</>
+<::
+<<<
+<<=
+<=<
+<==
+<=>
+<|>
+<||
+<|||
+<~>
+=!=
+=/=
+=::
+=:=
+=<<
+=<=
+===
+====
+==>
+=>=
+=>>
+=||
+>-<
+>->
+>::
+>=>
+>>=
+>>>
+\\\
+_|_
+www
+{..}
+||-
+||=
+||=
+||>
+|||>
+
+[!]
+[#]
+[$]
+[%]
+[&]
+[*]
+[...]
+[..]
+[.]
+[/]
+[:]
+[?]
+[@]
+[@]
+[^]
+[~]
+
+|-|--|---|----|-----|
+
+
+
+
+// Keywords
+// ----------------------------------------
+// abstract
+// and
+// as
+// asm
+// auto
+// begin
+// branch
+// break
+// buf
+// call
+// case
+// continue
+// contract
+// default
+// destinct
+// do
+// else
+// end
+// enum
+// error
+// except
+// export
+// expose
+// extern
+// fall_throw
+// fallthrow
+// flag
+// flow
+// follow
+// for
+// global
+// if
+// in
+// inf
+// inline
+// inout
+// input
+// is
+// local
+// macro
+// mimd / MIMD
+// misd / MISD
+// module
+// move
+// namespace
+// nan
+// nand
+// next
+// nobreak
+// none
+// nor
+// not
+// nil
+// null
+// operator
+// or
+// output
+// param
+// post
+// pre
+// provide
+// redo
+// register
+// remote
+// remove
+// repeat
+// ristricted
+// select
+// simd / SIMD
+// sisd / SISD
+// static
+// thread
+// unbreak
+// undefined
+// union
+// unique
+// use
+// using
+// vector
+// volatile
+// when
+// where
+// while
+// with
+// xnor
+// xor
+
+
+// ceil
+// cell
+// connect
+// cross
+// design
+// disable
+// discipline
+// discret
+// domain
+// edge
+// event
+// force
+// forever
+// from
+// function
+// join
+// module
+// negedge
+// posedge
+// real
+// reg
+// release
+// resolve
+// spec
+// spit
+// tri
+// wait
+// wire
+//
+
+
+
+// Types
+// ----------------------------------------
+// ascii
+// bit
+// bool
+// byte
+// char
+// ssize
+// string
+// usize
+
+// b<N>
+// c<N>
+// f<N>
+// r<N>
+// s<N>
+// u<N>
+// utf<N>
+// q<N>
+
+
+
+
+
+
+// Directives
+// ----------------------------------------
+// #module Parameters.
+// #file_scope
+// #import
+// #load
+// #mark
+// #meta
+// #note
+// #no_abs
+//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Code Notes
+// -----------------------------------------------------------------
+// The idea is to have a wa to add notes to the code, variables, fu-
+// nctions, structcs, etc. this would allow for adding meta data that
+// could be read by the compiler or could be used to attach extra non
+// code related data that could be used for other things like:
+// 	Relating hardware to softwar.
+// 	Linking schematic to code.
+// 	Linking schematic to layout.
+// 	Linking parasitics to layoiut and schematic.
+// 	Linking mechanical views to electrical ones.
+// The ideas a endless.
+
+// using the '' for notes?
+Amp :: (InP, InM : input Electrical 'PinType: singal', VDD, VSS : inout Electrical 'PinType: Power') -> (OutP, OutM : output Electrical) 'Domain: Analog' {
+
+}
+
+Amp :: (
+	InP, InM : input Electrical 'PinType: signal',
+	VDD, VSS : inout Electrical 'PinType: Power'
+) -> (
+	OutP, OutM : output Electrical
+) 'Domain: Analog' {
+	// ...
+}
+
+
+
+// Linking a software control variable to a physical hardware register address
+gain_control : u8 'Map: {
+	address: 0x4000_1000,
+	hw_net: "net_amp_bias",
+	layout_node: "M1_gate"
+}' = 0x0F;
+
+
+thermal_sink :: Electrical 'Mechanical: {
+	cad_model: "sink_type_b.step",
+	thermal_conductivity: 237.0 // W/mK (Aluminum)
+}';
+
+
+
+
+
+// Hint:
+// 	I think they would be in a specail meta notes types that are hidden from the runtime that should be type checked.
+// 	the note type could also be normal code structs.
+// 	allowing the user to define them however they want.
+// 	but also not having them effect anything at the SW runtime/ HW Synthesis.
+
+// 1. Define custom metadata structs (Normal code)
+PinType :: struct {
+	kind : enum { signal; power; ground; clock; };
+}
+
+Domain :: struct {
+	name       : string;
+	max_voltage : f32;
+}
+
+MechanicalPin :: struct {
+	cad_reference : string;
+	pin_number    : u32;
+}
+
+
+// 2. Attach them to variables, parameters, or functions using single quotes
+Amp :: (
+	InP, InM   : input  Electrical 'PinType{ .signal }',
+	VDD, SSS   : inout  Electrical 'PinType{ .power  }'
+) -> (
+	OutP, OutM : output Electrical 'PinType{ .signal }'
+) 'Domain.{ "Analog", 5.0 }' {
+
+	// Local variable with layout/parasitic metadata notes
+	// The compiler type-checks that 'max_voltage' expects an f32, etc.
+	feedback_cap : capacitor 'PinType{ .signal }' = 2.5p;
+}
+
+
+
+
+
+// Abstract template / interface definition
+// The compiler enforces that any concrete instantiation MUST provide a PinType value for InP.
+GenericAmp :: (
+	InP : input Electrical 'PinType',
+	VDD : inout Electrical 'PinType'
+) -> (
+	OutP : output Electrical 'PinType'
+) {
+	    // ...
+}
+
+// Concrete instantiation later, where the deferred metadata values are filled in:
+my_amp := inst GenericAmp(
+	InP  = signal_line 'PinType{ .signal }',
+	VDD  = vcc_rail    'PinType{ .power   }',
+	OutP = output_net  'PinType{ .signal }'
+);
+
+
+
+
+// A compile-time meta-block that runs during compilation
+generate_spice_netlist :: (module_symbol : type) -> string {
+	netlist_buffer := "";
+
+	// '#meta' queries all metadata notes attached to the module's parameters
+	for param in #meta(module_symbol).parameters {
+		// You can pattern-match or check note types at compile time!
+		pin_info := param.find_note(PinType);
+
+		if pin_info {
+			match pin_info.kind {
+				case .power  { netlist_buffer += ".power_node {}\n".format(param.name); }
+				case .signal { netlist_buffer += ".node {}\n".format(param.name); }
+				else         {}
+			}
+		}
+	}
+
+	return netlist_buffer;
+}
+
+
+// Hint:
+// 	what about just usig an acces operator like `.#`, `.#.`, `#.` or something else?
+
+
+
+
+
+
+
+// Accessing a metadata field using .#
+if InP.#PinType.kind == .signal {
+    // Compile-time branch evaluation
+}
+
+// Querying the kind directly if unique
+current_kind := InP.#.kind;
+
+
+// A compile-time function to validate net constraints
+validate_analog_pins :: (module_symbol : type) -> void {
+
+    // Iterate over parameters
+    for param in #meta(module_symbol).parameters {
+
+        // Using .# to check if a 'PinType' note is attached and evaluate it at compile time
+        if param.#PinType.kind == .power {
+            // Ensure power pins have a valid voltage domain defined via another note
+            voltage_limit := param.#Domain.max_voltage;
+
+            if voltage_limit <= 0.0 {
+                compiler.error("Power pin '{}' must have a valid max_voltage domain!", param.name);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Verse Like Function Markers
+// -----------------------------------------------------------------
+// Why can't we have functionl languages like markers.
+// these could be like the:
+// 	concepts
+// 	traits
+// 	interfaces
+// 	contracts
+// 	restrictions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Using macros for compile time polymorphism type cheking i.e. concepts/traits/interfaces
+// -----------------------------------------------------------------
+// only using the return type of bool?
+Drawable :: macro (T : Type) -> (ok : bool) {
+	// do some meta shit here to figure out if the type is drawable.
+}
+
+// returning the type and the bool?
+Drawable :: macro (T : Type) -> (T : Type, ok : bool) {
+	// do some meta shit here to figure out if the type is drawable.
+}
+
+// returning the type as if making the macro resolves to type that is then inserted in place of the type of the parameter type definition.
+Drawable :: macro (T : Type) -> (ok : bool) {
+	// do some meta shit here to figure out if the type is drawable.
+}
+
+// this is only ok to call if the type of the element is determined to be drawable by the drawable macro.
+draw :: (element : Drawable, canvas : Canvas, pos : Pos, scale : f32, color : Color) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Escaped Spaces In Identifiers
+// -----------------------------------------------------------------
+// Using \ to insert any number fo white spaces inside identifiers for visual allignment.
+kta\       Location := null;
+data\      Location := null;
+value\     Location := null;
+struct\    Location := null;
+address\   Location := null;
+parametr\  Location := null;
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Arbitrary Escaped `_` In Numeric Values
+// -----------------------------------------------------------------
+// Using arbitrary number of _ inside numbers in any base.
+x := 1_000_000_000;
+y := 0b_0000__0000;
+z := 0h_0000__0000____0000__0000;
+
+
+
+
+
+
+
+
+
+
+
+
+// Different Number Bases Literals Prefixes
+// -----------------------------------------------------------------
+// Binary
+0b1010
+0B1010
+
+// Octal
+0o7070
+0O7070
+
+// Decimal
+9090
+0d9090
+0D9090
+
+// Hexadecimal
+0xf0f0
+0XF0F0
+
+0hf0f0
+0HF0F0
+
+
+
+
+
+
+
+
+
+
+
+
+// SI System Postfixes
+// -----------------------------------------------------------------
+value :: 1q;  // quecto = 1e-30
+value :: 1r;  // ronto  = 1e-27
+value :: 1y;  // yocto  = 1e-24
+value :: 1z;  // zepto  = 1e-21
+value :: 1a;  // atto   = 1e-18
+value :: 1f;  // femto  = 1e-15
+value :: 1p;  // pico   = 1e-12
+value :: 1n;  // nano   = 1e-9
+value :: 1u;  // micro  = 1e-6
+value :: 1m;  // milli  = 1e-3
+value :: 1;   //        = 1e0
+value :: 1K;  // kilo   = 1e+3
+value :: 1M;  // mega   = 1e+6
+value :: 1G;  // giga   = 1e+9
+value :: 1T;  // tera   = 1e+12
+value :: 1P;  // peta   = 1e+15
+value :: 1E;  // exa    = 1e+18
+value :: 1Z;  // zetta  = 1e+21  // this is the only one that colide with the bit vlaues in hardware. shouldn't be a problem as it should be be in binary mode only.
+value :: 1Y;  // yotta  = 1e+24
+value :: 1R;  // ronna  = 1e+27
+value :: 1Q;  // quetta = 1e+30
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Verilog-AMS Style Numbered Digits
+// -----------------------------------------------------------------
+// <n><'><base>digits
+
+// Decimal
+9090
+4'9090
+
+'d9090
+'D9090
+
+4'd9090
+4'D9090
+
+// Binary
+'b1010
+'B1010
+
+4'b1010
+4'B1010
+
+
+// Octal
+'o7070
+'O7070
+
+4'o7070
+4'O7070
+
+//  Hexadecimal
+'hf0f0
+'Hf0f0
+
+4'hf0f0
+4'Hf0f0
+
+'xf0f0
+'Xf0f0
+
+4'Xf0f0
+4'XHf0f0
+
+
+// Question:
+// 	What about ternary logic?
+	3't012
+	3'T012
+
+// 	What if we wnat it to be symetrical ternary (-1, 0, 1)?
+		// Using                      1 for positive,  -1 for negative, and  0 for 0.
+		3'T-101
+
+		// Using                     +1 for positive,  -1 for negative, and  0 for 0.
+		3'T(-1)0(-1)
+
+		// Using                     +  for positive,  -  for negative, and  0 for 0.
+		3'T-0+
+
+		// Using                    P/p for positive, N/n for negative, and  0 for 0.
+		3'T_P0N
+
+		// Using a binary equavilent 01 for positive,  10 for negative, and 00 for 0.
+		3'T01_00_10
+
+// 	What about arbitrary base litterals?
+// 		using the bit'base'value pattern
+		8'2'0000_1111
+		3'10'910
+
+// 		Using the nbit'<sym>base'value
+// 			by default the <sym> is positive.
+// 			sym : +, -, _, +-, -+
+		3'  3' 0 1 2
+		3' +3' 0 1 2
+		3' -3'-2-1 0
+		3' _3'-1 0 1
+		3'+-3'-1 0 1
+		3'-+3' 1 0-1
+
+// 		using the nbit'base#value patter
+		3'  3# 0 1 2
+		3' +3# 0 1 2
+
+// 		using a more sophisticated syntax for it?!
+
+
+// Note:
+//      does this have to be done this way?
+//      does it even have to be done at all?
+//              can we use the bit field syntax for this?
+//              can we just match the values to the size of the variable it's being assigned too?
+//                      this won't work if we are declaring a variable.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Value Range Specification
+// -----------------------------------------------------------------
+// the idea is to set specific compile time guards on the values types can have.
+// can this be done via the enums/unions?
+//      we will need to revisit the the specific value non-integer enums for that.
+
+// using the in keyword with the range ':' symbol.
+output : f32 in 0.2:0.8;
+
+// using the from to keywords.
+output : f32 from 0.2 to 0.8;
+
+
+// Questions:
+// 	what if want to exclude values not set a specific range?
+
+// using the "exclude" keyword to exclude values
+output : f32 exclude 0;								// the value of output is 0.5
+
+// using the "except" keyword to exclude values
+output : f32 except 0;								// the value of output is 0.5
+
+
+// Questions:
+// 	what is the default value?
+// 	How to set the default value?
+// 	Should setting the default value be required then?
+
+// having the lower end of the range by default
+output : f32 in 0.2:0.8;							// the value of output is 0.2
+output : f32 from 0.2 to 0.8;							// the value of output is 0.2
+
+// using the "using" or "use" keywords to set the default value.
+output : f32 in 0.2:0.8 use 0.5;						// the value of output is 0.5
+output : f32 in 0.2:0.8 using 0.5;						// the value of output is 0.5
+output : f32 from 0.2 to 0.8 use 0.5;						// the value of output is 0.5
+output : f32 from 0.2 to 0.8 using 0.5;						// the value of output is 0.5
+
+
+// Questions:
+// 	can we set the values in mutlpte ranges?
+
+// using the in keyword with the range ':' symbol.
+output : f32 in -0.8:-0.2, 0.2:0.8;
+
+// using the from to keywords.
+output : f32 from  -0.8 to -0.2, from 0.2 to 0.8;
+
+
+// Questions:
+// 	can we use all of them together?
+
+// combinig all of it together.
+output : f32 in -0.8:-0.2, 0.2:0.8 exclude -0.4, 0.4 use 0.5;			// the value of output is 0.5
+output : f32 in -0.8:-0.2, 0.2:0.8 exclude -0.4, 0.4 using 0.5;			// the value of output is 0.5
+output : f32 from 0.2 to 0.8, from 0.2 to 0.8 exclude -0.4, 0.4 use 0.5;	// the value of output is 0.5
+output : f32 from 0.2 to 0.8, from 0.2 to 0.8 exclude -0.4, 0.4 using 0.5;	// the value of output is 0.5
+output : f32 in -0.8:-0.2, 0.2:0.8 except -0.4, 0.4 use 0.5;			// the value of output is 0.5
+output : f32 in -0.8:-0.2, 0.2:0.8 except -0.4, 0.4 using 0.5;			// the value of output is 0.5
+output : f32 from 0.2 to 0.8, from 0.2 to 0.8 except -0.4, 0.4 use 0.5;		// the value of output is 0.5
+output : f32 from 0.2 to 0.8, from 0.2 to 0.8 except -0.4, 0.4 using 0.5;	// the value of output is 0.5
+
+
+// Questions:
+// 	can we use these in all places like defining a function parameter?
+//	what happens when the condition fails?
+// 	how to set the failure handeling routine?
+// 		Shoulld we just throw it at the context?
+// 	Doesn't this look like C++'s contracts?
+// 		Do we even want that?
+// 		If we decide to have it. Is it going to be compile time only.
+// 		 or compile and run time.
+// 			How to do we even dcide that?
+// 	Where does this even matter?
+// 		it matters alot for hardware.
+// 		does it even matter for software?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Interchangable Parameter Type Decalaration
+// -----------------------------------------------------------------
+// When doing hardwaer it would be good if we can define that the I/O
+// 	of a block could be treated as any of the same size types.
+// This could be extended for softwar also
+div :: (A : [31:0] bit | f32, B : [31..0] bit | f32) -> (Y : [31..0] bit | f32) {
+	if B[30..0] == 0 {
+		Y = nan;
+	} else if A[30..0] == 0 {
+		Y = 0.0;
+	} else {
+		// do the actual computation in here.
+	}
+}
+
+// Questions:
+// 	Should this be a thing even?
+// 	If the binary type support all of these operations doesn' that render it useless?
+// 	Would this collide between different supported operation on different variables?
+//	Shold this be limited to binary and basic types?
+// 	How does this paly with hardware?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Adding units, description, nature, and/or types to the hardware types
+// -----------------------------------------------------------------
+// This is ment to define somethings  like the nature, discipline, unit,
+// description, type, flow, and/or potential that exist in Verilog-AMS
+// languages and VHDL.
+
+// this could be done either by addin compile time notes.
+
+// or these could be just simple structs that are expected in a meta struct.
+
+// there are different way to model this
+// 	1. modleing nature types as a tagged type.
+// 	2. modling flow and potential individually
+Nature :: #(T: _ = f32) {
+	value       : T;
+	unit	    : string;
+	description : string
+}
+
+Flow :: #(T: _ = f32) {
+	., as : Nature(T);
+}
+
+Potential :: #(T: _ = f32) {
+	., as : Nature(T);
+}
+
+Discipline :: #(F : as Flow, P : as Potential) {
+	#expand { makeFirstLetterLowerCase(type(F).name) } : F;
+	#expand { makeFirstLetterLowerCase(type(P).name) } : P;
+}
+
+Voltage :: Potential = .{unit = "volt", description = "electrical potential"};
+Current :: Flow	     = .{unit = "amp",  description = "electrical current"  };
+
+Electrical :: Discipline(Voltage, Current);
+
+
+amplifier :: #(gain : f64) (in_p : Electrical, in_m : Electrical) -> (out : Electrical) {
+	$v(out) = gain * (v(in_p) - (v(in_m));
+	return;
+}
+
+// Note:
+// 	this is very rough right now.
+// 	there is a lot of problems even with the syntax of the language.
+// 		1. the using of the as part to implicate that a type is composite one.
+// 		2. the expand directive of code.
+// 	is this going to be done like that?
+// 		why doesn't the module use the "main" block as the begin block in Verilog-AMS?
+// 		can we even do it without the part where the moduel assigns parameters and variables?
+// 	what else?...
+// 	should we have another symbol for assignment?
+// 	How to mak a signal type be working between analog, digital, mixed-signal.
+
+
+
+// Question:
+// 	How could adding a specific domain to the signals could be done?
+// 		1. Making it a compostion problem.
+// 		2. Making it a tagged union decipline.
+// 		3.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Value Specified Enums
+// -----------------------------------------------------------------
+// these enums are enums to any other type than integers.
+// setting a value in this case to the identifier is a must.
+SimulationErrors :: enum string {
+	SFE675 :: "ERROR (SFE-675): \“{}\” {}: Illegal library definition found in netlist";
+	SFE868 :: "ERROR (SFE-868): \“{}\” {}: Can not open input file ‘{}’. No such file or directory.";
+}
+
+se : SimulatinErrors = .SEF675;
+print("{}", se as string);
+
+
+
+
+
+// Variable initialization syntax for structs, arrays, functions, etc..
+// -----------------------------------------------------------------
+// Basic Types.
+i, f, b, h, o, d := 32, 2.5, 0b0000_0000, 0hFF, 0o6070, 0d0000;
+
+
+
+
+// Strings
+str :=
+	"Hello, World!"
+	"I'm Abstract"
+;
+
+
+
+
+// Static arrays
+arr           	:= {1.0, 2.0, 3.0, 4.0}; 				// the type is [4] f64.
+arr 		:= {.. (1.0:4.0)};					// the type is [4] f64.
+arr           	:  [4] f64 = {1.0, 2.0, 3.0, 4.0}; 			// the type is [4] f64.
+
+// 	what if we want to say it's a static array but make these size infered from the data or define it at the data?
+// 		becuse we want to be explicit in it.
+arr 		:  [.] f64 = {1.0, 2.0, 3.0, 4.0}; 			// the type is [4] f64.
+arr 		:= [.] f64 {1.0, 2.0, 3.0, 4.0}; 			// the type is [4] f64.
+
+
+
+
+// Slices
+slice         	:= arr[1:2]; 						// the type is [4] f64.
+arr           	:  [] f64 = {1.0, 2.0, 3.0, 4.0}; 			// the type is [4] f64.
+arr           	:= [] f64 {1.0, 2.0, 3.0, 4.0}; 			// the type is [4] f64.
+
+
+
+
+// Dynamic Arrays
+da 		:= alloc([100] f64);					// the type is [_] f64.
+da 		:  [_] f64 = alloc([100] f64);				// the type is [_] f64.
+da 		:  [_] f64 = {1.0, 2.0, 3.0, 4.0};			// the type is [_] f64.
+da 		:= [_] f64 {1.0, 2.0, 3.0, 4.0};			// the type is [_] f64.
+
+// Question:
+// 	Should we use the "[...]" for dynamic arrays?
+da 		:= alloc([100] f64);					// the type is [...] f64.
+da 		:  [...] f64 = alloc([100] f64);			// the type is [...] f64.
+da 		:  [...] f64 = {1.0, 2.0, 3.0, 4.0};			// the type is [...] f64.
+da 		:= [...] f64 {1.0, 2.0, 3.0, 4.0};			// the type is [...] f64.
+
+// 	Should we use the "[?]" for dynamic arrays?
+da 		:= alloc([100] f64);					// the type is [?] f64.
+da 		:  [?] f64 = alloc([100] f64);				// the type is [?] f64.
+da 		:  [?] f64 = {1.0, 2.0, 3.0, 4.0};			// the type is [?] f64.
+da 		:= [?] f64 {1.0, 2.0, 3.0, 4.0};			// the type is [?] f64.
+
+
+
+// what if we want to define the indexing type?
+IndexEnum :: enum {
+	first;
+	second;
+}
+
+N :: 1024;
+
+defaultIndexedStaticArray  : [N            ];
+integerIndexedStaticArray  : [N : ssize    ];
+enumIndexedStaticArray     : [N : IndexEnum];
+
+defaultIndexSlice	   : [             ];
+integerIndexSlice	   : [  : ssize    ];
+enumIndexedSlice 	   : [  : IndexEnum];
+
+defaultIndexedDynamicArray : [_            ];
+integerIndexedDynamicArray : [_ : ssize    ];
+enumIndexedDynamicArray    : [_ : IndexEnum];
+
+
+
+
+// Bit Fields
+bf 		:= 8'h0000_0000;					// the type is [7..0] f64.
+bf 		:  [7..0] bit = 8'h0000_0000;				// the type is [7..0] f64.
+bf 		:  [..] bit = 8'h0000_0000; 				// the type is [7..0] f64.
+bf 		:= [..] bit 8'h0000_0000; 				// the type is [7..0] f64.
+bf 		:= [..] bit 'h0000_0000; 				// the type is [8..0] f64.
+bf 		:= [..] bit 0h0000_0000; 				// the type is [63..0] f64.
+
+
+
+
+// Structs
+Vec2 :: {
+	x, y : f32;
+}
+
+Vec2 : {f32; f32} : {
+	x, y : f32;
+}
+
+Vec3 :: {
+	x, y, z : f32;
+}
+
+Vec3 : {f32; f32; f32} : {
+	x, y, z : f32;
+}
+
+v2 := Vec2   {x = 0, y = 1};
+v2 :  Vec2 = {x = 0, y = 1};
+
+v3 := Vec3   {x = 0, y = 1, z = 3};
+v3 :  Vec3 = {x = 0, y = 1, z = 3};
+
+// Destructuring Structs
+// 	Post Operator
+v3 :  Vec3 = {v2 ..,        z = 1};
+v3 :  Vec3 = {v2 ...,       z = 1};
+
+// 	Pre Operator
+v3 :  Vec3 = {.. v2,        z = 1};
+v3 :  Vec3 = {... v2,       z = 1};
+
+
+
+
+// Functions
+// 	Braces
+f :: (a : f32, b : f32) {
+
+}
+
+f :: (a : f32, b : f32) -> (c : f32, d : f32) {
+
+}
+
+f :: () -> (c : f32, d : f32) {
+
+}
+
+f :: -> (c : f32, d : f32) {
+
+}
+
+// 	With Explicit Typing
+f : (f32, f32) : (a : f32, b : f32) {
+
+}
+
+f : (f32, f32) -> (f32, f32) : (a : f32, b : f32) -> (c : f32, d : f32) {
+
+}
+
+f : () -> (f32, f32) : () -> (c : f32, d : f32) {
+
+}
+
+f : -> (f32, f32) : -> (c : f32, d : f32) {
+
+}
+
+
+// 	No Braces
+f :: a : f32, b : f32 {
+
+}
+
+f :: a : f32, b : f32 -> c : f32, d : f32 {
+
+}
+
+f :: -> c : f32, d : f32 {
+
+}
+
+
+// 	Declaration
+f : (f32, f32) -> f64;
+f = a : f32, b : f32 -> (c : f32) {
+
+}
+
+// should function braces not be nessary?
+// 	kinda stupid. why whould anybody what that.
+// 	Actually not, it might be usefull for lambdas.
+// 		especially if the  type is optional
+
+f :: a, b -> c {
+
+}
+
+// Qestion:
+// 	what about not using the a, b, c : type declaration for the function parameters
+// 	and making ignoring the type make it genergicc.
+binarySort :: #(T: _) (arr : @ [_] T, compare : (T, T) -> (s8)) {
+
+}
+
+array := {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+binarySort(@ array,
+	(a, b) -> s8 {
+		return  if a == b      then  0
+			else if a >  b then  1
+			else           then -1
+		;
+	}
+)
+
+
+
+
+// Exalt: LaTeX like syntax for symbols.
+`\times` :: (A : Matix_3_3, B : Matrix_3_3) -> (Y : Matrix_3_3) {
+	// ...
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Using the `` syntax for calling parameter names from binding generated from interfacing with other languages.
+// -----------------------------------------------------------------
+def :: #importCLib(headers = "defer.h", sources = "defer.c");
+def.`defer`(code);
+
+
+
+
+
+
+
+
+// Inline LaTeX  For Identifiers And User Defined Operators
+// -----------------------------------------------------------------
+// Use the ``  for inline LaTeX syntax.
+// Identifiers
+// 	Defining an operator
+`\times` :: (lhs : Mat4, rhs : Vec4) -> (res : Vec4) {
+	...
+}
+
+`\vec{V}` : Vec4 = {1.0, 2.0, 1.0, 2.0};
+
+`\bar{Y}` : Mat4= {
+			1.0, 2.0, 1.0, 2.0,
+			1.0, 2.0, 1.0, 2.0,
+			1.0, 2.0, 1.0, 2.0,
+			1.0, 2.0, 1.0, 2.0,
+};
+
+`\vec{I}` : Vec4;
+
+// this line in a supported editor should look like the matimatical notaion
+`\vec{I}` = `\bar{Y}` `\times` `\vec{V}`;
+
+$\vec{\text{I}} = \bar{\text{Y}} \times \vec{\text{V}}$
+
+
+// another take
+A, B, C, D: Mat4x4;
+C = A  `\times` B; 		// In LaTeX, the `\times` would be converted to the "X" cross product symbol.
+D = A `\dot` B; 		// In LaTeX, the `\dot` would be converted to the "." dot product symbol.
+
+// An entire equation could also be written like this.
+E := `{C} \times {D} \dot {A} + {B}`.
+//	This is going to be best for other operators. Although the first version would be awesome in most of the cases.
+
+// this could also be done as a compiler directive, which I also like
+E :=  #math "{C} \time {D} \dot {A} + {B}";
+E :=  #math `{C} \time {D} \dot {A} + {B}`;
+
+
+
+
+
+
+
+
+
+
+// use the "pre" and "post" keywords to define the position of the parameters.
+// ----------------------------------------------------------
+`cross` :: (lhs : pre Matrix, rhs : post Matrix) -> res : Matrix {
+	// code
+}
+
+A, B, C : Matrix(4, 4) = _;
+
+C : A `cross` B;
+
+
+
+
+
+
+// use the "operator" keyword to mark any sort of function to be an operator.
+// ----------------------------------------------------------
+//	this should work with meta fucntios, latex like operators or other operators.
+// 	use the "pre" and "post" keywords to define the position of the parameters.
+note :: opertor (noteBody : ... post string) {
+	compiler.add_note_to_previous_node(string);
+}
+
+add_unsafe :: (a, b : f32) -> c : f  {
+
+} #note "unsafe" "extern";
+
+
+// defining compile time directives/operators that uses the operator,
+//	pre, post, and decorators feature of the language.
+or_else :: operator (lhs : pre ... _, rhs : post ... _) -> (res : ... _) {
+	#if sizeDiff :: (lhs.size - 1) - rhs.size; sizeDiff > 0 {
+		compiler.report(
+			"Unmatched parameter number between LHS and RHS\n"
+			"RHS is missing {sizeDiff} parameter\n"
+		);
+	} else if sizeDiff < 0 {
+		compiler.report(
+			"Unmatched parameter number between LHS and RHS\n"
+			"RHS has an extra {sizeDiff} parameter\n"
+		);
+	}
+
+	if type_of(lhs[lhs.size-1]) == bool and lhs[lhs.size-1] {
+		return ..lhs;
+	} else {
+		return ..rhs;
+	}
+}
+
+
+
+// Example
+getKeyValFromMap :: (key : string, map : @ Map) -> (key: string, val: @ FatStruct, ok: bool) {
+	// code
+	// code
+	// code
+}
+
+key, val := getKeyValFromMap("Key That Doesn't Exist") or_else "", null;
+
+
+
+// Example
+insert :: #meta operator (code : post _, location : post CodeLocation) {
+	// code
+	// code
+	// code
+}
+
+#inser "a :: 5;" callerLocation;
+
+
+
+
+// Question:
+// 	What if I want the perator to take some normal parameters like a function even if it has pre and post?
+// 	can we just git rid of the "operator" keyword entirely?
+// 		we can do that by detecting if there is a use for the "pre" or "post" kewords in the parameter types.
+
+
+
+// Integrating an equation
+`\int` :: (integrationRange : Range, equation : post Code, variableName : post string) -> (res : f64) {
+	for #insert variableName in integrationRange {
+		res += #insert equation;
+	}
+	return;
+}
+
+xSquaredInteg := `\int`(0:0.001:10) x**2 x;
+
+
+
+// I don't think this is a good example
+sigma :: operator (start, end : s64, list : post [_] #(T: _)) -> (result : T) {
+	for i in start:end {
+		result += list[i];
+	}
+}
+
+list :: {1, 2, 3, 4, 5};
+
+sum :: sigma(0, list.size-1) list;
+
+
+// Question:
+// 	can we just make the '\' symbol work in normal conext without the use '`' backtick?
+
+
+
+// Question:
+// 	How can we combine all of the above and link the positional modifiers in the fucntion
+// 	difinition with the positional data from the LaTeX syntax?
+// 	Are we going to Handle LaTeX parsing?
+// 		Probably to get the data.
+// 	Should we use a keyword like "pos" or "positional" to indicate that the parameter is going to be positioned int he symbol?
+
+`\int_{range}{equation}.d{variableName}` :: (range : pos Range, equation : pos Code, variableName : pos string)
+					     -> (res : f64) {
+	for #insert variableName in lowerLimit:stepSize:upperLimit {
+		res += #insert equation;
+	}
+	return;
+}
+
+result := `\int_{0}^{10}{X^{2}}.d{x}`;
+
+
+
+
+
+
+
+// The identifier string itself specifies the LaTeX pattern.
+// {name : type} binds a positional parameter directly to its LaTeX structural slot.
+`\int_{lower: pos f64}^{upper: pos f64}{equation: pos Code}d{var: pos string}` :: () -> (res: f64) {
+	// Standard loops can now use stepSize (e.g., 0.001 default)
+	for #insert var in lower..upper {
+		res += #insert equation;
+	}
+	return res;
+}
+
+
+
+
+
+
+
+
+
+// Another, probably stupid, idea is to use differnt function parameter lists for each case.
+integrate :: pre  (inputArray : [] _)
+		  (ll : f64, stp : f64, ul : f64)
+	     post (equation : Code | string, var : Code | string)
+	     ->   (outputArray : [] _)
+	{
+	for i in ll:stp:ul {
+
+	}
+}
+
+
+
+
+
+
+
+// Using C++ & Rust like Concepts/Traits for type definition
+// ----------------------------------------------------------
+// The goal here is to use procedural macros to define somethign
+// that is similar to concepts/traits that could then be used
+// inplace of types in type/function declarations and automatic-
+// ally generate a the compile time checks for the passed types
+// when we do the type/function instanciation/call.
+
+// this is kinda like rust trait type declaration in templates.
+DataStructure 	:: #meta #concept macro (t : Type) -> bool {
+	// code that checks the type for being a DataStructure.
+}
+
+LTComparable	:: #meta #concept macro (t : Type) -> bool {
+	// code that checks the type for being a sortable.
+}
+
+sort :: (cds : DataStructure LTComparable, sf := lt) {
+	// Implement the sorting here.
+}
+
+
+// using procedural style interface/concept/trait composition
+Serializable 	:: #meta #concept macro (t : Type) -> bool {
+	// Code for serialization
+}
+
+Priced		:: #meta #concept macro (t : Type) -> bool {
+	// Code for pricing
+}
+
+
+Shippable 	:: #meta #concept macro (t : Type) -> bool {
+	return Serializable(t) and Priced(t);
+}
+
+
+shipToUser 	:: (item : Shippable) {
+
+}
+
+
+// the use of logical/binary operators for types in function/struct difinition.
+Serializable 	:: #meta #concept macro (t : Type) -> bool {
+	// Code for serialization
+}
+
+Priced		:: #meta #concept macro (t : Type) -> bool {
+	// Code for pricing
+}
+
+shipToUser 	:: (item : #(Shippable : Serializable and Priced) ) {
+
+}
+
+shipToUser 	:: #(Shippable : Serializable and Priced) (item : Shippable) {
+
+}
+
+shipToUser 	:: (item : #(Shippable : Serializable & Priced) ) {
+
+}
+
+shipToUser 	:: #(Shippable : Serializable & Priced) (item : Shippable) {
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// using the "as" keyword to define the names of generic types
+// ----------------------------------------------------------
+add :: (lhs : _ as T, rhs : T) -> (res : T) {
+	res = A + B;
+}
+// 	this confilcts with the use of the "as" keyword for casting.
+//	did non of the other methods for generic polymorphic type names suffice?
+
+
+
+
+// using the "as" keyword to define type equivilancy
+// ----------------------------------------------------------
+Vec3 :: {
+	x, y, z: f32;
+}
+RGB :: {
+	r, g, b: f32;
+}
+HSL :: {
+	h, s, l: f32;
+}
+
+// this looks very ugly and not like the syntax philosophy at all.
+Vec3 as {
+	RGB,
+	SHL
+}
+
+// what about using another keyworkd like "same_as", "identical", "isomorphic", "isomorph", "is".
+
+
+
+
+// using the "alias" keyword to specifically define function
+// overloading and type aliasing.
+// ----------------------------------------------------------
+// type aliasing
+append_to_string :: (stringBuilder : @ StringBuilder, element : #(T: _)) {}
+append_to_array  :: (array : @ [_] #(T: _), element : T) {}
+
+append :: alias {
+	append_to_string,
+	append_to_array
+}
+
+// Question:
+// 	why should that even be a thing?
+
+
+
+// jai's wya.
+append :: (stringBuilder : * StringBuilder, element : $T) {}
+append :: (array : * array, element : $T) {}
+
+// odin's way.
+append :: Proc {
+	append_to_string,
+	append_to_array
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// What other operators should be supported?
+// ----------------------------------------------------------
+// Pipes and pipe symbol
+//      using => for piping
+// NOTE: I really need to find a language builtin feature to have
+//              functional style function concatination/baking.
+// e.g. Jai does it as a meta programming facility.
+
+
+
+
+
+
+
+
+// Function Decoration
+// ----------------------------------------------------------
+// 	how should we approach this.
+//      what about everything beign a modifier directive/compile time operator on the function/body
+metaOnlyFunction :: #meta () -> (res : s64) { return 69 }
+
+
+
+
+
+
+
+
+// Local scope compiler directives/decorators.
+// ----------------------------------------------------------
+//	For example if I want to disable floating point subnormals for an audio function.
+audioAdd :: (audioBuffer : [] f32, audioSample : [] f32) -> () #fastMath {
+
+}
+
+audioAdd :: (audioBuffer : [] f32, audioSample : [] f32) -> () #fdenormal_fp_math {
+
+}
+
+audioAdd :: (audioBuffer : [] f32, audioSample : [] f32) -> () {
+	clo :: @ context.compiler_local_options;
+	clo.fast_math = true;
+	clo.array_bound_checking = false;
+
+	// Should this even be a thing?
+	// 	Should we make it like jai and the context be reset to the parent on at the end?
+	defer {
+		clo.fast_math = false;
+		clo.array_bound_checking = true;
+	}
+}
+
+
+
+
+
+// should I have features from rust like safe and unsafe code?
+// ----------------------------------------------------------
+//      I really wanna have a way to include safety heavy checks but not as ruts does.
+//      it is very combursome and annoying to developers who actually know what the F
+//      they want to do and don't want to keep fighting the compiler when they are exp-
+//      loring new ideas.
+
+
+
+
+
+
+
+// what is the mental model for sequentiality, concurency, and/or parallelizm.
+// ----------------------------------------------------------
+//      there is a lot of room for thinking in this.
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------------
+// How should I add functional type features that are good for developing
+//      actual code?!
+
+
+
+
+
+
+
+
+
+
+
+// Using the "auto" keyword for automatic casting of the types.
+// ----------------------------------------------------------
+//      I think i'm just gonna have this as the default.
+//      don't see any reason why not.
+//      Using as for explicit casting.
+
+// Question: should these be used as funtion parameter modifiers?
+//      probably not.
+//      we don't want C++ BS complexity.
+
+add :: (a, b : f32) -> (res : f32) {
+	res = a + b;
+	return;
+}
+
+A, B  : f64 = 0.03;
+
+res := add(A, B);               // Error: can't fit f64 to f32;
+res := add(auto A, auto B);     // works fine as we manually casted from f64 to f32.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------------
+// Modules parameters
+//      these could be paramters being passed in order to choose the implementation.
+//      or could be code to run to modify the module.
+// Hint: refer back to Jai implementation.
+#import("basic", parameter, code, macro, plugin, somethingElse....);
+//	I think some languages allow the last parameter to be in a scope or soemthign if it's something that could be executed?
+
+
+// Question:
+//	How to define the module parameters?
+
+// Jai's way.
+#module_parameters (param : type, param : type, param : type);
+
+
+// My way
+. :: (param : type, param : type, param : type);
+
+
+
+
+
+
+
+
+
+
+// ----------------------------------------------------------
+// Should we have different types of pointer like Odin?
+//      i.e.
+//              one that is always valid.
+//              one that is like normal c pointers for an element
+//              one that is like a c pointer to array of elements
+//              one like zig that is optional
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Uses For . For self referencing
+//      Exploring using the dot operator . As A Replacement To The Self &, this *, or context struct for scope members or nested function calling. similar variable. and also defining the member functions that takes a  Self &, this *, or context as the first parameter.
+//      This covers all of the cases of use for the  this *, Self &, or context struct in languages such as C++, Rust, Jai.
+//      Should the . be passed by default for struct member functional block or should it be explicitly passed as the first parameter in the parameterr list
+S :: {
+	incr :: () -> S {
+		return .;
+	}
+}
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// using "as", "of", "from", "to" etc. to making casting
+arr := {1, 2, 3, 4, 5}
+arrfAs 	 := arr as [] f32; 	// if we used "as" for the type naming in polymorphic functions this won't be possible.
+arrfOf 	 := [] f32 of arr;
+arrfFrom := [] f32 from arr;
+arrfTo 	 := arr to []f32
+
+
+
+
+
+
+
+
+
+
+
+
+// what to do with vectorization and parallel programming
+// -----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Should we have matrix types in the lang
+//      multidimentional arrays
+nDMatrix : [3, 1] f32;
+//      no we shouldn't because we won't be able to make matrix size/performance optimization at that point easily?!
+
+// The difference between built in arrays and matrecies?
+//      In their static compile time form they have no differences when it comes
+//              to the data being laied out in memory....
+//      In the runtime case their will be a difference.
+//              In case of an array that will need to be known at run time.
+//                      we use either the "[]" slice, or the "[_]" dynamic array.
+//                      each of them have a pointer to the data and the size, and (optional) capacity.
+//              In case of a matrix we will need
+//                      - a pointer to the data.
+//                      - a slice of size = number of dimentions.
+//                      - a each entry of the slice have a value that contains the size of the dimention.
+
+
+
+
+
+
+
+
+
+
+// Hygenic Macros
+// -----------------------------------------------------------------
+//      function like macros that are type safe but have access to caller scope variables
+for_expantion :: macro (range : RangeType, index : bool, poiter : bool, reverse : bool) {
+	/*reserved place for the keyworkd to insert code in scope*/ it := rnage[index];
+	for 0..rnage.size {
+		sdaf
+	}
+}
+
+//      Using a keyword for making statements pass through the hygenic macro to parent scopes.
+//      the keyord could be applied to a statement or a scope.
+//              trasparent
+//              permiable
+//              translucent
+scoped_gard_lock :: macro (vriable : _) {
+	transparent {
+		lock(variable);
+		defer unlock(variable);
+	}
+}
+
+//      Should I make this a compiler directive?
+//              #insert
+//              using this will allow me to make a method aregument that take a place like jai does.
+//              this will be the place or the body that the compiler will inject the code to.
+scopedLock :: macro (mutex : @ Mutex) {
+	#insert{
+		lock(mutex);
+		defer unlock(mutex);
+	}
+}
+
+//      or, just use the keyword "insert" as is?
+//              insert
+scopedLock :: macro (mutex : @ Mutex) {
+	insert{
+		lock(mutex);
+		defer unlock(mutex);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+// Implicit Polymorphic Functions
+// -----------------------------------------------------------------
+//      Useful for quick lambdas
+F :: (A) -> (R) {
+	return R = A * A;
+}
+
+map :: #(T : _, U : _) (input : [] T, fn : (T) -> (U)) -> (result : [] U) {
+	result = allocate([len(input)] T);
+	for value, index := input :itrationMacro {
+		result[index] = fn(value);
+	}
+	return;
+}
+
+oa :: {0, 1, 2, 3, 4};
+ma :: map(oa, F);
+
+// Incomplete Types aka Implicit Polymorphism.
+S :: #(T: _, V : T) {
+	x, y, z : T = V;
+}
+
+f :: (s : @ S, v : s.V) { }
+
+// or
+f :: #(T: _, V : T) (s : @ S(T, V), value : V) { }
+
+// or
+f :: (s : @ S, value : _) #{
+	if typeof(s.x) != typeof(vlaue) {
+		compiler.error("Unmatched types between S members and value");
+	}
+} {
+	// do whatever
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// All the uses of '#'
+// ----------------------------------------------------------
+// 	compiler directives.
+#run
+#import
+#insert
+#if
+
+// 	decorators.
+metaOnlyFunc :: #meta () {}
+
+//	named polymorphic compile time types.
+//		polymorphic types.
+Map :: #(K : _, V : _) {
+	keys : [] K;
+	vals : [] V;
+}
+Map :: {
+	keys : [] #(K : _);
+	vals : [] #(V : _);
+}
+
+//		polymorphic functions.
+makeMapFromKeyValuePairs :: #(K : _, V : _) (keys : [] K, Vals : [] V) -> map : Map(K, V) {
+
+};
+makeMapFromKeyValuePairs :: (key : #(K : _), val : #(V : _)) -> map -> Map(K, V) {
+
+}
+
+
+// 	running code at compile time.
+#print("Hello, World!\n");
+
+#{			// compile time block running.
+	print("Hello, Compile Time Abstract!\n");
+	print("You're inside a compile time block\n");
+}
+
+
+// Compile Time Script.
+// 	This is not compiled it will be done as a  script.
+// 	All of this is dependent on the fact that we can use '.' for context reference.
+# . 			// This fits my use of the '#' and the '.' symbols seperated.
+#. 			// This fits my use of the '#' and the '.' symbols joint.
+#! 			// This uses the same linux file syntax.
+#run .			// This looks like jai .
+#run .;			// This looks like jai but as a statement.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Compile Time Parameters Syntax
+// -----------------------------------------------------------------
+//	Use the `#()` syntax to define a compile-time polymorphic function / type.
+//	This keeps the convention of using the `#` symbol for compile time related meanings.
+
+
+// Functions
+// ---------------------------------------------------------------------------------------
+// Meta Parameters for functions
+GF :: #(T : _) (A : T, B : T) -> (C : T) {
+
+}
+
+_ := GF(5, 3);                  // Deduced types.
+_ := GF#(f32)(0.1, 0.2);        // Bad to use the # after the name.
+_ := GF(f32)(0.1, 0.2);         // Why whould i need to make funciton specialization like C++ if I can do it in meta programming?
+_ := GF(0.1, 0.2)#(f32);        // Good for the use of the meta parameter only if needed.
+
+// Note: this will look ugly at the call site which shouldn't be the case
+
+
+// Jai like defining type name in parameter type.
+// ---------------------------------------------------------------------------------------
+GF :: (A : #T, B : T) -> (C : T) {
+
+}
+
+_ := GF(0.1, 0.2);              // doesn't allow explicit type deduction (you need to make sure the type is right).
+
+// Collision: This interfeares with executing a meta function at the type declaration that could return the type.
+
+
+
+// Just not having named template and usig the meta programming to define it.
+// ---------------------------------------------------------------------------------------
+GF :: (A : _, B : _) -> (C : _) {
+	// meta code to make sure they are the same.
+}
+
+_ := GF(0.1, 0.2);              // Doesn't allow explicit type deduction (you need to make sure the type is right).
+
+// Question: What makes this not good compared to something like the modify proc in jai?
+// Hypotheis: This is going to be bad because the meta code is going to be considered as part of the function body.
+//            instead of being done outside it which could cause a problem if the function could be ran at compile time.
+//            this might be a problem because if the function is going to be ran at compile time what does it mean to have a meta code in it?
+//            do we run it first before we run the function at compile time.
+//            or is it part of the functin which is already going to be ran at compile time anyhow.
+
+
+
+
+// Structs
+// ---------------------------------------------------------------------------------------
+// Meta Parameters for structs
+S  :: #(T : _) {
+	m : T;
+}
+
+s : S#(f32);                    // Explicit type definition usig meta parameters.
+s : S(f32);                     // This doesn't look the same as the function specialization.
+s : S = { .m = 1 };             // Deduced types.
+
+
+
+
+
+
+
+
+
+
+
+
+// Polymorphic Types/Functions Overloading
+// -----------------------------------------------------------------
+// 	Polymorphic Function Overloading
+F :: #(T : _, N : i32) (A : T) {
+
+}
+
+F :: #(K : _, V : _, N : 132) (M : S(K, V, N)) {
+
+}
+
+// Polymorphic Struct Overloading
+S :: #(T: _, E : _) {
+	t : T;
+	e : E;
+}
+
+S :: #(T: _, E : _, N : ssize) {
+	t       :  T;
+	e       :  E;
+	size    :: N;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// Abstract Mode
+// -----------------------------------------------------------------
+//      using abstract mode to have a high-level abstraction of assembly languages to directly access hardware.
+//      using abstract mode to write direct low-levle assembly code.
+//      using abstract mode to write different language code inline with abstract code.
+vAddf32 :: (a : @ [16] f32, b : @ [16] f32) ->
+abstract (ASM) {
+	mov rex, 5
+	mov rax, 6
+	add rax, rex
+}
+
+```asm
+	mov rex, 5
+	mov rax, 6
+	add rax, rex
+```
+
+// possible syntax for this feature
+```<name of the meta function or builtin function that handle the code>
+<body of the code>
+```
+
+// the function that handels the code in the inline block.
+`asm` :: #meta (originalCode: string) -> (embedableCodeAST : Code) {
+	// does some shit.
+}
+
+`C++` :: #meta (originalCode: string) -> (embedableCodeAST : Code) {
+	// does some shit.
+}
+
+// the asm function is a must have to make this next code work.
+```asm
+	mov eax, 100H
+	mov ebx, 100H
+	add eax, ebx
+```
+
+```cpp
+int x = 5;
+```
+
+
+
+
+
+
+
+// Declarative Mode
+// -----------------------------------------------------------------
+//      using a declarative mode to for things like DDL.
+//      using a declarative mode to set Entity Relationships like in databases or Logic Programming.
+//      using a declarative mode to define UI.
+//      using a declarative mode to define relationships between entites like physical links in games or folow actions in modeling softawre.
+#[Meta_Only]
+#[Forigne_Fuction]
+#{}
+
+
+```declarative
+	x > five
+```
+
+```TCL
+	set x 1.5
+	puts $x
+```
+
+//
+abstract (.DISCRIPTIVE) {
+
+}
+
+```Discriptive
+	employee <>- contract
+	employee
+```
+
+
+
+
+
+
+
+
+
+
+// Code Feature
+// -----------------------------------------------------------------
+//      using a markdown like code scope to define the Code type input in this language that could be ran, inserted, or modified according to the language.
+code :: ```
+	println("{}", it);
+```
+
+for 0..9 {
+	#insert(code);
+}
+
+
+// this is equivalent to this
+for 0..9 {
+	println("{}", it);
+}
+
+
+
+
+
+
+
+
+
+
+// Adding a code tagging system to the language
+// -----------------------------------------------------------------
+/*
+	1. The Standard Codetag Conventions
+	While developers can write whatever they want in a comment, the industry has unofficially standardized a few specific all-caps keywords (often documented in style guides like Python’s PEP 350).
+
+	TODO: Indicates missing features, unfinished code, or tasks that need to be completed later. (Used for features and planned work).
+
+	FIXME: Indicates code that is currently broken, inefficient, or poorly written and desperately needs refactoring. (Used for fixes).
+
+	BUG: Marks a known defect in the code. Best practice is to include an issue number from your bug tracker (e.g., BUG(#124): Fails on leap years).
+
+	XXX or WARNING: A visual siren. It warns other developers that the code is highly problematic, confusing, or dangerous to modify.
+
+	NOTE, HINT, or INFO: Highlights crucial context or explains why a particular, perhaps non-obvious, approach was taken.
+
+	HACK or WORKAROUND: Admits that the current solution is the programming equivalent of duct tape and should eventually be replaced with a proper fix.
+
+	DEPRECATED: Warns that a function or feature is obsolete and will be removed in future versions.
+*/

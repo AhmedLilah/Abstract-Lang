@@ -1,0 +1,293 @@
+// Compile Time Parameters Syntax
+// -----------------------------------------------------------------
+//	Use the `#()` syntax to define a compile-time polymorphic function / type.
+//	This keeps the convention of using the `#` symbol for compile time related meanings.
+
+// ------------------------------------------------------------------------------------------------------------
+// -------------------------------- Compile Time Polymorphism -------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
+
+// Functions
+// ---------------------------------------------------------------------------------------
+
+// In type meta definitoin
+GF :: (A : #T : _, B : T) -> (C : T) {
+
+}
+_ := GF(5, 3);                  // Deduced types.
+
+
+// Meta Parameters for functions
+GF :: #(T : _) (A : T, B : T) -> (C : T) {
+
+}
+
+_ := GF(5, 3);                  // Deduced types.
+_ := GF#(f32)(0.1, 0.2);        // Bad to use the # after the name.
+_ := GF(f32)(0.1, 0.2);         // Why whould i need to make funciton specialization like C++ if I can do it in meta programming?
+_ := GF(0.1, 0.2)#(f32);        // Good for the use of the meta parameter only if needed.
+
+// Note: this will look ugly at the call site which shouldn't be the case
+
+
+// Zig like compile time only parameters as function parameters.
+// ---------------------------------------------------------------------------------------
+GF :: (T : #_, A : T, B : T) -> (C : T) {
+
+}
+
+_ := GF(f32, 0.1, 0.2);         // No type deduction ( have to be done explicitly ).
+
+// Question: could we find a way to reorder the arguments to have type deduction?
+
+
+
+// Jai like defining type name in parameter type.
+// ---------------------------------------------------------------------------------------
+GF :: (A : #T, B : T) -> (C : T) {
+
+}
+
+_ := GF(0.1, 0.2);              // doesn't allow explicit type deduction (you need to make sure the type is right).
+
+// Collision: This interfeares with executing a meta function at the type declaration that could return the type.
+
+
+
+// Just not having named template and usig the meta programming to define it.
+// ---------------------------------------------------------------------------------------
+GF :: (A : _, B : _) -> (C : _) {
+        // meta code to make sure they are the same.
+}
+
+_ := GF(0.1, 0.2);              // Doesn't allow explicit type deduction (you need to make sure the type is right).
+
+// Question: What makes this not good compared to something like the modify proc in jai?
+// Hypotheis: This is going to be bad because the meta code is going to be considered as part of the function body.
+//            instead of being done outside it which could cause a problem if the function could be ran at compile time.
+//            this might be a problem because if the function is going to be ran at compile time what does it mean to have a meta code in it?
+//            do we run it first before we run the function at compile time.
+//            or is it part of the functin which is already going to be ran at compile time anyhow.
+
+
+
+
+// Rust like template list
+// ---------------------------------------------------------------------------------------
+GF :: <T : _> (A : T, B : T) -> (C : T) {
+
+}
+
+_ :- GF(1, 2);                  // Deduced types.
+_ := GF<f32>(0.1, 0.2);         // Explicit type definition.
+
+// Note: This overloads the use of the `<` and `>` operators
+//       and it also lacks the # indicator for compile time actions
+
+
+
+
+
+
+
+// Structs
+// ---------------------------------------------------------------------------------------
+// Meta Parameters for structs
+S  :: #(T : _) {
+        m : T;
+}
+
+s : S#(f32);                    // Explicit type definition usig meta parameters.
+s : S(f32);                     // This doesn't look the same as the function specialization.
+s : S = { .m = 1 };             // Deduced types.
+
+
+
+// rust like template parameters
+// ---------------------------------------------------------------------------------------
+S  :: <T : _> {
+        m : T;
+}
+
+s : S<f32>;                     // Explicit type definition.
+s : S = { .m = 1 };             // Deduced types.
+
+
+
+
+
+
+
+
+// ---------------------------------------------------------------------------------------
+// Polymorphic Functions & Structs final verdict ish?!
+//      this needs more thinking.
+// ---------------------------------------------------------------------------------------
+// using the jai like syntax we can achive both and since we don't really need to make se-
+// lization to the functions and that function and sruct names dont overload then we can
+// call the struct using the same call as the fuction without the weird syntax.
+add :: #(T : _) (A : T, B : T) -> (C : T) {
+        return A + B;
+}
+
+res := add(0.1, 0.2);
+
+RGB :: #(T : _) {
+        r, g, b : T;
+}
+
+f_rgb : RGB(f32);
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Polymorphic Types/Functions Overloading
+// 	Polymorphic Function Overloading
+F :: #(T : _, N : i32) (A : T) {
+
+}
+
+F :: #(K : _, V : _, N : 132) (M : S(K, V, N)) {
+
+}
+
+// Polymorphic Struct Overloading
+S :: #(T: _, E : _) {
+        t : T;
+        e : E;
+}
+
+S :: #(T: _, E : _, N : ssize) {
+        t       :  T;
+        e       :  E;
+        size    :: N;
+}
+
+
+
+
+
+
+
+
+// Using `#` For Compile Time Directives/Execution
+// -----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Syntax for loop iteration macros
+// -----------------------------------------------------------------
+for value in map use iterationMacro {   	// contender
+        println("${value}");
+}
+
+for value in map using iterationMacro { 	// contender
+        println("${value}");
+}
+
+/*
+// previous attempts that are worth the discussion
+for i in map : iterationMacro {
+        println("${value}");
+}
+
+for(iterationMacro) value in map {
+        println("${value}");
+}
+
+for value in map #(iterationMacro) {
+        println("${value}");
+}
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Constants Declaration/Definition
+// -----------------------------------------------------------------
+// Value Initialized Type Inferred Compile Time Constants
+identifier :: value;				// This defines a compile time constant and infer the type from the initialization value.
+
+// Value Initialized Multiple Type Inferred Compile Time Constants
+identifier, identifier :: value;		// This defines multiple compile time constants and infer the type from the initialization value.
+
+// Value Initialized Type Defined Compile Time Constants
+identifier : constantType : vlaue;		// This defines a compile time constants and by specifying the type before assigning the value.
+
+// Discarded Value Initialized Type Inferred Compile Time Constants
+_ :: value;					// Discarded value compile time constant.
+
+// Partially Discarded Value Initialized Type Inferred Compiler Time Constants
+_, identifier :: value, value;			// This discard the value corresponding the `_` operator.
+
+
+
+
+// Variables Declaration/Definition
+// -----------------------------------------------------------------
+// Value  Initialized Type Inferred Variable
+identifier := value;				// This defines a variable and infer the type from the initialization value.
+
+// Value Initialized Multiple Type Inferred Variable
+identifier, identifier := value;		// This defines multiple vairables and infer the type from the initialization value.
+
+// Value Initialized Type Variable Declaration
+identifier : variableType = value;		// This defines a variable and by specifying the type before assigning the value.
+
+// Default Initialized Type Variable Declaration
+identifier : varibleType;			// This defines a default initialized variable and specifies it's type.
+
+// Variable Assignment
+identifier = value;				// This assigns a value to a pre-defined variable.
+
+// Multiple Value Initialized Type Inferred Variables
+identifier, identifier := value, value;		// This assigned each identifier to the corresponding value and give it the inferred type of the value.
+
+// Discarded Value Initialized Variable
+_ := value;					// Discarded value variable
+
+// Partially Discarded Value Initialized Type Inferred Variable
+_, identifier := value, value;			// This discard the value corresponding the `_` operator.
+
+

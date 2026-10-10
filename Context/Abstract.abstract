@@ -1,0 +1,2602 @@
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                    ABSTRACT                                                  */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+// Comments
+// 	Single-Line Comments
+/*
+	Multi-Line  Comments
+*/
+
+// Operators
+// 	Logical Operators
+// 		Unary Logical Operators
+buf			// Boolean double negation operator. same as the value. buffered in hardware scope. ??
+not			// Boolean negation operator.
+// 		Binary Logical Operators
+and 			// Checks if both of the expressions are true and returns a Boolean.
+or  			// Checks if either of the expressions are true and returns a Boolean.
+xor			// Checks if only one of the expressions is true and returns a Boolean.
+nand			// Checks if both of the expressions are false and returns a Boolean.
+nor			// Checks if either of the expressions is false and returns a Boolean.
+xnor			// Checks if only one of the expressions is false and returns a Boolean.
+
+// 	Bitwise Operators
+// 		Unary Bitwise Operators
+~			// Boolean invert.
+!~			// Boolean buffer. ??
+
+// 		Binary Bitwise Operators
+&			// Boolean and.
+| 			// Boolean or.
+^			// Boolean xor.
+<<			// Arithmetic left shift
+>> 			// Arithmetic right shift
+<|, |>			// should there be a logical shift operators?
+<:, :>			// should there be a logical shift operators?
+
+
+
+// 	Arithmetic Operators
+// 		Unary Arithmetic Operators
+++ 			// Increment operator.
+--			// Decrement operator.
+
+// 		Binary Arithmetic Operators
++			// Addition operator.
+-			// Subtraction operator.
+*			// Multiplication operator.
+/			// Division operator.
+\			// Remainder operator.
+%			// Modulus operator.
+**			// Power Operator.
+
+// 	Comparison Operators
+==			// Equality.
+!=			// Inequality.
+<			// Less than.
+<=			// Less than or equal.
+>			// Greater than.
+>=			// Greater than or equal.
+			// place holder for the rest.
+
+// 	Assignment Operators
+:			// Type declaration/compile time assignment operator.
+=			// Variable assignment operator.
+
+// 	Special Operators
+,			// Expression separation operator, Function parameters separation operator.
+;			// Expression termination operator.
+.			// Member access operator, Context capture operator.
+..			// Range operator.
+...			// Variadic parameters identifer, Parameter packing/unpacking operator.
+->			// Functional block return/output operator.
+_			// Don't care/Anything/Default/Ignore.
+
+
+// Default Types
+// 	Hardware Types
+//		Digital Types
+time, realtime		// Represents the time in the circuit simulation/ real time passed.
+			// Should this even be a thing or just make these functions in libraries.
+
+
+
+// Binary Types
+bit, byte		// For consistency between Software and Hardware code and takes the values
+
+
+
+
+// Boolean Types
+// 	A type than handles logical expression true or false.
+// 	This type should be handled in the smallest amount of memory the architecture supports.
+bool
+b8
+b16
+b32
+b64
+b128
+b<N>
+
+
+
+
+// Integral Types
+//	Integral types do not support bit wise operation.
+//	Two's complement based singed integer types.
+
+//	Singed integer types.
+s8
+s16
+s32
+s64
+s128
+s<N>
+
+//	Unsinged integer types.
+u8
+u16
+u32
+u64
+u128
+u<N>
+
+//	Architecture based integer types.
+ssize	// signed
+usize	// unsigned
+
+
+
+
+// Floating Point Types
+// 	IEEE 754 based floating point.
+f16
+f32
+f64
+f80
+f128
+f<n>
+
+// 	should this even be a thing?
+e<n>m<m> 	// this format uses e<n> and m<n> to define the exponent and mantissa
+	e2m1 		// f4
+	e5m10 		// f16
+	e8m23 		// f32
+	e11m52 		// f64
+	e15m112 	// f128
+
+
+// 	universal floating point difinition
+//      -----------------------------------
+// 	this format uses:
+// 		f<nb>  number of floating point number bits.
+// 		s<nsb> number of sing     	       bits.
+// 		e<neb> number of exponent 	       bits.
+// 		m<nmb> number of mantissa 	       bits.
+f<nb>s<nsb><e<neb>m<nmb>
+	f3s1e2m1 	// f4
+	f16s1e5m10 	// f16
+	f32s1e8m23 	// f32
+	f32s1e11m52 	// f64
+	f64s1e15m112 	// f128
+
+// 	this format uses:
+// 		s<nsb> number of sing     	       bits.
+// 		e<neb> number of exponent 	       bits.
+// 		m<nmb> number of mantissa 	       bits.
+s<nsb><e<neb>m<nmb>
+	s1e2m1 		// f4
+	s1e5m10 	// f16
+	s1e8m23 	// f32
+	s1e11m52 	// f64
+	s1e15m112 	// f128
+
+// Complex types
+// 	Real, Imaginary
+c32
+c64
+c128
+
+
+
+
+// Quaternions
+q64
+q128
+q256
+
+
+
+
+// Text Types
+// 	Character Types
+// 		r is short for rune
+r8 		// utf8  code point
+r16 		// utf16 code point
+r64 		// utf32 code point
+rune 		// alias to u32 or whatever is most consistant with string
+char 		// C-char
+
+// 	String Types
+string 		// slice of r8
+ascii 		// slice of u8/r8
+utf8 		// slice of r8
+utf16 		// slice of r16
+utf32 		// slice of r32
+
+
+
+
+// Type Info
+any
+
+
+
+
+// Absent Of Types
+void
+nothing
+
+
+
+
+// Special Values
+// 	Specail binary vales
+_ 		// don't care
+		// @BUG this can't happpen as it colides with the use of _ as a number seperator.
+0 		// Logical-Zero or Strong-Low
+1 		// Logical-One  or Strong-Hight
+H 		// Weak-high or Pull-Up
+L 		// Weak-low  or Pull-Down
+U 		// Undefined
+W 		// Weak
+X 		// Unknown/Don't Care
+Z 		// High-Impedance, High-Z
+
+// 	floatig point values
++nan
+-nan
++inf
+-inf
+
+// 	special string/character
+\n 		// new line
+\r 		// carriage return
+\t 		// horizontal tab
+\v 		// vertical tab
+\\ 		// backslash
+\" 		// double quote
+\' 		// single quote
+\0 		// null character
+\b 		// backspace
+\a 		// alert / bell
+\f 		// form feed
+\? 		// question mark
+\hxx 		// Specia Hex value for utf8  characters
+\hxxxx 		// Specia Hex value for utf16 characters
+\hxxxxxxxx 	// Specia Hex value for utf32 characters
+
+// 	Special Pointer Values
+null 		// defulat case for pointers
+
+// 	Special Enum/Tagged-Union Values
+nil 		// base value for tagged enums/union
+
+// 	Special xxxxx Values
+none 		// haven't decided yet
+
+
+
+
+// Undefined
+_
+undefined 	// haven't decided yet
+
+
+
+
+
+// SI System Postfixes
+// -----------------------------------------------------------------
+1q;  // quecto = 1e-30
+1r;  // ronto  = 1e-27
+1y;  // yocto  = 1e-24
+1z;  // zepto  = 1e-21
+1a;  // atto   = 1e-18
+1f;  // femto  = 1e-15
+1p;  // pico   = 1e-12
+1n;  // nano   = 1e-9
+1u;  // micro  = 1e-6
+1m;  // milli  = 1e-3
+1;   //        = 1e0
+1K;  // kilo   = 1e+3
+1M;  // mega   = 1e+6
+1G;  // giga   = 1e+9
+1T;  // tera   = 1e+12
+1P;  // peta   = 1e+15
+1E;  // exa    = 1e+18
+1Z;  // zetta  = 1e+21
+1Y;  // yotta  = 1e+24
+1R;  // ronna  = 1e+27
+1Q;  // quetta = 1e+30
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                            VARIABLES AND CONSTANTS                                           */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+// Constants/Variables Declaration/Definition
+// -----------------------------------------------------------------
+// The constant and variable combined declartion and assignment opertors `::` and `:=`
+// can be used to declare and assign constants and variable according to the general
+// form of <identifier(s) named(s)> : <type(s)> : or = <value(s) or expression(s)>;
+
+a      	:: v;		// This defines a compile time constant and infer the type from the initialization value.
+a 	:  T : v;	// This defines a compile time constants by specifying the type before assigning the value.
+a, b 	:: v;		// This defines multiple compile time constants and infer the type from the initialization value.
+a, b 	:: v, v;	// This defines multiple compile time constants and infer the type from the initialization values.
+a, b 	:  T, T : v, v;	// This defines multiple compile time constants by specifying the types before assigning the values.
+
+_ 	:: v;		// Discarded value compile time constant.
+_, a 	:: v, v;	// This discard the value corresponding the `_` operator.
+
+a 	:= v;		// This defines a variable and infer the type from the initialization value.
+a 	:  T = v;	// This defines a variable and by specifying the type before assigning the value.
+a, b 	:= v;		// This defines multiple vairables and infer the type from the initialization value.
+a, b 	:= v, v;	// This assigned each identifier to the corresponding value and give it the inferred type of the value.
+a, b 	:  T, T = v, v;	// This defines multiple variables by specifying the types before assginig it the values.
+
+a 	:  T;		// This defines a default initialized variable and specifies it's type.
+a 	=  v;		// This assigns a value to a pre-defined variable.
+
+_ 	:= v;		// Discarded value variable
+_, a 	:= v, v;	// This discard the value corresponding the `_` operator.
+
+
+
+// Note:
+// -----------------------------------------------------------------
+//	What if I want to assign from a function that have multiple return types
+//	and most of them are newly defined but one or more was breviously defined
+
+// Use Go like `:=`
+// 	if and old variable name is used with a new one it declares the new one and reuses the old.
+// 	it only throws the error if nor new names are present.
+a    := 5; 		// OK: first time.
+a    := 10; 		// Error: re declaration.
+a, b := 6, 9;		// Ok: mixed declaration and reuse.
+
+
+// Example 1
+f : () -> (s32, f32, s64, f64) {
+	0, 1.0, 2, 3.0;
+}
+a, d : s32, f64;
+a, b, c, d := f();
+
+// Example 2
+f1 :: (a, b : f32) -> (res : f32, ok : bool) { /* code */ }
+f2 :: (a, b : f32) -> (res : f32, ok : bool) { /* code */ }
+
+res1, ok := f1();
+if ok {
+	/* Code */
+}
+
+res2, ok := f2();
+if ok {
+	/* Code */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                           ARRAYS, SLICES, RANGES                                             */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+// Arrays
+// -----------------------------------------------------------------
+// Array Types
+[n] 		// static array
+[]		// array view / slice
+[_]		// dynamic array
+
+
+// Static Array Initialization
+staticArray : [n] f32 = {1, 2, 3, 4, 5};
+
+// Infered Size Static Array
+inferedSizeStaticArray := {1, 2, 3, 4, 5};
+
+// Slice / Array View
+slice : [] f32 = {1, 2, 3, 4, 5};
+
+// Dynamic Array
+dynamicArray : [_] f32 = {1, 2, 3, 4, 5};
+
+
+// Nested Arrays
+[n][n]
+
+// Multi-Dimensional Arrays
+// 	what does it mean to even have an MD Array?
+//	How to track the size of each dimention?
+array3D : [2,2,3] s32 = {
+	{
+		{ 1,  2,  3},
+		{ 4,  5,  6},
+	},
+	{
+		{ 7,  8,  9},
+		{10, 11, 12},
+	}
+}
+
+// this is a take on the
+MDArray :: struct (T: _, N: ssize) {
+	data 	   : @ T;
+	dimentions : [N] ssize
+}
+
+// static multidimentional array
+multiDimensionalArray : [X] [Y] [Z] s32;
+
+// dynamic multidimentional array
+multiDimensionalArray : [_] [_] [_] s32;
+
+
+// Indexing
+// -----------------------------------------------------------------
+// Single Dimentional Index
+array[Index];
+
+// Multi Dimentional Indecies
+array[xIndex, yIndex, zIndex];
+
+
+// Slicing
+// -----------------------------------------------------------------
+// Single Dimentional Slicing
+// Start Step Stop
+array[satrt:step:stop];
+
+// Start Stop
+array[satrt:stop];
+
+// Start Step
+array[satrt:step:];
+
+// Step Stop
+array[:step:stop];
+
+
+// Multi Dimentional Slicing
+array[satrt:step:stop, satrt:step:stop, satrt:step:stop];
+
+
+// Note:
+// 	any mixing of the start step stop is allowed in the different indecies.
+
+
+
+
+// Solving the bit/byte field definition problem will solve the array vs range bit field
+// -----------------------------------------------------------------
+//      range style bit filed
+// 	these example shows dealing with bit fileds only but we can use the same syntax
+// 	for dealing with byte fields when we deal with software as CPUs usually have fine-
+//	tuining for accessing byts not bits and we wnant to support that also.
+and :: (A: [7..0] bit, B: [7..0] bit) -> (Y: [7..0] bit) {
+
+}
+
+RAM :: [1024] [63..0] bit;
+
+a, b : [63..0] bit;
+
+con :: (H : [7..0] bit, L : [7..0]) -> (A : [15..0]) {
+	A = { .. H, .. L}; // H[0], ..., H[n], L[0], ..., L[n];
+	return;
+}
+
+
+
+
+// Array Slicing
+// -----------------------------------------------------------------
+// the slcing operator ':' is range inclusive.
+arr := [1, 2, 3, 4, 5, 6]; 	// {1, 2, 3, 4, 5, 6}
+arr := {1, 2, 3, 4, 5, 6}; 	// {1, 2, 3, 4, 5, 6}
+
+slice := arr[1:4];		// {2, 3, 4, 5}
+
+
+
+
+// Bit Field Slicing
+// -----------------------------------------------------------------
+//      Should field slicing be done with the same operator used
+//      for the the bit field defining?
+address :  [7..0] = 0b1111_0000;
+H       := address[7:4]; // 0b1111
+L       := address[3:0]; // 0b0000
+
+// or
+address :  [7..0] = 0b1111_0000;
+H       := address[7..4]; // 0b1111
+L       := address[3..0]; // 0b0000
+
+
+
+
+// Using .. for arrays destructuring
+// -----------------------------------------------------------------
+rng : [8] s64 = {0, 1, 2, 3, 4, 5, 6, 7};       // {0, 1, 2, 3, 4, 5, 6, 7}
+rng = { .. rng, 50, 100 };                      // {0, 1, 2, 3, 4, 5, 6, 7, 50, 100}
+rng = { .. rng[0:5], 12, 14};                   // {0, 1, 2, 3, 4, 5, 12, 14}
+
+
+
+
+// Using .. for fields destructuring
+// -----------------------------------------------------------------
+//      This is super usefull for bit manipulation for hardwaer mode and for software usages also
+address :  [7:0] = 0b1111_0000;
+H       := address[7..4]; // 0b1111
+L       := address[3..0]; // 0b0000
+
+vAddress : [7:0] = {..L, ..H} // 0b0000_1111
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                 FLOW CONTROL                                                 */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+// if statement
+// -----------------------------------------------------------------
+if boolianExpression {
+
+}
+
+// for berivity we can ommit the curly braces if the next statement is just one.
+if boolianExpression statment;
+
+
+
+
+// if else statement
+// -----------------------------------------------------------------
+if boolianExpression {
+
+} else {
+
+}
+
+// this can follow the same short cut for single statement
+if boolianExpresssoin statement;
+else statement;
+
+
+
+
+// if else-if else statement
+// -----------------------------------------------------------------
+if boolianExpression {
+
+} else if boolianExpression {
+
+} else {
+
+}
+
+// this can follow the same short cut for single statement
+if boolianExpresssoin statement;
+else if boolianExpresssoin statement;
+else if boolianExpresssoin statement;
+else if boolianExpresssoin statement;
+else statement;
+
+
+
+
+// if case statements
+// -----------------------------------------------------------------
+//	Matches the value of the variable with the case.
+//	a smart switch-case and match like statement but more linguistically sound
+SchematicInstances :: enum union {
+	symbol 		: types.Symbol;
+	wire		: types.Wire;
+	joint 		: types.SolderJoint;
+	spiceCommand	: types.SpiceCommand;
+	lable		: types.Lable;
+	comment		: types.Comment;
+	hint		: types.Hint;
+	option		: types.Option;
+	link		: tyhpe.Link;
+}
+
+
+schInst : SchematicInstances;
+ignoredInstancesCount : sszie;
+
+
+if schInst {
+	// unnamed type case
+	// 	using the tagged union tag/enum name.
+	case .wire {
+		reduce(wire.points);
+	}
+
+	// unnamed value case
+	// 	using the tagged uinion tag/enum name and load value as struct assignment.
+	// 	the idea is the tagged union is a value of the tage and a value of the type underneath it.
+	// 	so why not match specific cases where we want tage with a specific value.
+	// 	does this syntax collide with any other cases?
+	case {.option, .Editable} {
+		schematic.log("this file is editable\n");
+	}
+
+	// partial unnamed value case
+	// 	using the `_` symbol to indicate that we don't care about the actual value.
+	case {.symbol, .{.{5, _}, _} {
+		schematic.log("this symbol is on x = 5\n");
+	}
+
+	// multiple unnamed type cases
+	case .comment, .hint;
+
+	// multiple unnamed value cases
+	case {.comment, _}, {.hint, _};
+
+
+	case {.option, .Editable} {
+		schematic.log("this file is editable\n");
+	}
+
+
+	// Using The Declaration Syntax For Better Coherence In The Language
+	// -----------------------------------------------------------------
+	// We can use the case followed by a named/unnamed variable declaratoin/assignment expression
+	// 	this is meant more to signify that the tag and avlue are the values asigne to the case no the types.
+	// 	basic
+
+	// named type case
+	// 	this nameing could be applied to the cases wher a range of values is used
+	case symbol : .Symbol {
+		validate(symbol.primatives);
+		transformt(symbol.position);
+	}
+
+
+	// named value case
+	// 	the .{} syntax is the assignment to expected type of the tagged union pair of values.
+	case editableOption :: {.option, .Editable} {
+		editableOptin = false;
+	}
+
+
+	// partial named value case
+	// 	using the `_` symbol to indicate that we don't care about the actual value.
+	case symbol :: {.symbol, {{5, _}, _}} {
+		schematic.log("this symbol is on x = 5 and y = {symbol.pos.y}\n");
+	}
+
+
+	// jointly named type cases
+	case ingnoredInstances : .spiceCommand, .lable {
+		print("Ignored the instance at position {}\n", ignoredInstance.pos);
+		ignoredInstancesCount++;
+	}
+
+
+	// jointly named value cases
+	case ingnoredInstances :: {.option, .Editable}, {.link, "~/"} {
+		print("Ignored the instance at position {}\n", ignoredInstance.pos);
+		ignoredInstancesCount++;
+	}
+
+
+	// destructuring named values
+	// 	we don't want to keep doing the symbol.member access pattern
+	case . : .Symbol {
+		validate(primatives);
+		transformt(position);
+	}
+
+	// but what if we want to rename the members inside the value?
+	// 	is this even usefull?
+	// 	the example in rust does make sense as the value itself wan't named.
+	//	I dont' like this yet.
+	case {prim, pos} : .Symbol {
+
+	}
+
+
+	// single statement cases
+	case .joint remove(@ joint);
+	case {.option, .Editable} editableOptin = false;
+	case joint 	    :  .joint                remove(@ joint);
+	case editableOption :: {.option, .Editable} editableOptin = false;
+
+	// empty code cases.
+	// 	this is helpfull to make sure no problems with the other case but not yet handeling them.
+	case .joint;
+	case .optio;
+
+	// in case the case statement have only one statement then we could just ignore the curly braces
+	case joint : .joint remove(@ joint);
+
+
+	case _ {
+		print("this is not something to be bothered with\n");
+	}
+}
+
+
+// Question:
+//	should use the "in" keyword instead of the "if" one for sperating menaing?
+// 	or should we keep the idea of the minimal syntax with maximal orthogonal meanings?
+
+
+
+
+// if case Controls
+// -----------------------------------------------------------------
+// 	by default each case break
+// 	but what if we want to continue to the next case?
+
+
+// should add our own keyword for falling through?
+// 	what about using the "follow" keyword?
+// 	what about using the "fallthrow" keyword?
+// 	what about using the "next" keyword?
+// 	what about using the "unbreak" keyword?
+// 	what about using the "nobreak" keyword?
+// 	what about using the "#fall_throw" keyword?
+
+TimeLineTrackType :: flag u8 {
+	NONE	: 0B0000_0000;
+	AUDIO 	: 0B0000_0001;
+	VIDEO	: 0B0000_0010;
+	_
+}
+
+timelineS : [] TimeLineTrack;
+
+for timeline in timelines {
+	in timeline.type {
+		case .AUDIO             gui.showAudioTimelineSymbol();
+		case .VIDEO             gui.showVideoTimelineSymbol();
+		case .AUDIO | .VIDEO 	gui.showAudioVideoTimelineSymbol();
+	}
+}
+
+
+
+
+// if expression
+// -----------------------------------------------------------------
+// 	The returns the value of the first expression if the condition is true otherwise it returns the value of the second expression.
+if condition then value else value;
+//	is there any other ways to do so?
+x := 5;
+y := if x == 5 then 10 else 0;
+
+// 	this could also be used in different if else senarios
+result := getStudentFinalExamResult(@ student);
+grade :=
+	if      result < 50 then "F"
+	else if result < 60 then "E"
+	else if result < 70 then "D"
+	else if result < 80 then "C"
+	else if result < 90 then "B"
+	else if result < 95 then "A"
+	else "A+"
+;
+
+
+
+
+
+
+
+
+
+
+// Goto Branching
+// -----------------------------------------------------------------
+// 	I still don't know if this should even be a thing.
+// 	This is used for abstracted low level operation.
+labelName :: label;
+	// code
+goto labelName;
+
+// How a state machine or jump actually looks in Abstract syntax:
+// Software
+interpreter_loop :: (bytecode : [] u8) -> () {
+	pc : usize = 0;
+
+	dispatch_start : label;
+
+	if bytecode[pc] {
+		case 0x01 { goto handle_add; }
+		case 0x02 { goto handle_mul; }
+		case 0x00 { return; }
+	}
+
+	handle_add  : label;
+
+	// do add logic...
+
+	pc++;
+	goto dispatch_start;
+
+	handle_mul : label;
+
+	// do mul logic...
+
+	pc++;
+	goto dispatch_start;
+}
+
+
+// Hardware
+StateMachine :: enum {
+	IDLE;
+	PROCESSING;
+	FAULT;
+}
+
+run_controller :: (current_state : StateMachine) -> (next_state : StateMachine) {
+	in current_state {
+		case .IDLE {
+			if start_signal then goto PROCESSING;
+		}
+		case .PROCESSING {
+			if error_detected then goto FAULT;
+		}
+		case .FAULT {
+			goto IDLE;
+		}
+	}
+	return current_state;
+}
+
+
+
+
+
+
+// Hint:
+// 	Lable replacement
+// 		mark, anchor, node, vertix, location, position, state.
+// 	goto replacement
+// 		edge, transition, jump, route
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                    LOOPS                                                     */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+// Definite/Count-Controlled For Loops
+// -----------------------------------------------------------------
+// using the start : stop | start : step : stop
+for i := 0:9 {
+
+}
+
+for i := 7:0 {
+
+}
+
+for i := 0:2:10 {
+
+}
+
+for i := 10:-1:0 {
+
+}
+
+
+
+
+// Definite/Count-Controlled For Loops
+// -----------------------------------------------------------------
+// using the "in" instead of ":=".
+// this allows the first specail case.
+// using the      stop | start : stop | start : step : stop
+for i in 9 {
+
+}
+
+for i in 0:9 {
+
+}
+
+for i in 7:0 {
+
+}
+
+for i in 0:2:10 {
+
+}
+
+for i in 10:-1:0 {
+
+}
+
+
+
+
+// C-Like For Loop
+// -----------------------------------------------------------------
+// should this even still be a thing?! hmmmmm...
+for i := 0; i < 5; i++ {
+
+}
+
+
+
+
+// Conditional for loop
+// -----------------------------------------------------------------
+// Infinite for loop
+for {
+
+}
+
+// This is while loop or pre-checking loop in other languages.
+for not shouldWindowClose() {
+	// write gui code here.
+}
+
+for i < 5 {
+	// some code here.
+}
+
+// Post Checking Loop
+doWhileLoopName :: for {
+	if boolianExpression {
+		break;
+	}
+}
+
+
+
+
+
+// For each / range based for loop
+// -----------------------------------------------------------------
+// iterating through the arry elements.
+array :: [10, 20, 30, 40];
+for value in array {
+	println("${value}");
+}
+
+// iterating through the arry elements and the index.
+array :: [10, 20, 30, 40];
+for value, index in array {
+	println("${index}, ${value}");
+}
+
+// iterating through the arry elements by value.
+aos :: [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}];
+for $value in aos {
+	print("${value.x}");
+}
+
+// iterating through the arry elements by value and index.
+for $value, index in [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}] {
+	print("${index}, ${value.x}");
+}
+
+// iterating through the arry elements by pointer.
+aos :: [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}];
+for @ value in aos {
+	print("${value.x}");
+}
+
+// iterating through the arry elements by pointer.
+for @ value, index in [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}] {
+	print("${index}, ${value.x}");
+}
+
+
+
+
+
+
+// Syntax for loop iteration macros
+// -----------------------------------------------------------------
+for value in map use iterationMacro {   	// contender
+	println("${value}");
+}
+
+for value in map using iterationMacro { 	// contender
+	println("${value}");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// example that better shows the usecase
+MyHashMap :: <K, V> {
+	keys   : [_] K;
+	values : _ V;
+}
+
+iterate_My_Hash_Map :: macro (wahtever, whatever, wahtever, whatever) -> (wahtever, whatever) {
+
+}
+
+ErrorCode :: enum {}
+Message :: string;
+
+map : MyHashMap(ErroCode, Messsage);
+// initializtion
+for val, key := map use iterate_My_Hash_Map {
+	println("${key}, ${value}");
+}
+
+// Note:
+//	what is the syntax for reverse iteration
+// Hint:
+//	find out what other languages use for that.
+//      	What did jon do in jai?
+//      or could we just make the iterator handle it.
+//		we should make it be through an interator.
+
+
+// Hint:
+//	when using macros in the for loop we can pass the direction option directly to the macro like a function call
+for val, key in map using map_iterator(direction = .Reverse) {
+	// code.
+}
+
+// Hint:
+//	use the reverse keyword
+for val, key in map using reverse map_iterator {
+	// code.
+}
+
+
+
+
+// NOTE:
+// 	shold macros return?
+//	what does that mean with regard to the for expantion macros?
+
+
+
+
+
+
+
+// Loop Controls
+// -----------------------------------------------------------------
+// Break free of the scoop of the current loop and continue the program execution flow.
+continue;
+
+// Skips the current loop iteration.
+break;
+
+// Skip the current iteration of the loop specified by the name given that we’re currently inside this loop block.
+continue loopName;
+
+// Break free of the scoop of the named loop and continue the program execution flow.
+break loopName;
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                               POINTERS & VALUES                                              */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+// Different Symbols For Pointer Referencing/Dereferencing
+// -----------------------------------------------------
+// Different syntax for Address of Value vs Value in Address
+// @ for getting the address
+// $ for getting the value
+a := 420;               // a variable of type f32
+ptr := @ a;             // a pointer to f32
+$ptr = 69;              // assigning the value 69 to the variable a pointed to by ptr
+
+ptrPtr := @ ptr;        // a pointer to a pointer to f32
+$($ptrPtr) = 42;        // assigning the value 42 to the variable a pointed to by ptr pointed to by ptrPtr
+
+ptrPtr = @@a;           // this creates a temporary pointer stored in the stack to make a pointer to this pointer.
+$$ptrPtr = 0;           // this double dereference the double pointer and assign to it.
+
+// Example for deciding the place of @ and $
+S :: {
+	x, y : f32;
+}
+
+s := S{x = 1.0, y = 2.0};
+
+sp := @s;
+
+// for type pointers member accessing implicitly dereferences the pointer.
+sp.x = 5.0;
+sp.y = 0.0;
+
+//      and if we want the struct itself we would do this
+//              write when needed.
+sc := $sp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                    PARAMERTER DIRECTION & PASSING CONVENTION                                 */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+// Parameter path declaration and passing convention
+// -----------------------------------------------------------------
+//      Parameter-Passing Markers
+//                      : default is definded by compiler for performance reasons.
+//              @       : forces passing by address.
+//              $       : forces passing by value.
+//      Parameter-Direction Markers
+//                      : Default is input for input parameters and output for output parameters.
+//              input   : you can only read the value of the parameter.
+//              output  : you can only set the value of the parameter.
+//              inout   : you can read/set the value of the parameter.
+treeSort :: (tree : @ inout Node, sortingFunction : () -> ()) {
+	// implementation
+}
+
+//      Should all input types be input? (yes)
+//      Should all output output types be output? (yes)
+//      What does that mean in terms of hardware? (if the previous is good then it's gonna be ok for hardwaer otherwise we can make a different behavior)
+
+// explicitly defining the adress part.
+// this could be fine but it's going to be redundant.
+removeAtIndex :: (container : @ inout Container, index : ssize) {
+	// ...
+}
+
+// implicitly defined address part.
+// this is very important for the hardware side.
+removeAtIndex :: (container : inout Container, index : ssize) {
+	// ...
+}
+
+
+// These affect only the value that is passed to the function not the original
+// but if that is true that means that the compiler isn't allowed to decide
+//      the best way to pass the parameters to the function
+// if we think that explicit passing solves this we still cant make a decision
+//      in the original implicit case with output and inout direction spacifires
+// ---------------------------------------------------------------
+removeAtIndex :: (container : input  Container, index : ssize) {}
+
+// this case is a problem.
+//      is essential to hardware mode.
+//      could be defined as illegal or defaulted to @ output by compiler.
+removeAtIndex :: (container : output Container, index : ssize) {}
+
+// this case is a problem.
+//      is essential to hardware mode.
+//      could be defined as illegal or defaulted to @ inout by compiler.
+removeAtIndex :: (container : inout  Container, index : ssize) {}
+
+
+// this is ok since we already know that it's passed by value so whatever the
+//      directionality of the input it's happening to the local copy.
+// ---------------------------------------------------------------
+removeAtIndex :: (container : $ input  Container, index : ssize) {}
+
+// should be illegal in software.
+//      can't have an output variable that is passed by copy.
+removeAtIndex :: (container : $ output Container, index : ssize) {}
+
+// should be illegal in software.
+//      can't have an inout variable that is passed by copy.
+removeAtIndex :: (container : $ inout  Container, index : ssize) {}
+
+
+// this is ok since we already know that it's passed by pointer so whatever the
+//      directionality of the input it's happening to the original.
+// ---------------------------------------------------------------
+removeAtIndex :: (container : @ input  Container, index : ssize) {}
+removeAtIndex :: (container : @ output Container, index : ssize) {}
+removeAtIndex :: (container : @ inout  Container, index : ssize) {}
+
+
+// all of this should be illegal
+//      directionl specifiers can't be applied to the highest level parameter-passing markers
+//	still to be decided.
+// ---------------------------------------------------------------
+removeAtIndex :: (container : input  @ Container, index : ssize) {}
+removeAtIndex :: (container : output @ Container, index : ssize) {}
+removeAtIndex :: (container : inout  @ Container, index : ssize) {}
+
+// this is ok
+removeAtIndex :: (container : @ input  @ Container, index : ssize) {}
+removeAtIndex :: (container : @ output @ Container, index : ssize) {}
+removeAtIndex :: (container : @ inout  @ Container, index : ssize) {}
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                   Functions                                                  */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+// Functions
+// -----------------------------------------------------------------
+// 	Simplified definition
+Name        :: (parameterName : ParameterType, parameterName : ParameterType) -> (returnName : ReturnType, returnName : ReturnType) {
+	// ...
+}
+// This form is the most simplified form for most day to day use. it will work fine with software and hardware used for defining any procedure, function, operation, block, etc...
+// parameters, qualifiers, and return types are optional.
+
+// return types can be named in the functional block declaration.
+
+// if during functional block declaration the a named type is defined using the simplified syntax. then this named type will available to all the callees as if it was independently declared.
+//should this even be a thing?
+functionalBlockName :: () -> returnName : {
+	// ...
+}
+
+// this is the same as:
+StructName  :: {
+	// ...
+}
+
+functionalBlockName :: () -> returnName : StructName {
+	// ...
+}
+
+// This should be the go to syntax for everyone.
+// The rest is the for R&D.
+// Decisions on what is the implications of each of the specified functional block down blew imply in regard to software/hardware development will be further thought of.
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                     STRUCT                                                   */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+// Simple struct
+// -----------------------------------------------------------------
+StructName :: {
+	name : type,
+	using name : tyep
+}
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                     ENUM                                                     */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+// Simple Enum
+// -----------------------------------------------------------------
+ProtState :: enum {
+	Input;
+	Output;
+	Inout;
+	HighZ;
+}
+
+
+
+// The type fo the enum is optional after the enum keyword
+// -----------------------------------------------------------------
+ProtState :: enum u8 {
+	Input;
+	Output;
+	Inout;
+	HighZ;
+}
+
+
+// Non-exhuastive enums
+// -----------------------------------------------------------------
+// 	This means that the langue won't prvent the user from using values
+// 	form the underlying type in the enum calling or assignments for u-
+// 	se cases which the user can't or doesn't want to specify the enti-
+// 	re range of the values in the enum.
+// 	Defining the underlying type here is a must.
+NE :: enum u8 {
+	E1 = 0;
+	E2;
+	E3;
+	_;
+}
+
+Card :: enum u8 {
+	// Ranks
+	One :: 0;               // 0b0000_0001
+	Two;                    // 0b0000_0010
+	Three;                  // 0b0000_0011
+	Four;                   // 0b0000_0100
+	Five;                   // 0b0000_0101
+	Six;                    // 0b0000_0110
+	Seven;                  // 0b0000_0111
+	Eight;                  // 0b0000_1000
+	Nine;                   // 0b0000_1001
+	Ten;                    // 0b0000_1010
+	Jack;                   // 0b0000_1011
+	Queen;                  // 0b0000_1100
+	King;                   // 0b0000_1101
+
+	// Suits
+	Spades :: 16;           // 0b0001_0000
+	Hearts;                 // 0b0010_0000
+	Diamonds;               // 0b0011_0000
+	Clubs;                  // 0b0100_0000
+
+	// Making the enum non-exhuastive to allow rank-suit compinations
+	_;
+}
+
+aceOfSpades :: Card.One | .Spades;
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                     FLAG                                                     */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+// Simple Flag
+// -----------------------------------------------------------------
+cpu_flags :: flag u8 {
+	NONE :: 0;            // 0b0000_0000
+	CARRY;                // 0b0000_0001
+	ZERO;                 // 0b0000_0010
+	NEGATIVE;             // 0b0000_0100
+	OVERFLOW;             // 0b0000_1000
+	PARITY;               // 0b0001_0000
+	AUXILIARY;            // 0b0010_0000
+	TRAP;                 // 0b0100_0000
+	DIRECTION;            // 0b1000_0000
+}
+
+
+// Non-exhaustive flag
+// -----------------------------------------------------------------
+PortFlags :: flag u8 {
+	Off;                    // 0B0000_0000
+
+	// Directionality       // 0B0000_XXXX
+	Input;                  // 0B0000_0001
+	Output;                 // 0B0000_0010
+	InOut;                  // 0B0000_0100
+	HighZ;                  // 0B0000_1000
+
+	// Port Type
+	Digital;                // 0B0001_0000
+	Analog;                 // 0B0010_0000
+	PWM;                    // 0B0100_0000
+	Clk;                    // 0B1000_0000
+
+	// Making the flag non-exhuastive to allow other extentions in the future.
+	_;
+}
+
+analogInput :: PortFlags.Input | .Analog;
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                    UNION                                                     */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+// Union
+// -----------------------------------------------------------------
+// 	union is a sum type. where only one of the members are stored at a time although the size is equal to that of the biggest type.
+//	Union Declaration
+UnionName :: union {
+	memberName : type;
+	memberName : type;
+}
+
+
+// Tagged Union
+// -----------------------------------------------------------------
+// 	Is done by using the 'enum' or 'flag' keywords before the 'union' keyowrd like:
+Result :: enum union {
+	Ok  : f32;
+	Err : math.Error;
+}
+
+Result :: flag union {
+	Ok  : f32;
+	Err : math.Error;
+}
+
+// You can define the tag size after the enum and before the union keywords.
+Result :: enum u8 union {
+	Ok  : f32;
+	Err : string;
+}
+
+
+//      By default the tagged union type is zero initialized with the zero initialization
+//      value of the enum to represent the null state or no value present.
+//      However, In the case that the programmer decided to do it their own for whatever
+//      reason, they could just use the zero value for the null state or another value and
+//      and just make the zero value undefined.
+//      The more advanced way of assigning to a tagged union is to just recognize
+//      that it's just a sturct that contains a tag and the raw union
+DrawableInstance  : enum u8 union {
+	None      : 0, _;                       // this manually defines a "None" default state that only have an enum and no union member type.
+	None      : 0, void;                    // this is similar to the previous one but this defines the union member type to be void.
+	Symbol    : 1, SymbolInstance;          // this assigns the value to the enum tag and a type for the union.
+	Wire      : _, WireInstance;            // this explicitly tells it that the tag is infered and the type is also explicitly given
+	Primative : PrimativeInstance;          // this automatically inferes the tag value and the type is explicitly given
+}
+
+
+// Note:
+//	Should we have defulat initialization states for the union types also?
+//      Or should we use the assignment syntax?
+//      	this will difenatly annoy some people including mysefl as it
+//      	looks very similar to the assignment of default value struct
+//      	members
+TU : enum u8 union {
+	X : f32 = 0;
+	Y : s32 = 1;
+	Z : f64 = 2
+}
+
+
+// Question:
+//	Should we make the underlying type in an enum, union, tagged-union
+// 	, and flag always a must? (probably no)
+//	reason is: make the simple most obvious things fast and easy to do.
+
+
+
+
+
+
+
+// Using ... for vaiadic argument parameters construction and destruction
+// -----------------------------------------------------------------
+//      enternally this is similar to passing an array.
+add :: (A : ... f32, B : ... f32) (sum : f64 = 0) {
+	for idx := 0 : (A.size-1) {
+		sum = A[idx] + B[idx];
+	}
+	return;
+}
+
+addedList := add(A = 1, 2, 3, 4, 5, B = 5, 4, 3, 2, 1);
+// addedList => {6, 6, 6, 6, 6}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                             Composition, Decomposition, and Scope Embedding                                */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+// Scope Embedding
+// -----------------------------------------------------------------
+// Named module
+basic :: #import("Software/basics.a");		// Loads a module an assign it to a compile-time name.
+basic.print("Hello, World!");			// Using functions from the module.
+
+// Embedded Module
+. :: #import("Software/basics.a");		// Loads the module and put all of it's insides int he current file scope
+print("Hello, World!");				// Using functions from the module.
+
+
+
+
+
+
+
+
+
+
+// Types Composition
+// -----------------------------------------------------------------
+Adress :: struct {
+	buildingNumber : string;
+	street         : string;
+	area           : string;
+	city           : string;
+	governance     : string;
+	country        : string;
+}
+
+PersonalInformation :: struct {
+	name   	       : string;
+	salary         : s32;
+	.              : Adress;
+}
+
+
+person : PersonalInformation = {
+	name           = "Mohamed",
+	salary         = 2K,
+	buildingNumber = "1",
+	street         = "main",
+	area           = "5th Setelment",
+	city           = "New Cairo",
+	governance     = "Cairo",
+	country        = "Egypt"
+};
+
+
+
+
+
+
+
+
+
+
+// Function Parameter Decomposition
+// -----------------------------------------------------------------
+RGB :: {
+	r, g, b : f32;
+}
+
+modifyBrightness :: (. : inout structName, l : f32) {
+	r = r * l;
+	g = g * l;
+	b = b * l;
+}
+
+backGroundColor : RGB = {0.2, 0.2, 0.2};
+
+modifyBrightness(backGroundColor, 1.5);
+
+
+
+
+
+
+
+
+
+
+
+// Automatically Invoked Struct Member Defining Functions
+// -----------------------------------------------------------------
+// 	This is a way to use the deconstructing embedding operator
+// 	to auto invoke functions that return a type that is then used
+// 	as a struct member and directly accessed.
+EntityType      :: enum u8 {
+	Entity;
+	Door;
+	Human;
+}
+
+Entity          :: {
+	type    :  EntityType;
+	vTable  :  [] @;
+	x, y, z :  f32;
+	.       :: (. : @ Entity) -> @ EntityVTable {
+		return vTables[type];
+	}
+}
+
+DoorState       :: enum u8 {
+	Closed;
+	Open;
+}
+
+Door            :: {
+	.       :  Entity;
+	state   := DoorState.Closed;
+}
+
+Human           :: {
+	.       :  Entity;
+	name    := "unnamed";
+}
+
+EntityVTable    :: {
+	init    :: (. : @ Entity) {}
+	print   :: (. : @ Entity) {}
+}
+
+DoorVTable      :: {
+	init    :: (. : @ Door) {
+		x, y, z = 3.1415;
+		state = .Open;
+	}
+	print   :: (. : @ Door) {
+		print("Door:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tis   : {}\n", state);
+	}
+}
+
+HumanVTable     :: {
+	init    :: (. : @ Human) {
+		x, y, z = 3.1415;
+		name = "Ahmed S. Lilah"
+	}
+	print   :: (. : @ Humand) {
+		print("Human:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tname : \"{}\"\n", name);
+	}
+}
+
+entityVTable    : EntityVTable;
+doorVTable      : DoorVTable;
+humanVTable     : HumanVTable;
+
+vTables : [3] @ void = {auto @enityVTable, auto @doorVTable, auto @humanVTable};
+vTables : [3] @ Any  = {auto @enityVTable, auto @doorVTable, auto @humanVTable};
+
+door    := alloc(Door);
+human   := alloc(Human);
+
+door.print(door);
+door.init(door);
+door.print(door);
+
+human.print(human);
+human.init(human);
+human.print(human);
+
+
+
+// rethinking this.
+// ---------------------------------------------------------
+Entity          :: #(V : T) {
+	.       :: V;
+	x, y, z :  f32;
+}
+
+DoorState       :: enum u8 {
+	Closed;
+	Open;
+}
+
+Door            :: #(V : T) {
+	.       :  Entity(V);
+	state   := DoorState.Closed;
+}
+
+Human           :: #(V : T) {
+	.       :  Entity(V);
+	name    := "unnamed";
+}
+
+EntityVTable    :: {
+	init    :: (. : @ Entity) {}
+	print   :: (. : @ Entity) {}
+}
+
+DoorVTable      :: {
+	init    :: (. : @ Door) {
+		x, y, z = 3.1415;
+		state = .Open;
+	}
+	print   :: (. : @ Door) {
+		print("Door:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tis   : {}\n", state);
+	}
+}
+
+HumanVTable     :: {
+	init    :: (. : @ Human) {
+		x, y, z = 3.1415;
+		name = "Ahmed S. Lilah"
+	}
+	print   :: (. : @ Humand) {
+		print("Human:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tname : \"{}\"\n", name);
+	}
+}
+
+entityVTable    :: EntityVTable {};
+doorVTable      :: DoorVTable   {};
+humanVTable     :: HumanVTable  {};
+
+door    := alloc(Door(doorVTable));
+human   := alloc(Human(humanVTable));
+
+door.print(door);
+door.init(door);
+door.print(door);
+
+human.print(human);
+human.init(human);
+human.print(human);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                                  ALIASES                                                     */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+// Aliases
+// -----------------------------------------------------------------
+// aliases are just name variants for the same thing.
+// they are not reference or pointers.
+// It's literally another name.
+Vec4    :: {
+	x, y, z, w : f32;
+
+	// defining aliases for each field to allow flexability based on the used usage context.
+	r, h, R :: alias x;
+	g, s, I :: alias y;
+	b, l, v :: alias z;
+	a    	:: alias w;
+}
+
+RGBA, HSLA, HSVA, Quat :: alias Vec4;
+
+vec4    :: (value : f32) -> (vec : Vec4) {
+	vec.x, vec.y, vec.z, vec.w = value;
+	return;
+}
+
+rgba, hsla, hsva, quat :: alias vec4;
+
+
+
+
+
+// Subtype Aliasing
+// -----------------------------------------------------------------
+// The problem with aliasing in the struct itself is that if we have
+// aliases that use the same name but in different order it makes it
+// a problem to have aliases of both in the struct.
+// Example: RGB vs BGR color vectors.
+// 	Both should be aliases to the same Vec3 struct. but due to the
+// 	different memory order we cant have to place in the same struct
+// 	witht the same name.
+Vec4    :: {
+	x, y, z, w : f32;
+
+	// defining aliases for each field to allow flexability based on the used usage context.
+	r, h, R :: alias x;
+	g, s, I :: alias y;
+	b, l, v :: alias z;
+	a    	:: alias w;
+}
+
+
+// This now forces the re aliasing of sub-aliases.
+BGRA :: alais Vec4 {
+	// defining aliases for each field to allow flexability based on the used usage context.
+	b, h, R :: alias x;
+	g, s, I :: alias y;
+	r, l, v :: alias z;
+	a    	:: alias w;
+}
+
+// These have the same internal types and aliases as the original vector.
+RGBA, HSLA, HSVA, Quat :: alias Vec4;
+
+vec4    :: (value : f32) -> (vec : Vec4) {
+	vec.x, vec.y, vec.z, vec.w = value;
+	return;
+}
+
+rgba, hsla, hsva, quat, bgra :: alias vec4;
+
+// Note:
+//	Not sure if this the correct place to add this but,
+// 	Functions that accept one type should also accept it's alias
+//	Should 'alias' be the opposite to 'destinct'?
+// 		Yes, Probably!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                         COMPILE TIME POLYMORPHISM                                            */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                        UFCS, Closures, Mehtod Receivers, And Local Scoped Functions                          */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+
+// UFCS Vs Methods Receivers
+// -----------------------------------------------------------------
+// 	This was first explored a long time a go and i'm still not sure weather or not
+// 	it should still be a thing at the end of this. it might help a while with some
+// 	syntax suggar but is it worth the hassle and other problems it's gonna make w-
+// 	ith obfiscation and function calling order and prioritization.
+2DPoints :: {
+	x, y : s8;
+}
+
+// declaring a method
+shift :: (point : inout 2DPoint) (xShift : s8, yShift : s8) {
+	point.x = point.x + xShift;
+	point.y = point.y + yShift;
+}
+
+// declaring a method and using the name decomposition feature
+shift :: (. : inout 2DPoint) (xShift : s8, yShift : s8) {
+	x = x + xShift;
+	y = y + yShift;
+}
+
+main :: () {
+	point : 2Dpoint;
+	point.shift(5, 6);
+}
+
+
+
+
+
+
+
+
+
+
+
+// Closures
+// -----------------------------------------------------------------
+main :: () {
+	// local constant
+	X, Z :: 5;
+
+	// function
+	function :: (A : f64, B : f64, X : f64, Z : f64) -> (Y : f64) {
+		Y = (A + B) / X * Z;
+	}
+
+	// closure syntax 1
+	// implicit capture
+	closure :: (A : f64, B : f64) => (Y : f64) {
+		Y = (A + B) / X * Z;
+	}
+
+	// closure syntax 2
+	// explicit capture 1
+	closure :: (A : f64, B : f64) -> (Y : f64) [@ X, $ Z, *] {
+		Y = (A + B) / X * Z;
+	}
+
+	// closure syntax 3
+	// explicit capture 2
+	closure :: (A : f64, B : f64) [@ X, $ Z, *] -> (Y : f64) {
+		Y = (A + B) / X * Z;
+	}
+
+	// closure syntax 4
+	// explicit capture 3
+	closure :: (A : f64, B : f64) -> (Y : f64) [. : @ X, . : $ Z, *] {
+		Y = (A + B) / X * Z;
+	}
+
+	// closure syntax 5
+	// explicit capture 4
+	closure :: (A : f64, B : f64) -> (Y : f64) using @ X, $ Z, * {
+		Y = (A + B) / X * Z;
+	}
+
+
+	res1 :: function(4.2, 6.9, X, Z);
+	res2 :: closure(4.2, 6.9);
+
+	print("res1 : {}, res2 : {}", res1, res2);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Return From All Scopes
+// -----------------------------------------------------------------
+// 	Any scoped code area could return results from.
+// 	was this added to sovle the closures problems?
+main :: () {
+	a := 1;
+	b := 2;
+
+	c : ssize;
+
+	c = {
+		return a + b;
+	}
+}
+
+// This will conflict with using `{}` for list and type initialization.
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Main Function Use As Replacement For Always & Initial blocks In Hardware Mode
+
+// Replaces the initial block.
+main :: (_) {
+	// the code here runs only at the start of the simulation
+}
+
+// Replaces the always block.
+main :: () {
+	// the code here runs without any triggers
+}
+
+// Replaces the always block with a trigger
+main :: (anyEdge(A) | positiveEdge(B) | negativeEdge(C) | anyEdge(D) | anyEdge(E) | anyEdge(F)) {
+	// the code here runs only of any of the triggers listed in the main funciton happens
+}
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// String Encoding Prefixes
+//	this should be an implementation detail for the libraries and the default string type/literals be in UTF-8
+asciiString : acii  : "Some String";
+utf8String  : utf8  : "Some String";
+utf16String : utf16 : "Some String";
+utf32String : utf32 : "Some String";
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Should No-Discard be the default for return types? (no, make it opt-in)
+function :: () -> #must s32 {
+	...
+}
+
+main :: () {
+	// Error : unused return type.
+	funciton();
+
+	// unnamed valid use of return type.
+	res := function() + 5; // the value is used directly in the expression.
+
+	// Ok. Intentionally discarding return type.
+	_ :: function();
+}
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Named Return Types As Local Variable Names
+// 	 It should help with HDL context as the named types in the return block is also net/ports names and in analog this should help with inout types and the face that we can use the same syntax as replacement for spice netlists.
+// 	 Should I support named return types to be locally named variables in the scope of any procedural block and if they get assigned then there should be no need to use the return keyword to return or it could be optional?
+// 	 How might that affect the returned value if the procedural block might error or return a valid value or if the procedural block might return an optional type?
+// 	 I currently believe that this problem is in small part a syntax one and the majority of the implications will be on the semantics side.
+// 	 How would that collide with the idea that any named return type introduced  will be treated as if it was independently declared?
+// 	 How would this collide with the idea of errors and optional return types.
+
+// Named returned type as local variables
+name :: (A, B) -> (C : s32, D : s32) {
+	C, D :: fullAdder(A, B);
+}
+
+// Use of `return` With Named returned type
+name :: (A, B) -> (C : s32, D : s32) {
+	C, D :: fullAdder(A, B);
+	return;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Using `_` For Uninitialized Variables
+//      value initialized variable.
+x := 5;
+
+//      default initialized variable.
+y : s32;
+
+//      uninitialized variable.
+z : s32 = _;
+
+
+
+
+// -----------------------------------------------------------------
+// Using `_` For Discarding Return Values
+function :: (a : s32, b : s32) -> (x : s32, y : s32) {
+
+}
+
+// use the first return type and ignore the orther.
+x , _ := function(3, 5);
+
+
+
+
+
+
+// -----------------------------------------------------------------
+// Using `_` For Default Value Parameters
+// function definition with default value parameters.
+proc :: (param1 : type1 = 5, param2 : type2 = 7, paramn : typen = valuen) {
+
+}
+
+// calling
+proc(_, 56, _);
+
+
+
+
+// -----------------------------------------------------------------
+// Using `_` For Generic Types/Parameters
+// generic function definition
+proc :: (A : _ , B : A ) -> (C : A) {
+	C = A + B;
+}
+
+// generic sturct definition
+Struct :: {
+	A : _ ;
+	B : _ ;
+	C : B ;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Type Decorators
+// -----------------------------------------------------------------
+volatile 	// Marking a variable as volatile means that it could potentially be modified during execution in a scope that all outside of the program normal execution.
+static		// no idea yet what to use it for but will reserve it.
+global		// no idea yet what to use it for but will reserve it.
+thread		// probably be used for thread locality of data.
+extern		// This will probably be used to define externally defined parts of the API?
+ristricted      // Not yet decided.
+unique          // Used to indicate taht a pointer is not used in any other place in the code similar to the strict keyword in C.
+inline          // used to make sure that a function execution is going to be inlined in the caller site.
+call            // used to make sure that a function execution is going to be a function call.
+destinct	// used to define types form other ones that are opposite to aliases.
+
+
+// volatile
+// -----------------------------------------------------------------
+//	this prevents the compiler from using optimization assumptions and resuse assumptions
+//	as it doesn't know the variable could be changed between value uses.
+volatileVariable : volatile u8;
+
+// 	this could also be used on function as their pointers may be stored at a specific
+//	hardware register or controlled by hardware in some sense
+volatileFunction :: volatile () -> (DataType) {}
+
+// static
+// -----------------------------------------------------------------
+
+// global
+// -----------------------------------------------------------------
+
+// thread
+// -----------------------------------------------------------------
+
+// extern
+// -----------------------------------------------------------------
+
+// ristricted
+// -----------------------------------------------------------------
+
+// unique
+// -----------------------------------------------------------------
+// 	this allows the compiler to have some assumptions about the pointer
+//	these assumptions make it better for performance optimiztaions.
+//	this is similar tot he restrict keyword in c.
+performanceImportantFunction :: (pointerToData : unique @ BigStruct) {}
+
+data : BigFatStruct;
+
+preformanceImportantFunction(@ BigFatStruct);
+
+
+// inline
+// -----------------------------------------------------------------
+performanceImportantFunction :: (data : []) -> (bool) {}
+
+data :: {1, 2, 3, 4, 5}
+
+// defulat case
+// 	this will be left to the compiler to decide weather or not to do the inlining.
+preformanceImportantFunction(data);
+
+// 	this will always inline the funtion at the caller's place.
+inline preformanceImprotantFunction(data);
+
+// If we know that it should always be inlined and not a function call in any senario we could
+//	add the modifer/decorator on the function definintion itself.
+//	this will prevent the complier from calling and will give an error if the user
+//	tried to force call manually.
+sizeImprotantFunction :: call (data : []) -> (bool) {}
+
+
+// call
+// -----------------------------------------------------------------
+sizeImportantFuction :: (data : []) -> (bool) {}
+
+data :: {1, 2, 3, 4, 5}
+
+// defulat case
+// 	this will be left to the compiler to decide weather or not to do the inlining.
+sizeImportantFuction(data);
+
+// 	this will always make a funtion call at the caller's place no inlining.
+call sizeImportantFuction(data);
+
+// If we know that it should always be called and not inlined in any senario we could
+//	add the modifer/decorator on the function definintion itself.
+//	this will prevent the complier from inlining and will give an error if the user
+//	tried to force inline manually.
+sizeImprotantFunction :: call (data : []) -> (bool) {}
+
+
+// destinct
+// -----------------------------------------------------------------
+	// used to define types form other ones that are opposite to aliases.
+	// even though they are the same type a compiler refuses to use one inplace of the other
+	// in the normal case the the if condition will evaluate to true.
+LogicAnswer :: bool;
+if typeof(LogicAnswer) == typeof(bool) {
+	compiler.log("same type");
+} else {
+	compiler.log("different types");
+}
+
+// using the destinct keyword the if condition will evaluate to false.
+LogicAnswer :: destinct bool;
+if typeof(LogicAnswer) == typeof(bool) {
+	compiler.log("same type");
+} else {
+	compiler.log("different types");
+}
+
+
+
+
+
+
+
+
+
+
+// Hint:
+// 	call replacement
+// 		inst (instantiate/instant), bind, share, use
+// 	inline replacement
+// 		flatten, expand, isolate, unique, inst
+// 	caller_location replacement
+// 		hierarchy, path, instantPath, instPath
+
+
+
+
+
+NOT :: (A : bit) -> (Y : bit) {
+
+}
+
+OR  :: (A : bit, B : bit) -> (Y : bit) {
+
+}
+
+AND :: (A : bit, B : bit) -> (Y : bit) {
+
+}
+
+XOR :: (A : bit, B : bit) -> (Y : bit) {
+
+}
+
+
+FullAdder :: (A : bit, B : bit, Cin : bit) -> (Sum : bit, Cout : bit) {
+	W1 :: XOR(A, B);
+	W2 :: AND(A, B);
+	W3 :: AND(W1, Cin);
+
+	return XOR(W1, Cin), OR(W1, W3);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// Question:
+// 	What about adding a symbol to reuse the variables.
+// Using the `.` sybmol
+.a, b, c, .d := f();
+
+// Using the `$` symbol
+$a, b, c, $d := f();
+
+
+
+
+
+
+
+
+
+
+
+// `::` and `:=` are allowed once per scope for each name return type.
+// -----------------------------------------------------------------
+// if we want to use `::` for wire assignment and `:=` for reg/FF assignment how would it be without making a case that is impossible in SW mode?
+
+ConfigCommand :: struct {
+	target_port  : u8;
+	baud_rate    : u32;
+}
+
+DataPayload :: struct {
+	length       : u16;
+	checksum     : u16;
+}
+
+PacketType :: enum union {
+	config       : ConfigCommand;
+	data         : DataPayload;
+	reset        : types.ResetSignal;
+	fault        : types.FaultReport;
+}
+
+RouterState :: enum {
+	IDLE;
+	RECEIVING;
+	PROCESSING;
+	ERROR_STATE;
+}
+
+PacketRouterController :: (clk : clock, reset_n : bit, packet_in : PacketType) -> (route_valid : bit, destination : u8, error_code : u16) {
+	is_urgent     :: packet_in.tag == .config;
+	checksum_pass :: verify_packet_integrity(packet_in);
+
+	current_state  := RouterState.IDLE;
+	packet_counter := 0u16;
+	fault_logged   := false;
+
+	route_valid    := 0;
+	destination    := 0x00;
+	error_code     := 0x0000;
+
+	if posedge(clk) {
+		if not reset_n {
+			// Synchronous Reset
+			current_state  = .IDLE;
+			packet_counter = 0;
+			fault_logged   = false;
+			route_valid    = 0;
+			destination    = 0x00;
+			error_code     = 0x0000;
+		} else {
+
+			// Default cycle defaults to prevent latch inference
+			route_valid = 0;
+
+			// FSM State Dispatch using the 'in' block for plain enums
+			if current_state {
+
+				case .IDLE {
+					if checksum_pass {
+						current_state = .RECEIVING;
+					} else {
+						current_state = .ERROR_STATE;
+						error_code    = 0xDEAD;
+					}
+				}
+
+				case .RECEIVING {
+					// Pattern matching on the PacketType enum union with explicit payload binding (cfg, dat, etc.)
+					if packet_in {
+
+						case cfg : .config {
+						    destination   = cfg.target_port; // Explicitly bound payload variable
+						    route_valid   = 1;
+						    current_state = .PROCESSING;
+						}
+
+						case dat : .data {
+						    packet_counter = packet_counter + 1;
+						    destination    = 0xFF; // Broadcast
+						    route_valid    = 1;
+						}
+
+						case .reset {
+							current_state = .IDLE;
+						}
+
+						case .fault {
+							fault_logged  = true;
+							current_state = .ERROR_STATE;
+						}
+					}
+				}
+
+				case .PROCESSING {
+					priority_level := if is_urgent then 3 else 1;
+
+					if packet_counter > 1024 {
+						current_state  = .IDLE;
+						packet_counter = 0;
+					}
+				}
+
+				case .ERROR_STATE {
+					route_valid = 0;
+					if not fault_logged {
+						error_code = 0xEE01;
+					}
+				}
+			}
+		}
+	}
+}

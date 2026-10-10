@@ -1,0 +1,853 @@
+.    :: #import("basic");
+math :: #import("math");
+
+// Functions as first class types
+functor :: <T : _, U : _> (A : T) -> (C : U);
+
+map :: <T : _, U : _> (input : [] T, fn : functor<T, U>) -> (result : [] U) {
+	result = allocate([len(input)] T );
+	for i in 0..(len(input) - 1) {
+		result[i] = f(input[i]);
+	}
+	return;
+}
+
+
+Vec2    :: <T : _>{
+        x, y    :  T;
+        r, h, R :: alias x;
+        g, s, I :: alias y;
+}
+
+Vec3    :: <T : _>{
+        .       :  Vec2<T>;
+        z       :  T;
+        b, l    :: alias z;
+}
+
+Vec4    :: <T : _>{
+        .       :  Vec3<T>;
+        w       :  T;
+        a       :: alias w;
+}
+
+
+BW      :: {
+        b       :  f32;
+}
+
+
+vec2       :: <T : _> (n : T) -> (vec : Vec2<T>) {
+        vec.x = n;
+        vec.y = n;
+        return;
+}
+
+vec3       :: <T : _> (n : T) -> (vec : Vec3<T>) {
+        vec.x = n;
+        vec.y = n;
+        vec.z = n;
+        return;
+}
+
+vec4       :: <T : _> (n : T) -> (vec : Vec4<T>) {
+        vec.x = n;
+        vec.y = n;
+        vec.z = n;
+        vec.w = n;
+        return;
+}
+
+
+vec2       :: <T : _> (x : T, y : T) -> (vec : Vec2<T>) {
+        vec.x = x;
+        vec.y = y;
+        return;
+}
+
+vec3       :: <T : _> (x : T, y : T, z : T) -> (vec : Vec3<T>) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        return;
+}
+
+vec4       :: <T : _> (x : T, y : T, z : T, w : T) -> (vec : Vec4<T>) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        vec.w = w;
+        return;
+}
+
+
+vec3       :: <T : _> (. : Vec2<T>, z : T = 0.0) -> (vec : Vec3<T>) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        return;
+}
+
+vec4       :: <T : _> (. : Vec2<T>, z : T = 0.0, w : T = 0.0) -> (vec : Vec4<T>) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        vec.w = w;
+        return;
+}
+
+
+vec4       :: <T : _> (. : Vec3<T>, w : T = 0.0) -> (vec : Vec4<T>) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        vec.w = w;
+        return;
+}
+
+
+// global aliasing
+Complex          :: alias Vec2;
+RGB, HSL         :: alias Vec3;
+RGBA, HSLA, Quat :: alias Vec4;
+
+complex          :: alias vec2;
+rgb, hsl         :: alias vec3;
+rgba, hsla, quat :: alias vec4;
+
+Tri2D            :: [3] Vec2;
+Tri3D            :: [3] Vec3;
+
+Quad2D           :: [4] Vec2;
+Quad3D           :: [4] Vec3;
+
+rgb_2_bw  :: <T : _> (rgb : RGB<T>) -> BW<T> {
+        bw : BW = _;
+        bw.b = (0.2126*rgb.r + 0.7152*rgb.g + 0.0722*rgb.b);
+
+}
+
+
+rgb_2_hsl :: <T : _> (. : RGB<T>) -> (hsl : HSL<T>) {
+        max := math.max(r, g, b);
+        min := math.min(r, g, b);
+
+        hsl.l = (max + min) / 2.0;
+
+        if max == min {
+                hsl.h = 0.0;
+                hsl.s = 0.0;
+        } else {
+                c := max - min;
+                hsl.s = c / (1.0 - math.abs(2.0 * hsl.l - 1.0));
+
+                switch max {
+                        case r {
+                                hsl.h = (g - b) / c + (g < b ? 6.0 : 0.0);
+                        }
+                        case g {
+                                hsl.h = (b - r) / c + 2;
+                        }
+                        case b {
+                                hsl.h = (r - g) / c + 4;
+                        }
+                        case _ {}
+                }
+        }
+
+        hsl.h = math.round(hsl.h * 60.0);
+        hsl.s = math.round(hsl.s * 100.0);
+        hsl.l = math.round(hsl.l * 100.0);
+
+        return;
+}
+
+
+rgb_2_hsl :: <T : _>(rgb : @ input RGB<T>) () -> (hsl : HSL<T>) {
+        hsl = inline rgb_2_hsl(rgb);
+        return;
+}
+
+
+main :: () {
+        rgb : RGB<f32> = {.r = 0.100, .g=0.100, .b=0.100};
+        hslM : HSL<f32> = {.s = 0.500, .v = 0.800};
+
+        hslM   = rgb.rgb_2_hsl();
+        hslF := rgb_2_hsl(rgb);
+}
+
+
+
+
+
+
+
+
+// ------------------------------------------------------------------------------------------------------------
+// -------------------------------- Language Demo -------------------------------------------------------------
+// ------------------------------------------------------------------------------------------------------------
+.    :: #import("basic");
+math :: #import("math");
+
+Vec2    :: #(T : _) {
+        x, y    :  T;
+        r, h, R :: alias x;
+        g, s, I :: alias y;
+}
+
+Vec3    :: #(T : _) {
+        .       :  Vec2(T);
+        z       :  T;
+        b, l    :: alias z;
+}
+
+Vec4    :: #(T : _) {
+        .       :  Vec3(T);
+        w       :  T;
+        a       :: alias w;
+}
+
+
+BW      :: {
+        b       :  f32;
+}
+
+
+vec2       :: #(T : _) (n : T) -> (vec : Vec2(T)) {
+        vec.x = n;
+        vec.y = n;
+        return;
+}
+
+vec3       :: #(T : _) (n : T) -> (vec : Vec3(T)) {
+        vec.x = n;
+        vec.y = n;
+        vec.z = n;
+        return;
+}
+
+vec4       :: #(T : _) (n : T) -> (vec : Vec4(T)) {
+        vec.x = n;
+        vec.y = n;
+        vec.z = n;
+        vec.w = n;
+        return;
+}
+
+
+vec2       :: #(T : _) (x : T, y : T) -> (vec : Vec2(T)) {
+        vec.x = x;
+        vec.y = y;
+        return;
+}
+
+vec3       :: #(T : _) (x : T, y : T, z : T) -> (vec : Vec3(T)) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        return;
+}
+
+vec4       :: #(T : _) (x : T, y : T, z : T, w : T) -> (vec : Vec4(T)) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        vec.w = w;
+        return;
+}
+
+
+vec3       :: #(T : _) (. : Vec2(T), z : T = 0.0) -> (vec : Vec3(T)) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        return;
+}
+
+vec4       :: #(T : _) (. : Vec2(T), z : T = 0.0, w : T = 0.0) -> (vec : Vec4(T)) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        vec.w = w;
+        return;
+}
+
+
+vec4       :: #(T : _) (. : Vec3(T), w : T = 0.0) -> (vec : Vec4(T)) {
+        vec.x = x;
+        vec.y = y;
+        vec.z = z;
+        vec.w = w;
+        return;
+}
+
+
+// global aliasing
+Complex          :: alias Vec2;
+RGB, HSL         :: alias Vec3;
+RGBA, HSLA, Quat :: alias Vec4;
+
+complex          :: alias vec2;
+rgb, hsl         :: alias vec3;
+rgba, hsla, quat :: alias vec4;
+
+Tri2D            :: [3] Vec2;
+Tri3D            :: [3] Vec3;
+
+Quad2D           :: [4] Vec2;
+Quad3D           :: [4] Vec3;
+
+rgb_2_bw  :: #(T : _) (rgb : RGB(T)) -> BW(T) {
+        bw : BW = _;
+        bw.b = (0.2126*rgb.r + 0.7152*rgb.g + 0.0722*rgb.b);
+
+}
+
+
+rgb_2_hsl :: #(T : _) (. : RGB(T)) -> (hsl : HSL(T)) {
+        max := math.max(r, g, b);
+        min := math.min(r, g, b);
+
+        hsl.l = (max + min) / 2.0;
+
+        if max == min {
+                hsl.h = 0.0;
+                hsl.s = 0.0;
+        } else {
+                c := max - min;
+                hsl.s = c / (1.0 - math.abs(2.0 * hsl.l - 1.0));
+
+                switch max {
+                        case r {
+                                hsl.h = (g - b) / c + (g < b ? 6.0 : 0.0);
+                        }
+                        case g {
+                                hsl.h = (b - r) / c + 2;
+                        }
+                        case b {
+                                hsl.h = (r - g) / c + 4;
+                        }
+                        case _ {}
+                }
+        }
+
+        hsl.h = math.round(hsl.h * 60.0);
+        hsl.s = math.round(hsl.s * 100.0);
+        hsl.l = math.round(hsl.l * 100.0);
+
+        return;
+}
+
+
+rgb_2_hsl :: #(T : _) (rgb : RGB(T)) () -> (hsl : HSL(T)) {
+        hsl = inline rgb_2_hsl(rgb);
+        return;
+}
+
+
+main :: () {
+        rgb  : RGB #(f32) = {.r = 0.100, .g=0.100, .b=0.100};
+        hslM : HSL #(T = f32) = {.s = 0.500, .v = 0.800};
+
+        hslM = rgb.rgb_2_hsl();
+        hslF := rgb_2_hsl(rgb);
+}
+
+
+
+
+
+
+printableTrait :: (type : Type) -> bool {
+        #if compiler.compile(print("{}", type); {
+                return ture;
+        }
+        return false
+}
+
+
+
+print (formatString : string, args : ... Any) {
+        #for @ arg := args {
+                if not printable(arg.type) {
+                        compiler.log("{} is not printalbe.\n", arg.type);
+                }
+        }
+}
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Procedural Programming
+//      Software** - Hello World Program
+
+#import "Software/basic.a";
+
+main :: () {
+	print("Hello, World!");
+}
+
+
+
+
+// Object-Oriented Programming
+//      Software - Hello World Program
+#setModuleSyntaxMode("Software");
+#setModuleProgrammingParadigm("objectOriented");
+
+#import "Software/Paradigms/objectOriented.a";
+
+ClassName :: {
+	memberName1 : type1;
+	memberName2 : type2;
+}
+
+ClassName.method1 :: (paramName1 : type1, paramName2 : type2) {
+	// the `.` operator is used as a reference to self.
+	.memberName1 = paramName1;
+	.memberName2 = paramName2;
+}
+
+ClassName.oprator= :: (rhs : ClassName) -> ClassName {
+	// the `.` operator is used as a reference to self.
+	.memberName1 = rhs.memberName1;
+	.memberName2 = rhs.memberName2;
+	return .;
+}
+
+main :: () {
+	print("Hello, World!");
+}
+
+
+
+// Functional Programming
+// ---------------------------------------------------------------------------
+//      Software - Hello World Program
+```abstract
+#setModuleSyntaxMode("Software");
+#setModuleProgrammingParadigm("functional");
+
+#import "Software/Paradigms/functional.a";
+
+main :: () {
+	name : [5] s32 : {1, 2, 3 , 4, 5};
+	name.filter((element : s32) -> bool { return element%2; })
+		.map((element : s32) -> s64 { return element*element })
+		.enumerate()
+		.print("Element {}: {}");
+}
+
+
+
+
+
+
+
+
+
+// HDL Context
+// ---------------------------------------------------------------------------
+//      Input ports are treated as nets so we can assign to them directly as in the Verilog-AMS family.
+//      In Verilog and System-Verilog the input/output ports are directly treated as net in a spice netlist and they could be used to assign to them.
+
+// Digital HDL
+//      Hardware - Full Adder
+digital          :: #import "Hardware/digital.a"
+
+fullAdder :: (A : input, B : input, Cin : input) -> (Sum : output, Cout : output) {
+	wire1     :: A xor B;
+	wire2     :: A and B;
+	Sum       :: wire1 xor Cin;
+	wire3     :: wire1 and Cin;
+	Cout      :: wire2 xor wire3;
+	return Sum, Cout;
+}
+
+
+Sum, Cout :: fullAdder(A, B, Cin, Sum, Cout, 8);
+// this creates an 8-Bit full adder using a templatized version form
+
+
+// Analog HDL
+//      Analog HDL - VCVS
+electrical       :: #import "Hardware/Analog/electrical.a"
+
+VCVS :: (vsense_p : inout, vsense_n : inout, gain : f64) -> (vout_p : inout, vout_n : inout) {
+	vout_p = electrical.v(vout_n) + gain * (v(vsense_p) - v(vsense_n));
+}
+
+VCVS :: (vsense_p : inout, vsense_n : inout, gain : f64, vout_p : inout, vout_n : inout) {
+	vout_p = electrical.v(vout_n) + gain * (v(vsense_p) - v(vsense_n));
+}
+
+//      Analog HDL - Two-Sage Amplifier
+#import "Hardware/MixedSignal/ams_constants.a"          // Import standard libraries and disciplines
+#import "Hardware/MixedSignal/ams_disciplines.a"        // Import standard libraries and disciplines
+
+// Define a module for a two-stage op-amp
+TwoStageOpAmp :: module (in_p : Electrical, in_n : Electrical, out : Electrical) {
+	// Input and output electrical nodes
+
+	// Parameters with default values
+	gain_stage1 :: 1e4;            // Gain of the first stage
+	gain_stage2 :: 1e2;            // Gain of the second stage
+	gbw         :: 10e6;           // Gain-bandwidth product (Hz)
+	cload       :: 10e-12;       // Load capacitance (Farads)
+	vcc         :: 1.8;            // Supply voltage (Volts)
+	vss         :: 0;              // Ground voltage (Volts)
+	v_offset    :: 0;         // Input offset voltage (Volts)
+	sr          :: 1e6;             // Slew rate (V/s)
+	noise_gain  :: 1;       // Noise gain (dimensionless)
+
+	// Internal state variables
+	v_diff      : f64;
+	v_out       : f64;
+	v_stage1    : f64;
+	omega       : f64;
+
+	// Slew rate limiting function
+	slew_rate_limit :: (v_in : f64, max_slew_rate: f64) -> f64 {
+		if abs(ddt(v_in)) > max_slew_rate {
+			return sign(v_in) * max_slew_rate * dt;
+		}
+		return v_in;
+	}
+
+	// Simple noise function
+	noise :: (gain: f64) -> f64 {
+		return gain * white_noise(1e-6);
+	}
+
+	// Simulation block with automatic time stepping
+	simulation {
+		// Compute differential input voltage
+		v_diff = voltage(in_p) - voltage(in_n) + v_offset;
+
+		// First stage gain with automatic slew rate limiting
+		v_stage1 = gain_stage1 * v_diff;
+		v_stage1 = slew_rate_limit(v_stage1, sr);
+
+		// Second stage gain calculation
+		v_out = gain_stage2 * v_stage1;
+
+		// Frequency compensation
+		omega = 2 * PI * gbw;
+		v_out = v_out / (1 + (omega / (2 * PI * 10)));
+
+		// Output voltage with noise
+		voltage(out) = v_out + noise(noise_gain);
+
+		// Output load capacitance effect
+		current(out) = cload * ddt(V(out));
+	}
+}
+
+
+
+
+// Import necessary libraries
+#import "Hardware/MixedSignal/ams_constants.a"
+#import "Hardware/MixedSignal/ams_disciplines.a"
+
+// Define a higher-level circuit module
+CircuitTopLevel :: module (in_p: Electrical, in_n: Electrical, out: Electrical) {
+	// Instantiate the TwoStageOpAmp module
+	opamp1 :: TwoStageOpAmp (.in_p :: in_p; .in_n :: in_n, .out :: out, .gain_stage1 = 2e4, .gain_stage2 = 1.5e2);
+
+	simulation {
+	analog {
+		// For example, driving input signals or monitoring outputs
+		V(in_p) = sin(2 * PI * 1e3 * time) * 0.01;
+		V(in_n) = 0;
+	}
+}
+
+
+
+
+
+
+
+
+// Analog Netlist
+// ---------------------------------------------------------------------------
+analog :: #import "Hardware/analog.a"
+
+// ****************************
+// * Two-Stage Op-Amp Circuit *
+// ****************************
+
+// Or fore something that looks more like modern syntax .
+#import "/path/to/your/model/nmos.a";
+#analog.spice.setModelCorner("nmos", "tt");
+
+#import "/path/to/your/model/pmos.a";
+#analog.spice.setModelCorner("pmos", "tt");
+
+
+// Global parameters
+Rload := 10k;
+Cload := 1p;
+Iref  := 100u;
+
+// Power supply
+Vdd   :: vsource(vdd, 0, .dc=1.8);
+
+// Bias current source
+Ibias :: isource(ibias, 0, .dc=Iref);
+
+// First stage differential pair
+Mn1      :: nmos(vout, n1, 0, 0, .w=10u, .l=180n, .m=1);
+Mn2      :: nmos(0, n1, n2, 0, .w=10u, .l=180n, .m=1);
+Mp1      :: pmos(n2, vdd, 0, 0, .w=20u, .l=180n, .m=1);
+Mp2      :: pmos(n1, vdd, 0, 0, .w=20u, .l=180n, .m=1);
+
+// Second stage common-source amplifier
+Mn3      :: nmos(vout, 0, n3, 0, .w=30u, .l=180n, .m=1);
+Mp3      :: pmos(n3, vdd, 0, 0, .w=60u, .l=180n, .m=1);
+
+// Output load
+Rload    :: resistor(vout, 0, .r=Rload);
+Cload    :: capacitor(vout, 0, .c=Cload);
+
+// DC Analysis
+dcOp     :: analog.analyses.dc {
+	.oppoint,
+	.saveOppoint=true
+};
+
+// AC Analysis
+acAc     :: analog.analyses.ac {
+	.start=1,
+	.stop=1G,
+	.dec=10
+};
+
+// Transient Analysis
+tran     :: analog.analyses.tran {
+	.stop=1us,
+	.step=1ns
+};
+
+// Monte Carlo Analysis
+mc1      :: analog.analyses.montecarlo {
+	// Vary process parameters
+	.process = {
+		.dpmos = analog.simulator.functions.gauss(.mean=0, .std=5%, .seed=1),
+		.dnm = anlog.simulator.functions.gauss(.mean=0, .std=5%, .seed=2)
+	},
+
+	// Mismatch in devices
+	.mismatch = {
+		.dm1 = analog.simulator.functions.gauss(mean=0 std=0.5% seed=3)
+		.dm2 = analog.simulator.functions.gauss(mean=0 std=0.5% seed=4)
+	},
+
+	.analysis { .type=analog.analyses.tran },
+	.numruns = 100,
+	.save=all,
+};
+
+// Alter block for different operating points
+dev_bias :: analog.analysis.alter {
+	// Change bias current
+	Ibias.dc = 200u,
+
+	// Re-run DC analysis with new bias
+	analog.analyses.dc { .restart=true }
+};
+
+// Save data
+analog.simulators.spice.options.save("M*", "I*", "V*");
+
+// End of netlist
+
+
+//Spice
+// ---------------------------------------------------------------------------
+// Two-Stage Op-Amp Circuit
+
+// Include external model libraries
+include "/path/to/your/model/nmos.lib" section=nm
+include "/path/to/your/model/pmos.lib" section=pm
+
+// Global parameters
+parameters Rload=10k Cload=1p Iref=100u
+
+// Power supply
+Vdd (vdd 0) vsource dc=1.8
+
+// Bias current source
+Ibias (ibias 0) isource dc=Iref
+
+// First stage differential pair
+Mn1 (vout n1 0 0) nmos w=10u l=180n m=1
+Mn2 (0 n1 n2 0) nmos w=10u l=180n m=1
+Mp1 (n2 vdd 0 0) pmos w=20u l=180n m=1
+Mp2 (n1 vdd 0 0) pmos w=20u l=180n m=1
+
+// Second stage common-source amplifier
+Mn3 (vout 0 n3 0) nmos w=30u l=180n m=1
+Mp3 (n3 vdd 0 0) pmos w=60u l=180n m=1
+
+// Output load
+Rload (vout 0) resistor r=Rload
+Cload (vout 0) capacitor c=Cload
+
+// DC Analysis
+dcOp dc oppoint saveOppoint=yes
+
+// AC Analysis
+acAc ac start=1Hz stop=1GHz dec=10
+
+// Transient Analysis
+tran tran stop=1us step=1ns
+
+// Monte Carlo Analysis
+mc1 montecarlo {
+  process { // Vary process parameters
+    dpmos = gauss(mean=0 std=5% seed=1)
+    dnm = gauss(mean=0 std=5% seed=2)
+  }
+  mismatch { // Mismatch in devices
+    dm1 = gauss(mean=0 std=0.5% seed=3)
+    dm2 = gauss(mean=0 std=0.5% seed=4)
+  }
+  analysis(type=tran)
+  numruns = 100
+  save=all
+}
+
+// Alter block for different operating points
+alter dev_bias {
+  Ibias dc=200u  // Change bias current
+  // Re-run DC analysis with new bias
+  dc dc restart=yes
+}
+
+// Save data
+save M* I* V*
+
+// End of netlist
+
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+// Software Programming
+// ---------------------------------------------------------------------------
+#import "Software/Basics.A"
+
+// A procedural block that takes two 64-Bit Floating Point Inputs A and B and outputs the sum to the output Y.
+add :: (A : f64, B : f64) -> (Y : f64) {
+	Y = A + B;
+}
+
+// A struct representing a RGB colors.
+RGB :: {
+	// initializing the fields R, G, and B of type 8-bit unsigned integer.
+	// adding the inout modifier so that struct members are publicly accessible.
+	R, G, B : inout u8;
+}
+
+// instantiating an RGB struct named WHITE and assigning it the values for white.
+WHITE : RGB : {.R = 255, .G = 255, .B = 255};
+
+main :: () {
+	print("White: R{WHITE.R}, G{WHITE.G}, B{WHITE.B}");
+}
+
+
+
+
+
+// Meta Programming
+// ---------------------------------------------------------------------------
+// importing the basics module into the global namespace.
+#import “Software/Basics.A”
+
+// import the math library and assigning it to the math namespace/identifer.
+math :: #import “Software/Math.A”
+
+calculateInverseSquareRoot :: (num : f64) -> result : f64 {
+	result = 1 / math.sqrt(num);
+}
+
+main :: () {
+	// usign the #run meta command to run the function at compile time.
+	result :: #run calculateInverseSquareRoot(2);
+
+	// printing the inverse square root to the standard output.
+	print(“The inverse square root of 2 is {result}”);
+}
+
+
+
+
+// Digital Register Transfer Level**
+// ---------------------------------------------------------------------------
+// defining a 64-bit floating point adder.
+add :: (A : f64, B : f64) -> Y : f64 {
+	Y = A + B;
+}
+
+// defining an 8-bit multiplexer behaviorally.
+mux :: (A : b8, B : b8, S : b1) -> (Y : b8) {
+	match s {
+		0b0 => Y = A;
+		0b1 => {
+			Y = B;
+		}
+	}
+}
+
+
+// Analog Behavioral Modeling
+// ---------------------------------------------------------------------------
+#import "Hardware/Analog.A"
+
+// definig a current mirror with 10x ratio.
+current_mirror :: (In : f64 electrical) -> (Out : f64 electrical) {
+	Out = 10 * current(In);
+}
+
+// deining a voltage controlled voltage source
+vcvs :: (sense_p : f64 electrical, sense_n : f64 electrical, gian : f64) -> (out_p : f64 electrical, out_n : f64 electrical) {
+	out_p = voltage(out_n) + gain * (voltage(sense_p) - voltage(sense_n));
+}
+
+
+// Mixed-Signal Modeling**
+
+
+// Circuit Netlisting
+// ---------------------------------------------------------------------------
+// A circuit definition for simple amplifier using a voltage controlled voltage source
+// Lables could just be strings that are named net
+
+Net :: string;
+vsource :: (vPluse: inout Net, vMinus : inout Net, dc : f32 = 0, ac : f32 = 0, Type : SourceType) {
+	dcVoltage(vPluse) = voltage(vMinus) + dc;
+}
+Vdd :: vsource ("vdd", "0", dc = 1.8);
+Vin :: vsource ("vin", "0", ac = 1);
+Amp :: vcvs ("vin", "0", "vout_internal", "0");
+R_amp_internal :: res("vout_interanl", "vout");
+C_amp_internal :: cap("vout", "0");

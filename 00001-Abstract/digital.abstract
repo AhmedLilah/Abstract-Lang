@@ -1,28 +1,27 @@
-#setModuleType("Digtial");
 
-Arithmatic :: (A : [7:0] bit; B : [7:0] bit, Opcode : [7:0] bit, Clk : bit) -> (Y : [7:0]) {
+Arithmatic :: (A : [7..0] bit; B : [7..0] bit, Opcode : [7..0] bit, Clk : bit) -> (Y : [7..0]) {
         main :: (positveEdge(Clk)) {
                 if Opcode {
                         // 64-bit signed integer operations
-                        case 0h00 Y := (A as s64 + B as s64) as [7:0] bit;
-                        case 0h01 Y := (A as s64 - B as s64) as [7:0] bit;
-                        case 0h02 Y := (A as s64 * B as s64) as [7:0] bit;
-                        case 0h03 Y := B != 0h00 ? (A as s64 / B as s64) as [7:0] bit : 0h00;
-                        case 0h04 Y := B != 0h00 ? (A as s64 % B as s64) as [7:0] bit : 0h00;
+                        case 0h00 Y := (A as s64 + B as s64) as [7..0] bit;
+                        case 0h01 Y := (A as s64 - B as s64) as [7..0] bit;
+                        case 0h02 Y := (A as s64 * B as s64) as [7..0] bit;
+                        case 0h03 Y := if B != 0h00 then (A as s64 / B as s64) as [7..0] bit else 0h00;
+                        case 0h04 Y := if B != 0h00 then (A as s64 % B as s64) as [7..0] bit else 0h00;
 
                         // 64-bit unsigned integer operations
-                        case 0h10 Y := (A as u64 + B as u64) as [7:0] bit;
-                        case 0h11 Y := (A as u64 - B as u64) as [7:0] bit;
-                        case 0h12 Y := (A as u64 * B as u64) as [7:0] bit;
-                        case 0h13 Y := B != 0h00 ? (A as u64 / B as u64) as [7:0] bit : 0h00;
-                        case 0h14 Y := B != 0h00 ? (A as u64 % B as u64) as [7:0] bit : 0h00;
+                        case 0h10 Y := (A as u64 + B as u64) as [7..0] bit;
+                        case 0h11 Y := (A as u64 - B as u64) as [7..0] bit;
+                        case 0h12 Y := (A as u64 * B as u64) as [7..0] bit;
+                        case 0h13 Y := if B != 0h00 then (A as u64 / B as u64) as [7..0] bit else 0h00;
+                        case 0h14 Y := if B != 0h00 then (A as u64 % B as u64) as [7..0] bit else 0h00;
 
                         // 64-bit floating point operatins
-                        case 0h20 Y := (A as f64 + B as f64) as [7:0] bit;
-                        case 0h21 Y := (A as f64 - B as f64) as [7:0] bit;
-                        case 0h22 Y := (A as f64 * B as f64) as [7:0] bit;
-                        case 0h23 Y := B as f64 != 0.0 ? (A as f64 / B as f64) as [7:0] bit : 0h00;
-                        case 0h24 Y := B as f64 != 0.0 ? (A as f64 % B as f64) as [7:0] bit : 0h00;
+                        case 0h20 Y := (A as f64 + B as f64) as [7..0] bit;
+                        case 0h21 Y := (A as f64 - B as f64) as [7..0] bit;
+                        case 0h22 Y := (A as f64 * B as f64) as [7..0] bit;
+                        case 0h23 Y := if B as f64 != 0.0 then (A as f64 / B as f64) as [7..0] bit else 0h00;
+                        case 0h24 Y := if B as f64 != 0.0 then (A as f64 % B as f64) as [7..0] bit else 0h00;
 
                         // default state
                         case _    Y = 0h00;

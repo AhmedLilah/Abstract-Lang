@@ -1,3 +1,74 @@
+// Adding a mtlab like syntax for sectioned code regions by comments
+// -----------------------------------------------------------------
+// using someting like the matlab `%%` syntax for code sectioning
+
+// "This Code Region Name"
+///// This Code Region Name
+//* This Code Reagion Name *//
+
+
+
+
+
+
+
+
+
+
+// Using compile time constants in structs to set teh self pointer that could be used by self invoked functions or making the function take the address of teh first element as the self pointer.
+
+
+
+
+
+
+
+
+// Streaming Ideas
+// -----------------------------------------------------------------
+// Make a node graph based DAW.
+// It should be done for node graph first.
+// It should support normal mixing.
+// The node graph should be as powerfull as the best compositing SW.
+// It should support VST plugins.
+//
+// This could be a fun project in jai.
+
+
+
+
+
+
+
+
+
+
+
+// Why this is better
+// -----------------------------------------------------------------
+// C Declaration
+char* (*f(float fp, float (*lambda)(float lp)))(float rfp) {
+	// code in here;
+}
+
+// Abstract Declaration
+f :: (fp     : f32,
+      lambda : (lp  : f32) -> (lr : f32  )
+     ) -> rf : (rfp : f32) -> (s  : [] u8) {
+        // code in here;
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // -----------------------------------------------------------------
 // reserved Syntax
 // -----------------------------------------------------------------
@@ -227,6 +298,7 @@ www
 // end
 // enum
 // error
+// except
 // export
 // expose
 // extern
@@ -258,7 +330,7 @@ www
 // none
 // nor
 // not
-// nill
+// nil
 // null
 // operator
 // or
@@ -279,6 +351,7 @@ www
 // static
 // thread
 // unbreak
+// undefined
 // union
 // unique
 // use
@@ -328,20 +401,22 @@ www
 // Types
 // ----------------------------------------
 // ascii
-// b<n>
 // bit
 // bool
 // byte
-// c<n>
 // char
-// f<n>
-// s<n>
 // ssize
 // string
-// u<n>
 // usize
-// utf<n>
 
+// b<N>
+// c<N>
+// f<N>
+// r<N>
+// s<N>
+// u<N>
+// utf<N>
+// q<N>
 
 
 
@@ -359,6 +434,263 @@ www
 // #note
 // #no_abs
 //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Code Notes
+// -----------------------------------------------------------------
+// The idea is to have a wa to add notes to the code, variables, fu-
+// nctions, structcs, etc. this would allow for adding meta data that
+// could be read by the compiler or could be used to attach extra non
+// code related data that could be used for other things like:
+// 	Relating hardware to softwar.
+// 	Linking schematic to code.
+// 	Linking schematic to layout.
+// 	Linking parasitics to layoiut and schematic.
+// 	Linking mechanical views to electrical ones.
+// The ideas a endless.
+
+// using the '' for notes?
+Amp :: (InP, InM : input Electrical 'PinType: singal', VDD, VSS : inout Electrical 'PinType: Power') -> (OutP, OutM : output Electrical) 'Domain: Analog' {
+
+}
+
+Amp :: (
+	InP, InM : input Electrical 'PinType: signal',
+	VDD, VSS : inout Electrical 'PinType: Power'
+) -> (
+	OutP, OutM : output Electrical
+) 'Domain: Analog' {
+	// ...
+}
+
+
+
+// Linking a software control variable to a physical hardware register address
+gain_control : u8 'Map: {
+	address: 0x4000_1000,
+	hw_net: "net_amp_bias",
+	layout_node: "M1_gate"
+}' = 0x0F;
+
+
+thermal_sink :: Electrical 'Mechanical: {
+	cad_model: "sink_type_b.step",
+	thermal_conductivity: 237.0 // W/mK (Aluminum)
+}';
+
+
+
+
+
+// Hint:
+// 	I think they would be in a specail meta notes types that are hidden from the runtime that should be type checked.
+// 	the note type could also be normal code structs.
+// 	allowing the user to define them however they want.
+// 	but also not having them effect anything at the SW runtime/ HW Synthesis.
+
+// 1. Define custom metadata structs (Normal code)
+PinType :: struct {
+	kind : enum { signal; power; ground; clock; };
+}
+
+Domain :: struct {
+	name       : string;
+	max_voltage : f32;
+}
+
+MechanicalPin :: struct {
+	cad_reference : string;
+	pin_number    : u32;
+}
+
+
+// 2. Attach them to variables, parameters, or functions using single quotes
+Amp :: (
+	InP, InM   : input  Electrical 'PinType{ .signal }',
+	VDD, SSS   : inout  Electrical 'PinType{ .power  }'
+) -> (
+	OutP, OutM : output Electrical 'PinType{ .signal }'
+) 'Domain.{ "Analog", 5.0 }' {
+
+	// Local variable with layout/parasitic metadata notes
+	// The compiler type-checks that 'max_voltage' expects an f32, etc.
+	feedback_cap : capacitor 'PinType{ .signal }' = 2.5p;
+}
+
+
+
+
+
+// Abstract template / interface definition
+// The compiler enforces that any concrete instantiation MUST provide a PinType value for InP.
+GenericAmp :: (
+	InP : input Electrical 'PinType',
+	VDD : inout Electrical 'PinType'
+) -> (
+	OutP : output Electrical 'PinType'
+) {
+	    // ...
+}
+
+// Concrete instantiation later, where the deferred metadata values are filled in:
+my_amp := inst GenericAmp(
+	InP  = signal_line 'PinType{ .signal }',
+	VDD  = vcc_rail    'PinType{ .power   }',
+	OutP = output_net  'PinType{ .signal }'
+);
+
+
+
+
+// A compile-time meta-block that runs during compilation
+generate_spice_netlist :: (module_symbol : type) -> string {
+	netlist_buffer := "";
+
+	// '#meta' queries all metadata notes attached to the module's parameters
+	for param in #meta(module_symbol).parameters {
+		// You can pattern-match or check note types at compile time!
+		pin_info := param.find_note(PinType);
+
+		if pin_info {
+			match pin_info.kind {
+				case .power  { netlist_buffer += ".power_node {}\n".format(param.name); }
+				case .signal { netlist_buffer += ".node {}\n".format(param.name); }
+				else         {}
+			}
+		}
+	}
+
+	return netlist_buffer;
+}
+
+
+// Hint:
+// 	what about just usig an acces operator like `.#`, `.#.`, `#.` or something else?
+
+
+
+
+
+
+
+// Accessing a metadata field using .#
+if InP.#PinType.kind == .signal {
+    // Compile-time branch evaluation
+}
+
+// Querying the kind directly if unique
+current_kind := InP.#.kind;
+
+
+// A compile-time function to validate net constraints
+validate_analog_pins :: (module_symbol : type) -> void {
+
+    // Iterate over parameters
+    for param in #meta(module_symbol).parameters {
+
+        // Using .# to check if a 'PinType' note is attached and evaluate it at compile time
+        if param.#PinType.kind == .power {
+            // Ensure power pins have a valid voltage domain defined via another note
+            voltage_limit := param.#Domain.max_voltage;
+
+            if voltage_limit <= 0.0 {
+                compiler.error("Power pin '{}' must have a valid max_voltage domain!", param.name);
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Verse Like Function Markers
+// -----------------------------------------------------------------
+// Why can't we have functionl languages like markers.
+// these could be like the:
+// 	concepts
+// 	traits
+// 	interfaces
+// 	contracts
+// 	restrictions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Using macros for compile time polymorphism type cheking i.e. concepts/traits/interfaces
+// -----------------------------------------------------------------
+// only using the return type of bool?
+Drawable :: macro (T : Type) -> (ok : bool) {
+	// do some meta shit here to figure out if the type is drawable.
+}
+
+// returning the type and the bool?
+Drawable :: macro (T : Type) -> (T : Type, ok : bool) {
+	// do some meta shit here to figure out if the type is drawable.
+}
+
+// returning the type as if making the macro resolves to type that is then inserted in place of the type of the parameter type definition.
+Drawable :: macro (T : Type) -> (ok : bool) {
+	// do some meta shit here to figure out if the type is drawable.
+}
+
+// this is only ok to call if the type of the element is determined to be drawable by the drawable macro.
+draw :: (element : Drawable, canvas : Canvas, pos : Pos, scale : f32, color : Color) {
+
+}
+
+
+
+
+
+
+
 
 
 
@@ -451,31 +783,27 @@ z := 0h_0000__0000____0000__0000;
 
 // SI System Postfixes
 // -----------------------------------------------------------------
-value :: 1q; // quecto = 1e-30
-value :: 1r; // ronto  = 1e-27
-value :: 1y; // yocto  = 1e-24
-value :: 1z; // zepto  = 1e-21
-value :: 1a; // atto   = 1e-18
-value :: 1f; // femto  = 1e-15
-value :: 1p; // pico   = 1e-12
-value :: 1n; // nano   = 1e-9
-value :: 1u; // micro  = 1e-6
-value :: 1m; // milli  = 1e-3
-// value :: 1c; // centi  = 1e-2  // these are coliding with bases but not if the base is using Verilog-AMS style numbers.
-// value :: 1d; // deci  = 1e-1  // these are coliding with bases but not if the base is using Verilog-AMS style numbers.
-value :: 1;  //        = 1e0
-// value :: 1Da; // deca   = 1e+1   // these are coliding with bases but not if the base is using Verilog-AMS style numbers.
-// value :: 1H; // hecto   = 1e+2   // these are coliding with bases but not if the base is using Verilog-AMS style numbers.
-value :: 1K; // kilo   = 1e+3
-value :: 1M; // mega   = 1e+6
-value :: 1G; // giga   = 1e+9
-value :: 1T; // tera   = 1e+12
-value :: 1P; // peta   = 1e+15
-value :: 1E; // exa    = 1e+18
-value :: 1Z; // zetta  = 1e+21  // this is the only one that colide with the bit vlaues in hardware.
-value :: 1Y; // yotta  = 1e+24
-value :: 1R; // ronna  = 1e+27
-value :: 1Q; // quetta = 1e+30
+value :: 1q;  // quecto = 1e-30
+value :: 1r;  // ronto  = 1e-27
+value :: 1y;  // yocto  = 1e-24
+value :: 1z;  // zepto  = 1e-21
+value :: 1a;  // atto   = 1e-18
+value :: 1f;  // femto  = 1e-15
+value :: 1p;  // pico   = 1e-12
+value :: 1n;  // nano   = 1e-9
+value :: 1u;  // micro  = 1e-6
+value :: 1m;  // milli  = 1e-3
+value :: 1;   //        = 1e0
+value :: 1K;  // kilo   = 1e+3
+value :: 1M;  // mega   = 1e+6
+value :: 1G;  // giga   = 1e+9
+value :: 1T;  // tera   = 1e+12
+value :: 1P;  // peta   = 1e+15
+value :: 1E;  // exa    = 1e+18
+value :: 1Z;  // zetta  = 1e+21  // this is the only one that colide with the bit vlaues in hardware. shouldn't be a problem as it should be be in binary mode only.
+value :: 1Y;  // yotta  = 1e+24
+value :: 1R;  // ronna  = 1e+27
+value :: 1Q;  // quetta = 1e+30
 
 
 
@@ -532,6 +860,48 @@ value :: 1Q; // quetta = 1e+30
 4'XHf0f0
 
 
+// Question:
+// 	What about ternary logic?
+	3't012
+	3'T012
+
+// 	What if we wnat it to be symetrical ternary (-1, 0, 1)?
+		// Using                      1 for positive,  -1 for negative, and  0 for 0.
+		3'T-101
+
+		// Using                     +1 for positive,  -1 for negative, and  0 for 0.
+		3'T(-1)0(-1)
+
+		// Using                     +  for positive,  -  for negative, and  0 for 0.
+		3'T-0+
+
+		// Using                    P/p for positive, N/n for negative, and  0 for 0.
+		3'T_P0N
+
+		// Using a binary equavilent 01 for positive,  10 for negative, and 00 for 0.
+		3'T01_00_10
+
+// 	What about arbitrary base litterals?
+// 		using the bit'base'value pattern
+		8'2'0000_1111
+		3'10'910
+
+// 		Using the nbit'<sym>base'value
+// 			by default the <sym> is positive.
+// 			sym : +, -, _, +-, -+
+		3'  3' 0 1 2
+		3' +3' 0 1 2
+		3' -3'-2-1 0
+		3' _3'-1 0 1
+		3'+-3'-1 0 1
+		3'-+3' 1 0-1
+
+// 		using the nbit'base#value patter
+		3'  3# 0 1 2
+		3' +3# 0 1 2
+
+// 		using a more sophisticated syntax for it?!
+
 
 // Note:
 //      does this have to be done this way?
@@ -566,9 +936,6 @@ output : f32 in 0.2:0.8;
 output : f32 from 0.2 to 0.8;
 
 
-
-
-
 // Questions:
 // 	what if want to exclude values not set a specific range?
 
@@ -577,8 +944,6 @@ output : f32 exclude 0;								// the value of output is 0.5
 
 // using the "except" keyword to exclude values
 output : f32 except 0;								// the value of output is 0.5
-
-
 
 
 // Questions:
@@ -597,8 +962,6 @@ output : f32 from 0.2 to 0.8 use 0.5;						// the value of output is 0.5
 output : f32 from 0.2 to 0.8 using 0.5;						// the value of output is 0.5
 
 
-
-
 // Questions:
 // 	can we set the values in mutlpte ranges?
 
@@ -607,8 +970,6 @@ output : f32 in -0.8:-0.2, 0.2:0.8;
 
 // using the from to keywords.
 output : f32 from  -0.8 to -0.2, from 0.2 to 0.8;
-
-
 
 
 // Questions:
@@ -625,12 +986,56 @@ output : f32 from 0.2 to 0.8, from 0.2 to 0.8 except -0.4, 0.4 use 0.5;		// the 
 output : f32 from 0.2 to 0.8, from 0.2 to 0.8 except -0.4, 0.4 using 0.5;	// the value of output is 0.5
 
 
-
-
 // Questions:
 // 	can we use these in all places like defining a function parameter?
 //	what happens when the condition fails?
 // 	how to set the failure handeling routine?
+// 		Shoulld we just throw it at the context?
+// 	Doesn't this look like C++'s contracts?
+// 		Do we even want that?
+// 		If we decide to have it. Is it going to be compile time only.
+// 		 or compile and run time.
+// 			How to do we even dcide that?
+// 	Where does this even matter?
+// 		it matters alot for hardware.
+// 		does it even matter for software?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Interchangable Parameter Type Decalaration
+// -----------------------------------------------------------------
+// When doing hardwaer it would be good if we can define that the I/O
+// 	of a block could be treated as any of the same size types.
+// This could be extended for softwar also
+div :: (A : [31:0] bit | f32, B : [31..0] bit | f32) -> (Y : [31..0] bit | f32) {
+	if B[30..0] == 0 {
+		Y = nan;
+	} else if A[30..0] == 0 {
+		Y = 0.0;
+	} else {
+		// do the actual computation in here.
+	}
+}
+
+// Questions:
+// 	Should this be a thing even?
+// 	If the binary type support all of these operations doesn' that render it useless?
+// 	Would this collide between different supported operation on different variables?
+//	Shold this be limited to binary and basic types?
+// 	How does this paly with hardware?
+
+
 
 
 
@@ -801,6 +1206,28 @@ da 		:= [?] f64 {1.0, 2.0, 3.0, 4.0};			// the type is [?] f64.
 
 
 
+// what if we want to define the indexing type?
+IndexEnum :: enum {
+	first;
+	second;
+}
+
+N :: 1024;
+
+defaultIndexedStaticArray  : [N            ];
+integerIndexedStaticArray  : [N : ssize    ];
+enumIndexedStaticArray     : [N : IndexEnum];
+
+defaultIndexSlice	   : [             ];
+integerIndexSlice	   : [  : ssize    ];
+enumIndexedSlice 	   : [  : IndexEnum];
+
+defaultIndexedDynamicArray : [_            ];
+integerIndexedDynamicArray : [_ : ssize    ];
+enumIndexedDynamicArray    : [_ : IndexEnum];
+
+
+
 
 // Bit Fields
 bf 		:= 8'h0000_0000;					// the type is [7..0] f64.
@@ -953,6 +1380,15 @@ binarySort(@ array,
 
 
 
+
+
+
+
+
+// Using the `` syntax for calling parameter names from binding generated from interfacing with other languages.
+// -----------------------------------------------------------------
+def :: #importCLib(headers = "defer.h", sources = "defer.c");
+def.`defer`(code);
 
 
 
@@ -1178,9 +1614,76 @@ integrate :: pre  (inputArray : [] _)
 
 
 
+// Using C++ & Rust like Concepts/Traits for type definition
+// ----------------------------------------------------------
+// The goal here is to use procedural macros to define somethign
+// that is similar to concepts/traits that could then be used
+// inplace of types in type/function declarations and automatic-
+// ally generate a the compile time checks for the passed types
+// when we do the type/function instanciation/call.
+
+// this is kinda like rust trait type declaration in templates.
+DataStructure 	:: #meta #concept macro (t : Type) -> bool {
+	// code that checks the type for being a DataStructure.
+}
+
+LTComparable	:: #meta #concept macro (t : Type) -> bool {
+	// code that checks the type for being a sortable.
+}
+
+sort :: (cds : DataStructure LTComparable, sf := lt) {
+	// Implement the sorting here.
+}
+
+
+// using procedural style interface/concept/trait composition
+Serializable 	:: #meta #concept macro (t : Type) -> bool {
+	// Code for serialization
+}
+
+Priced		:: #meta #concept macro (t : Type) -> bool {
+	// Code for pricing
+}
+
+
+Shippable 	:: #meta #concept macro (t : Type) -> bool {
+	return Serializable(t) and Priced(t);
+}
+
+
+shipToUser 	:: (item : Shippable) {
+
+}
+
 
 // the use of logical/binary operators for types in function/struct difinition.
-// this is kinda like rust trait type declaration in templates.
+Serializable 	:: #meta #concept macro (t : Type) -> bool {
+	// Code for serialization
+}
+
+Priced		:: #meta #concept macro (t : Type) -> bool {
+	// Code for pricing
+}
+
+shipToUser 	:: (item : #(Shippable : Serializable and Priced) ) {
+
+}
+
+shipToUser 	:: #(Shippable : Serializable and Priced) (item : Shippable) {
+
+}
+
+shipToUser 	:: (item : #(Shippable : Serializable & Priced) ) {
+
+}
+
+shipToUser 	:: #(Shippable : Serializable & Priced) (item : Shippable) {
+
+}
+
+
+
+
 
 
 
@@ -1301,9 +1804,26 @@ metaOnlyFunction :: #meta () -> (res : s64) { return 69 }
 // Local scope compiler directives/decorators.
 // ----------------------------------------------------------
 //	For example if I want to disable floating point subnormals for an audio function.
+audioAdd :: (audioBuffer : [] f32, audioSample : [] f32) -> () #fastMath {
 
+}
 
+audioAdd :: (audioBuffer : [] f32, audioSample : [] f32) -> () #fdenormal_fp_math {
 
+}
+
+audioAdd :: (audioBuffer : [] f32, audioSample : [] f32) -> () {
+	clo :: @ context.compiler_local_options;
+	clo.fast_math = true;
+	clo.array_bound_checking = false;
+
+	// Should this even be a thing?
+	// 	Should we make it like jai and the context be reset to the parent on at the end?
+	defer {
+		clo.fast_math = false;
+		clo.array_bound_checking = true;
+	}
+}
 
 
 
@@ -1889,3 +2409,33 @@ for 0..9 {
 for 0..9 {
 	println("{}", it);
 }
+
+
+
+
+
+
+
+
+
+
+// Adding a code tagging system to the language
+// -----------------------------------------------------------------
+/*
+	1. The Standard Codetag Conventions
+	While developers can write whatever they want in a comment, the industry has unofficially standardized a few specific all-caps keywords (often documented in style guides like Python’s PEP 350).
+
+	TODO: Indicates missing features, unfinished code, or tasks that need to be completed later. (Used for features and planned work).
+
+	FIXME: Indicates code that is currently broken, inefficient, or poorly written and desperately needs refactoring. (Used for fixes).
+
+	BUG: Marks a known defect in the code. Best practice is to include an issue number from your bug tracker (e.g., BUG(#124): Fails on leap years).
+
+	XXX or WARNING: A visual siren. It warns other developers that the code is highly problematic, confusing, or dangerous to modify.
+
+	NOTE, HINT, or INFO: Highlights crucial context or explains why a particular, perhaps non-obvious, approach was taken.
+
+	HACK or WORKAROUND: Admits that the current solution is the programming equivalent of duct tape and should eventually be replaced with a proper fix.
+
+	DEPRECATED: Warns that a function or feature is obsolete and will be removed in future versions.
+*/

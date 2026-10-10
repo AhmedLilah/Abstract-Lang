@@ -5,6 +5,11 @@
 /****************************************************************************************************************/
 
 
+// Comments
+// 	Single-Line Comments
+/*
+	Multi-Line  Comments
+*/
 
 // Operators
 // 	Logical Operators
@@ -31,6 +36,7 @@ xnor			// Checks if only one of the expressions is false and returns a Boolean.
 <<			// Arithmetic left shift
 >> 			// Arithmetic right shift
 <|, |>			// should there be a logical shift operators?
+<:, :>			// should there be a logical shift operators?
 
 
 
@@ -76,16 +82,12 @@ _			// Don't care/Anything/Default/Ignore.
 //		Digital Types
 time, realtime		// Represents the time in the circuit simulation/ real time passed.
 			// Should this even be a thing or just make these functions in libraries.
+
+
+
+// Binary Types
 bit, byte		// For consistency between Software and Hardware code and takes the values
-			// 	 _ (don't care)
-			// 	 0
-			// 	 1
-			// 	 H (weak high), Pull Up.
-			// 	 L (weak low), Pull down.
-			// 	 U (undefined).
-			// 	 W (weak).
-			// 	 X (unknown).
-			// 	 Z (high impedance).
+
 
 
 
@@ -93,131 +95,261 @@ bit, byte		// For consistency between Software and Hardware code and takes the v
 // 	A type than handles logical expression true or false.
 // 	This type should be handled in the smallest amount of memory the architecture supports.
 bool
+b8
+b16
+b32
+b64
+b128
+b<N>
+
+
+
 
 // Integral Types
 //	Integral types do not support bit wise operation.
+//	Two's complement based singed integer types.
 
-//	Two's complement based singed integer types .
-//		Further improvement could be to support any number of bits.
+//	Singed integer types.
 s8
 s16
 s32
 s64
-s128			// should this be a thing and should we have more?
-
+s128
+s<N>
 
 //	Unsinged integer types.
-//		Further improvement could be to support any number of bits.
 u8
 u16
 u32
 u64
-u128			// should this be a thing and should we have more?
+u128
+u<N>
 
 //	Architecture based integer types.
-ssize
-usize
+ssize	// signed
+usize	// unsigned
 
-// 	Floating Point Types
-//		IEEE 754 based floating point.
+
+
+
+// Floating Point Types
+// 	IEEE 754 based floating point.
 f16
 f32
 f64
 f80
 f128
+f<n>
 
-// Character Types
-rune
-char
-c8
-c16
+// 	should this even be a thing?
+e<n>m<m> 	// this format uses e<n> and m<n> to define the exponent and mantissa
+	e2m1 		// f4
+	e5m10 		// f16
+	e8m23 		// f32
+	e11m52 		// f64
+	e15m112 	// f128
+
+
+// 	universal floating point difinition
+//      -----------------------------------
+// 	this format uses:
+// 		f<nb>  number of floating point number bits.
+// 		s<nsb> number of sing     	       bits.
+// 		e<neb> number of exponent 	       bits.
+// 		m<nmb> number of mantissa 	       bits.
+f<nb>s<nsb><e<neb>m<nmb>
+	f3s1e2m1 	// f4
+	f16s1e5m10 	// f16
+	f32s1e8m23 	// f32
+	f32s1e11m52 	// f64
+	f64s1e15m112 	// f128
+
+// 	this format uses:
+// 		s<nsb> number of sing     	       bits.
+// 		e<neb> number of exponent 	       bits.
+// 		m<nmb> number of mantissa 	       bits.
+s<nsb><e<neb>m<nmb>
+	s1e2m1 		// f4
+	s1e5m10 	// f16
+	s1e8m23 	// f32
+	s1e11m52 	// f64
+	s1e15m112 	// f128
+
+// Complex types
+// 	Real, Imaginary
 c32
+c64
+c128
 
-// String Types
-string
-ascii
-utf8
-utf16
-utf32
+
+
+
+// Quaternions
+q64
+q128
+q256
+
+
+
+
+// Text Types
+// 	Character Types
+// 		r is short for rune
+r8 		// utf8  code point
+r16 		// utf16 code point
+r64 		// utf32 code point
+rune 		// alias to u32 or whatever is most consistant with string
+char 		// C-char
+
+// 	String Types
+string 		// slice of r8
+ascii 		// slice of u8/r8
+utf8 		// slice of r8
+utf16 		// slice of r16
+utf32 		// slice of r32
+
+
+
+
+// Type Info
+any
+
+
+
 
 // Absent Of Types
 void
+nothing
 
-// Values
+
+
+
+// Special Values
+// 	Specail binary vales
+_ 		// don't care
+		// @BUG this can't happpen as it colides with the use of _ as a number seperator.
+0 		// Logical-Zero or Strong-Low
+1 		// Logical-One  or Strong-Hight
+H 		// Weak-high or Pull-Up
+L 		// Weak-low  or Pull-Down
+U 		// Undefined
+W 		// Weak
+X 		// Unknown/Don't Care
+Z 		// High-Impedance, High-Z
+
+// 	floatig point values
++nan
+-nan
++inf
+-inf
+
+// 	special string/character
+\n 		// new line
+\r 		// carriage return
+\t 		// horizontal tab
+\v 		// vertical tab
+\\ 		// backslash
+\" 		// double quote
+\' 		// single quote
+\0 		// null character
+\b 		// backspace
+\a 		// alert / bell
+\f 		// form feed
+\? 		// question mark
+\hxx 		// Specia Hex value for utf8  characters
+\hxxxx 		// Specia Hex value for utf16 characters
+\hxxxxxxxx 	// Specia Hex value for utf32 characters
+
+// 	Special Pointer Values
+null 		// defulat case for pointers
+
+// 	Special Enum/Tagged-Union Values
+nil 		// base value for tagged enums/union
+
+// 	Special xxxxx Values
+none 		// haven't decided yet
+
+
+
+
 // Undefined
 _
+undefined 	// haven't decided yet
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-/****************************************************************************************************************/
-/*                                                                                                              */
-/*                                                   VARIABLES                                                  */
-/*                                                                                                              */
-/****************************************************************************************************************/
-
-
-
-
-
-
-
-
-// Variables Definitions
+// SI System Postfixes
 // -----------------------------------------------------------------
-// Value Initialized Type Inferred Compile Time Constants
-identifier :: value;				// This defines a compile time constant and infer the type from the initialization value.
-
-// Value Initialized Multiple Type Inferred Compile Time Constants
-identifier, identifier :: value;		// This defines multiple compile time constants and infer the type from the initialization value.
-
-// Value Initialized Type Defined Compile Time Constants
-identifier : constantType : vlaue;		// This defines a compile time constants and by specifying the type before assigning the value.
-
-// Discarded Value Initialized Type Inferred Compile Time Constants
-_ :: value;					// Discarded value compile time constant.
-
-// Partially Discarded Value Initialized Type Inferred Compiler Time Constants
-_, identifier :: value, value;			// This discard the value corresponding the `_` operator.
-
-// Value  Initialized Type Inferred Variable
-identifier := value;				// This defines a variable and infer the type from the initialization value.
-
-// Value Initialized Multiple Type Inferred Variable
-identifier, identifier := value;		// This defines multiple vairables and infer the type from the initialization value.
-
-// Value Initialized Type Defined Variable
-identifier : variableType = value;		// This defines a variable and by specifying the type before assigning the value.
-
-// Default Initialized Type Defined Variable
-identifier : varibleType;			// This defines a default initialized variable and specifies it's type.
-
-// Variable Assignment
-identifier = value;				// This assigns a value to a pre-defined variable.
-
-// Multiple Value Initialized Type Inferred Variables
-identifier, identifier := value, value;		// This assigned each identifier to the corresponding value and give it the inferred type of the value.
-
-// Discarded Value Initialized Variable
-_ := value;					// Discarded value variable
-
-// Partially Discarded Value Initialized Type Inferred Variable
-_, identifier := value, value;			// This discard the value corresponding the `_` operator.
+1q;  // quecto = 1e-30
+1r;  // ronto  = 1e-27
+1y;  // yocto  = 1e-24
+1z;  // zepto  = 1e-21
+1a;  // atto   = 1e-18
+1f;  // femto  = 1e-15
+1p;  // pico   = 1e-12
+1n;  // nano   = 1e-9
+1u;  // micro  = 1e-6
+1m;  // milli  = 1e-3
+1;   //        = 1e0
+1K;  // kilo   = 1e+3
+1M;  // mega   = 1e+6
+1G;  // giga   = 1e+9
+1T;  // tera   = 1e+12
+1P;  // peta   = 1e+15
+1E;  // exa    = 1e+18
+1Z;  // zetta  = 1e+21
+1Y;  // yotta  = 1e+24
+1R;  // ronna  = 1e+27
+1Q;  // quetta = 1e+30
 
 
 
 
 
+
+
+
+/****************************************************************************************************************/
+/*                                                                                                              */
+/*                                            VARIABLES AND CONSTANTS                                           */
+/*                                                                                                              */
+/****************************************************************************************************************/
+
+
+
+
+
+
+
+
+// Constants/Variables Declaration/Definition
+// -----------------------------------------------------------------
+// The constant and variable combined declartion and assignment opertors `::` and `:=`
+// can be used to declare and assign constants and variable according to the general
+// form of <identifier(s) named(s)> : <type(s)> : or = <value(s) or expression(s)>;
+
+a      	:: v;		// This defines a compile time constant and infer the type from the initialization value.
+a 	:  T : v;	// This defines a compile time constants by specifying the type before assigning the value.
+a, b 	:: v;		// This defines multiple compile time constants and infer the type from the initialization value.
+a, b 	:: v, v;	// This defines multiple compile time constants and infer the type from the initialization values.
+a, b 	:  T, T : v, v;	// This defines multiple compile time constants by specifying the types before assigning the values.
+
+_ 	:: v;		// Discarded value compile time constant.
+_, a 	:: v, v;	// This discard the value corresponding the `_` operator.
+
+a 	:= v;		// This defines a variable and infer the type from the initialization value.
+a 	:  T = v;	// This defines a variable and by specifying the type before assigning the value.
+a, b 	:= v;		// This defines multiple vairables and infer the type from the initialization value.
+a, b 	:= v, v;	// This assigned each identifier to the corresponding value and give it the inferred type of the value.
+a, b 	:  T, T = v, v;	// This defines multiple variables by specifying the types before assginig it the values.
+
+a 	:  T;		// This defines a default initialized variable and specifies it's type.
+a 	=  v;		// This assigns a value to a pre-defined variable.
+
+_ 	:= v;		// Discarded value variable
+_, a 	:= v, v;	// This discard the value corresponding the `_` operator.
 
 
 
@@ -226,27 +358,34 @@ _, identifier := value, value;			// This discard the value corresponding the `_`
 //	What if I want to assign from a function that have multiple return types
 //	and most of them are newly defined but one or more was breviously defined
 
-// Example:
-// -----------------------------------------------------------------
+// Use Go like `:=`
+// 	if and old variable name is used with a new one it declares the new one and reuses the old.
+// 	it only throws the error if nor new names are present.
+a    := 5; 		// OK: first time.
+a    := 10; 		// Error: re declaration.
+a, b := 6, 9;		// Ok: mixed declaration and reuse.
+
+
+// Example 1
 f : () -> (s32, f32, s64, f64) {
 	0, 1.0, 2, 3.0;
 }
-
 a, d : s32, f64;
+a, b, c, d := f();
 
-a, b, c, d := f(); // problem a and d could be considered a redifinition.
+// Example 2
+f1 :: (a, b : f32) -> (res : f32, ok : bool) { /* code */ }
+f2 :: (a, b : f32) -> (res : f32, ok : bool) { /* code */ }
 
+res1, ok := f1();
+if ok {
+	/* Code */
+}
 
-// Hint:
-// -----------------------------------------------------------------
-// What about adding a symbol to reuse the variables.
-
-// For example `.`
-.a, b, c, .d := f();
-
-// For example `$`
-$a, b, c, $d := f();
-
+res2, ok := f2();
+if ok {
+	/* Code */
+}
 
 
 
@@ -320,12 +459,17 @@ multiDimensionalArray : [_] [_] [_] s32;
 
 // Indexing
 // -----------------------------------------------------------------
+// Single Dimentional Index
 array[Index];
+
+// Multi Dimentional Indecies
+array[xIndex, yIndex, zIndex];
 
 
 // Slicing
 // -----------------------------------------------------------------
-// General Case
+// Single Dimentional Slicing
+// Start Step Stop
 array[satrt:step:stop];
 
 // Start Stop
@@ -338,9 +482,12 @@ array[satrt:step:];
 array[:step:stop];
 
 
-// Note:
-// 	Both indexing and slicing apply to any number of dimensions
+// Multi Dimentional Slicing
+array[satrt:step:stop, satrt:step:stop, satrt:step:stop];
 
+
+// Note:
+// 	any mixing of the start step stop is allowed in the different indecies.
 
 
 
@@ -360,8 +507,8 @@ RAM :: [1024] [63..0] bit;
 a, b : [63..0] bit;
 
 con :: (H : [7..0] bit, L : [7..0]) -> (A : [15..0]) {
-        A = { .. H, .. L}; // H[0], ..., H[n], L[0], ..., L[n];
-        return;
+	A = { .. H, .. L}; // H[0], ..., H[n], L[0], ..., L[n];
+	return;
 }
 
 
@@ -440,6 +587,8 @@ if boolianExpression {
 if boolianExpression statment;
 
 
+
+
 // if else statement
 // -----------------------------------------------------------------
 if boolianExpression {
@@ -451,6 +600,8 @@ if boolianExpression {
 // this can follow the same short cut for single statement
 if boolianExpresssoin statement;
 else statement;
+
+
 
 
 // if else-if else statement
@@ -471,30 +622,6 @@ else if boolianExpresssoin statement;
 else statement;
 
 
-// alternative syntax for if else-if else statements
-// -----------------------------------------------------------------
-if x {
-	is == 5 {
-	}
-
-	is == 6..8 {
-	}
-
-	is in 6..8 {
-	}
-
-	is < 4 {
-	}
-
-	is > 8 {
-	}
-
-	is _ {
-		print("Error: Unexpected case");
-	}
-}
-
-
 
 
 // if case statements
@@ -513,74 +640,117 @@ SchematicInstances :: enum union {
 	link		: tyhpe.Link;
 }
 
+
 schInst : SchematicInstances;
 ignoredInstancesCount : sszie;
 
+
 if schInst {
-	// named case
+	// unnamed type case
+	// 	using the tagged union tag/enum name.
+	case .wire {
+		reduce(wire.points);
+	}
+
+	// unnamed value case
+	// 	using the tagged uinion tag/enum name and load value as struct assignment.
+	// 	the idea is the tagged union is a value of the tage and a value of the type underneath it.
+	// 	so why not match specific cases where we want tage with a specific value.
+	// 	does this syntax collide with any other cases?
+	case {.option, .Editable} {
+		schematic.log("this file is editable\n");
+	}
+
+	// partial unnamed value case
+	// 	using the `_` symbol to indicate that we don't care about the actual value.
+	case {.symbol, .{.{5, _}, _} {
+		schematic.log("this symbol is on x = 5\n");
+	}
+
+	// multiple unnamed type cases
+	case .comment, .hint;
+
+	// multiple unnamed value cases
+	case {.comment, _}, {.hint, _};
+
+
+	case {.option, .Editable} {
+		schematic.log("this file is editable\n");
+	}
+
+
+	// Using The Declaration Syntax For Better Coherence In The Language
+	// -----------------------------------------------------------------
+	// We can use the case followed by a named/unnamed variable declaratoin/assignment expression
+	// 	this is meant more to signify that the tag and avlue are the values asigne to the case no the types.
+	// 	basic
+
+	// named type case
 	// 	this nameing could be applied to the cases wher a range of values is used
 	case symbol : .Symbol {
 		validate(symbol.primatives);
 		transformt(symbol.position);
 	}
 
+
+	// named value case
+	// 	the .{} syntax is the assignment to expected type of the tagged union pair of values.
+	case editableOption :: {.option, .Editable} {
+		editableOptin = false;
+	}
+
+
+	// partial named value case
+	// 	using the `_` symbol to indicate that we don't care about the actual value.
+	case symbol :: {.symbol, {{5, _}, _}} {
+		schematic.log("this symbol is on x = 5 and y = {symbol.pos.y}\n");
+	}
+
+
+	// jointly named type cases
+	case ingnoredInstances : .spiceCommand, .lable {
+		print("Ignored the instance at position {}\n", ignoredInstance.pos);
+		ignoredInstancesCount++;
+	}
+
+
+	// jointly named value cases
+	case ingnoredInstances :: {.option, .Editable}, {.link, "~/"} {
+		print("Ignored the instance at position {}\n", ignoredInstance.pos);
+		ignoredInstancesCount++;
+	}
+
+
 	// destructuring named values
 	// 	we don't want to keep doing the symbol.member access pattern
-	case .sybmol : .Symbol {
+	case . : .Symbol {
 		validate(primatives);
 		transformt(position);
-	}
-	// this is equivalent to
-	// 	or at least  it should be.
-	case symbol : .Symbol {
-		. :: sybmol;
-		validate(primatives);
-		transformt(primatives);
 	}
 
 	// but what if we want to rename the members inside the value?
 	// 	is this even usefull?
 	// 	the example in rust does make sense as the value itself wan't named.
 	//	I dont' like this yet.
-	case .prim, .pos : .Symbol {
+	case {prim, pos} : .Symbol {
 
 	}
 
-	// unnamed case
-	case .wire {
-		reduce(wire.points);
-	}
 
-	// tag and value pair?
-	// 	the idea is the tagged union is a value of the tage and a value of the type underneath it.
-	// 	so why not match specific cases where we want tage with a specific value.
-	// 	does this syntax collide with any other cases?
-	//
-	case .{.option, .Editable} {
-		schematic.log("this file is editable\n");
-	}
-	// this is the named version of the smae thing
-	// 	this wil take the name of the case wher the tagged union is of the type option and value is
-	// 	the named type and we are setting the editable option to false.
-	case editableOption : .{.option, .Editable} {	// the .{} syntax is the assignment to expected type of the tagged union pair of values.
-		editableOptin = false;
-	}
+	// single statement cases
+	case .joint remove(@ joint);
+	case {.option, .Editable} editableOptin = false;
+	case joint 	    :  .joint                remove(@ joint);
+	case editableOption :: {.option, .Editable} editableOptin = false;
 
+	// empty code cases.
+	// 	this is helpfull to make sure no problems with the other case but not yet handeling them.
+	case .joint;
+	case .optio;
 
 	// in case the case statement have only one statement then we could just ignore the curly braces
 	case joint : .joint remove(@ joint);
 
-	// jointly named cases
-	case ingnoredInstance : .spiceCommand, lable {
-		print("Ignored the instance at position {}\n", ignoredInstance.pos);
-		ignoredInstancesCount++;
-	}
-
-	// multiple unnamed cases
-	// 	if there is not statments to be executed you can just start the next case.
-	case .comment, hint {
-		// doing nothing at all.
-	}
 
 	case _ {
 		print("this is not something to be bothered with\n");
@@ -588,28 +758,10 @@ if schInst {
 }
 
 
-number : s64;
+// Question:
+//	should use the "in" keyword instead of the "if" one for sperating menaing?
+// 	or should we keep the idea of the minimal syntax with maximal orthogonal meanings?
 
-if number {
-	case 0 {
-		print("You are a failure\n");
-	}
-
-	case dissappointment : 1..5 {
-		print("You got {}! you're a dissappointment\n", dissappointment);
-	}
-
-	case 9, 10 {
-		print("You could be better\n");
-	}
-
-	case _ {
-		print("where did you lose the grades\n");
-	}
-}
-
-// NOTE:
-//	use the "in" keyword instead of the if
 
 
 
@@ -618,14 +770,15 @@ if number {
 // 	by default each case break
 // 	but what if we want to continue to the next case?
 
-// 	if we want to use the continue keyword it's gonna override the use inside for loopes and other things.
-continue;
 
+// should add our own keyword for falling through?
+// 	what about using the "follow" keyword?
+// 	what about using the "fallthrow" keyword?
+// 	what about using the "next" keyword?
+// 	what about using the "unbreak" keyword?
+// 	what about using the "nobreak" keyword?
+// 	what about using the "#fall_throw" keyword?
 
-// 	if this became a thing what would that mean?
-continue ifStatmentName;
-
-// 	example
 TimeLineTrackType :: flag u8 {
 	NONE	: 0B0000_0000;
 	AUDIO 	: 0B0000_0001;
@@ -636,62 +789,12 @@ TimeLineTrackType :: flag u8 {
 timelineS : [] TimeLineTrack;
 
 for timeline in timelines {
-	TIME_LINE_TYPE_IF_CASE :: if timeline {
-		case .AUDIO {
-			gui.showAudioTimelineSymbol();
-			continue TIME_LINE_TYPE_IF_CASE;
-		}
-
-		case .VIDEO {
-			gui.showAudioTimelineSymbol();
-			continue TIME_LINE_TYPE_IF_CASE;
-		}
-
-		// Question:
-		//	Is what happened here order dependent?
-		// 	what if want it to be independent?
-		// 	should we even have that concern?
+	in timeline.type {
+		case .AUDIO             gui.showAudioTimelineSymbol();
+		case .VIDEO             gui.showVideoTimelineSymbol();
+		case .AUDIO | .VIDEO 	gui.showAudioVideoTimelineSymbol();
 	}
 }
-
-// should even use the "continue" keyword or add our own that doesn't collide.
-//	anyhow nesting will still make the naming issue.
-
-// what about using the "follow" keyword?
-// what about using the "fallthrow" keyword?
-// what about using the "next" keyword?
-// what about using the "unbreak" keyword?
-// what about using the "nobreak" keyword?
-// what about using the "#fall_throw" keyword?
-follow
-
-// 	example
-TimeLineTrackType :: flag u8 {
-	NONE	: 0B0000_0000;
-	AUDIO 	: 0B0000_0001;
-	VIDEO	: 0B0000_0010;
-	_
-}
-
-timelineS : [] TimeLineTrack;
-
-for timeline in timelines {
-	TIME_LINE_TYPE_IF_CASE :: if timeline {
-		case .AUDIO {
-			gui.showAudioTimelineSymbol();
-			nobreak TIME_LINE_TYPE_IF_CASE;
-		}
-
-		case .VIDEO {
-			gui.showAudioTimelineSymbol();
-			unbreak TIME_LINE_TYPE_IF_CASE;
-		}
-	}
-}
-
-
-
-
 
 
 
@@ -707,13 +810,17 @@ y := if x == 5 then 10 else 0;
 // 	this could also be used in different if else senarios
 result := getStudentFinalExamResult(@ student);
 grade :=
-	if result < 50 then "F"
+	if      result < 50 then "F"
 	else if result < 60 then "E"
 	else if result < 70 then "D"
 	else if result < 80 then "C"
 	else if result < 90 then "B"
 	else if result < 95 then "A"
-	else "A+";
+	else "A+"
+;
+
+
+
 
 
 
@@ -729,6 +836,67 @@ labelName :: label;
 	// code
 goto labelName;
 
+// How a state machine or jump actually looks in Abstract syntax:
+// Software
+interpreter_loop :: (bytecode : [] u8) -> () {
+	pc : usize = 0;
+
+	dispatch_start : label;
+
+	if bytecode[pc] {
+		case 0x01 { goto handle_add; }
+		case 0x02 { goto handle_mul; }
+		case 0x00 { return; }
+	}
+
+	handle_add  : label;
+
+	// do add logic...
+
+	pc++;
+	goto dispatch_start;
+
+	handle_mul : label;
+
+	// do mul logic...
+
+	pc++;
+	goto dispatch_start;
+}
+
+
+// Hardware
+StateMachine :: enum {
+	IDLE;
+	PROCESSING;
+	FAULT;
+}
+
+run_controller :: (current_state : StateMachine) -> (next_state : StateMachine) {
+	in current_state {
+		case .IDLE {
+			if start_signal then goto PROCESSING;
+		}
+		case .PROCESSING {
+			if error_detected then goto FAULT;
+		}
+		case .FAULT {
+			goto IDLE;
+		}
+	}
+	return current_state;
+}
+
+
+
+
+
+
+// Hint:
+// 	Lable replacement
+// 		mark, anchor, node, vertix, location, position, state.
+// 	goto replacement
+// 		edge, transition, jump, route
 
 
 
@@ -774,6 +942,8 @@ for i := 10:-1:0 {
 }
 
 
+
+
 // Definite/Count-Controlled For Loops
 // -----------------------------------------------------------------
 // using the "in" instead of ":=".
@@ -802,7 +972,6 @@ for i in 10:-1:0 {
 
 
 
-
 // C-Like For Loop
 // -----------------------------------------------------------------
 // should this even still be a thing?! hmmmmm...
@@ -822,13 +991,12 @@ for {
 
 // This is while loop or pre-checking loop in other languages.
 for not shouldWindowClose() {
-        // write gui code here.
+	// write gui code here.
 }
 
 for i < 5 {
-        // some code here.
+	// some code here.
 }
-
 
 // Post Checking Loop
 doWhileLoopName :: for {
@@ -846,35 +1014,35 @@ doWhileLoopName :: for {
 // iterating through the arry elements.
 array :: [10, 20, 30, 40];
 for value in array {
-        println("${value}");
+	println("${value}");
 }
 
 // iterating through the arry elements and the index.
 array :: [10, 20, 30, 40];
 for value, index in array {
-        println("${index}, ${value}");
+	println("${index}, ${value}");
 }
 
 // iterating through the arry elements by value.
 aos :: [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}];
 for $value in aos {
-        print("${value.x}");
+	print("${value.x}");
 }
 
 // iterating through the arry elements by value and index.
 for $value, index in [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}] {
-        print("${index}, ${value.x}");
+	print("${index}, ${value.x}");
 }
 
 // iterating through the arry elements by pointer.
 aos :: [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}];
 for @ value in aos {
-        print("${value.x}");
+	print("${value.x}");
 }
 
 // iterating through the arry elements by pointer.
 for @ value, index in [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}] {
-        print("${index}, ${value.x}");
+	print("${index}, ${value.x}");
 }
 
 
@@ -885,11 +1053,11 @@ for @ value, index in [Vec3{x=0, y=0, z=0}, Vec3{x=1, y=1, z=1}] {
 // Syntax for loop iteration macros
 // -----------------------------------------------------------------
 for value in map use iterationMacro {   	// contender
-        println("${value}");
+	println("${value}");
 }
 
 for value in map using iterationMacro { 	// contender
-        println("${value}");
+	println("${value}");
 }
 
 
@@ -905,8 +1073,8 @@ for value in map using iterationMacro { 	// contender
 
 // example that better shows the usecase
 MyHashMap :: <K, V> {
-        keys   : [_] K;
-        values : _ V;
+	keys   : [_] K;
+	values : _ V;
 }
 
 iterate_My_Hash_Map :: macro (wahtever, whatever, wahtever, whatever) -> (wahtever, whatever) {
@@ -919,7 +1087,7 @@ Message :: string;
 map : MyHashMap(ErroCode, Messsage);
 // initializtion
 for val, key := map use iterate_My_Hash_Map {
-        println("${key}, ${value}");
+	println("${key}, ${value}");
 }
 
 // Note:
@@ -1047,7 +1215,7 @@ sc := $sp;
 //              output  : you can only set the value of the parameter.
 //              inout   : you can read/set the value of the parameter.
 treeSort :: (tree : @ inout Node, sortingFunction : () -> ()) {
-        // implementation
+	// implementation
 }
 
 //      Should all input types be input? (yes)
@@ -1234,36 +1402,36 @@ ProtState :: enum u8 {
 // 	re range of the values in the enum.
 // 	Defining the underlying type here is a must.
 NE :: enum u8 {
-        E1 = 0;
-        E2;
-        E3;
-        _;
+	E1 = 0;
+	E2;
+	E3;
+	_;
 }
 
 Card :: enum u8 {
-        // Ranks
-        One :: 0;               // 0b0000_0001
-        Two;                    // 0b0000_0010
-        Three;                  // 0b0000_0011
-        Four;                   // 0b0000_0100
-        Five;                   // 0b0000_0101
-        Six;                    // 0b0000_0110
-        Seven;                  // 0b0000_0111
-        Eight;                  // 0b0000_1000
-        Nine;                   // 0b0000_1001
-        Ten;                    // 0b0000_1010
-        Jack;                   // 0b0000_1011
-        Queen;                  // 0b0000_1100
-        King;                   // 0b0000_1101
+	// Ranks
+	One :: 0;               // 0b0000_0001
+	Two;                    // 0b0000_0010
+	Three;                  // 0b0000_0011
+	Four;                   // 0b0000_0100
+	Five;                   // 0b0000_0101
+	Six;                    // 0b0000_0110
+	Seven;                  // 0b0000_0111
+	Eight;                  // 0b0000_1000
+	Nine;                   // 0b0000_1001
+	Ten;                    // 0b0000_1010
+	Jack;                   // 0b0000_1011
+	Queen;                  // 0b0000_1100
+	King;                   // 0b0000_1101
 
-        // Suits
-        Spades :: 16;           // 0b0001_0000
-        Hearts;                 // 0b0010_0000
-        Diamonds;               // 0b0011_0000
-        Clubs;                  // 0b0100_0000
+	// Suits
+	Spades :: 16;           // 0b0001_0000
+	Hearts;                 // 0b0010_0000
+	Diamonds;               // 0b0011_0000
+	Clubs;                  // 0b0100_0000
 
-        // Making the enum non-exhuastive to allow rank-suit compinations
-        _;
+	// Making the enum non-exhuastive to allow rank-suit compinations
+	_;
 }
 
 aceOfSpades :: Card.One | .Spades;
@@ -1301,22 +1469,22 @@ cpu_flags :: flag u8 {
 // Non-exhaustive flag
 // -----------------------------------------------------------------
 PortFlags :: flag u8 {
-        Off;                    // 0B0000_0000
+	Off;                    // 0B0000_0000
 
-        // Directionality       // 0B0000_XXXX
-        Input;                  // 0B0000_0001
-        Output;                 // 0B0000_0010
-        InOut;                  // 0B0000_0100
-        HighZ;                  // 0B0000_1000
+	// Directionality       // 0B0000_XXXX
+	Input;                  // 0B0000_0001
+	Output;                 // 0B0000_0010
+	InOut;                  // 0B0000_0100
+	HighZ;                  // 0B0000_1000
 
-        // Port Type
-        Digital;                // 0B0001_0000
-        Analog;                 // 0B0010_0000
-        PWM;                    // 0B0100_0000
-        Clk;                    // 0B1000_0000
+	// Port Type
+	Digital;                // 0B0001_0000
+	Analog;                 // 0B0010_0000
+	PWM;                    // 0B0100_0000
+	Clk;                    // 0B1000_0000
 
-        // Making the flag non-exhuastive to allow other extentions in the future.
-        _;
+	// Making the flag non-exhuastive to allow other extentions in the future.
+	_;
 }
 
 analogInput :: PortFlags.Input | .Analog;
@@ -1370,11 +1538,11 @@ Result :: enum u8 union {
 //      The more advanced way of assigning to a tagged union is to just recognize
 //      that it's just a sturct that contains a tag and the raw union
 DrawableInstance  : enum u8 union {
-        None      : 0, _;                       // this manually defines a "None" default state that only have an enum and no union member type.
-        None      : 0, void;                    // this is similar to the previous one but this defines the union member type to be void.
-        Symbol    : 1, SymbolInstance;          // this assigns the value to the enum tag and a type for the union.
-        Wire      : _, WireInstance;            // this explicitly tells it that the tag is infered and the type is also explicitly given
-        Primative : PrimativeInstance;          // this automatically inferes the tag value and the type is explicitly given
+	None      : 0, _;                       // this manually defines a "None" default state that only have an enum and no union member type.
+	None      : 0, void;                    // this is similar to the previous one but this defines the union member type to be void.
+	Symbol    : 1, SymbolInstance;          // this assigns the value to the enum tag and a type for the union.
+	Wire      : _, WireInstance;            // this explicitly tells it that the tag is infered and the type is also explicitly given
+	Primative : PrimativeInstance;          // this automatically inferes the tag value and the type is explicitly given
 }
 
 
@@ -1385,9 +1553,9 @@ DrawableInstance  : enum u8 union {
 //      	looks very similar to the assignment of default value struct
 //      	members
 TU : enum u8 union {
-        X : f32 = 0;
-        Y : s32 = 1;
-        Z : f64 = 2
+	X : f32 = 0;
+	Y : s32 = 1;
+	Z : f64 = 2
 }
 
 
@@ -1406,14 +1574,26 @@ TU : enum u8 union {
 // -----------------------------------------------------------------
 //      enternally this is similar to passing an array.
 add :: (A : ... f32, B : ... f32) (sum : f64 = 0) {
-        for idx := 0 : (A.size-1) {
-                sum = A[idx] + B[idx];
-        }
-        return;
+	for idx := 0 : (A.size-1) {
+		sum = A[idx] + B[idx];
+	}
+	return;
 }
 
 addedList := add(A = 1, 2, 3, 4, 5, B = 5, 4, 3, 2, 1);
 // addedList => {6, 6, 6, 6, 6}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1455,27 +1635,30 @@ print("Hello, World!");				// Using functions from the module.
 
 // Types Composition
 // -----------------------------------------------------------------
-Adress :: {
-	building number : String;
-	street          : String;
-	city            : String;
-	governance      : String;
-	country         : String;
+Adress :: struct {
+	buildingNumber : string;
+	street         : string;
+	area           : string;
+	city           : string;
+	governance     : string;
+	country        : string;
 }
 
-PersonalInformation :: {
-	name            : String;
-	salary          : s32;
-	.               : Adress;
+PersonalInformation :: struct {
+	name   	       : string;
+	salary         : s32;
+	.              : Adress;
 }
+
 
 person : PersonalInformation = {
 	name           = "Mohamed",
 	salary         = 2K,
 	buildingNumber = "1",
 	street         = "main",
+	area           = "5th Setelment",
 	city           = "New Cairo",
-	governance     = "Cairo"
+	governance     = "Cairo",
 	country        = "Egypt"
 };
 
@@ -1490,17 +1673,17 @@ person : PersonalInformation = {
 
 // Function Parameter Decomposition
 // -----------------------------------------------------------------
-RGBColor :: {
-	R, G, B : u8;
+RGB :: {
+	r, g, b : f32;
 }
 
-modifyBrightness :: (. : inout structName, m : f32) {
-	R = xx R * m;
-	G = xx G * m;
-	B = xx B * m;
+modifyBrightness :: (. : inout structName, l : f32) {
+	r = r * l;
+	g = g * l;
+	b = b * l;
 }
 
-backGroundColor : RGBColor = {0h1a, 0h1a, 0h1a};
+backGroundColor : RGB = {0.2, 0.2, 0.2};
 
 modifyBrightness(backGroundColor, 1.5);
 
@@ -1520,72 +1703,73 @@ modifyBrightness(backGroundColor, 1.5);
 // 	to auto invoke functions that return a type that is then used
 // 	as a struct member and directly accessed.
 EntityType      :: enum u8 {
-        Entity;
-        Door;
-        Human;
+	Entity;
+	Door;
+	Human;
 }
 
 Entity          :: {
-        type    :  EntityType;
-        vTable  :  [] @;
-        x, y, z :  f32;
-        .       :: (. : @ Entity) -> @ EntityVTable {
-                return vTables[entity.type];
-        }
+	type    :  EntityType;
+	vTable  :  [] @;
+	x, y, z :  f32;
+	.       :: (. : @ Entity) -> @ EntityVTable {
+		return vTables[type];
+	}
 }
 
 DoorState       :: enum u8 {
-        Closed;
-        Open;
+	Closed;
+	Open;
 }
 
 Door            :: {
-        .       :  @ Entity;
-        state   := DoorState.Closed;
+	.       :  Entity;
+	state   := DoorState.Closed;
 }
 
 Human           :: {
-        .       :  @ Entity;
-        name    := "unnamed";
+	.       :  Entity;
+	name    := "unnamed";
 }
 
 EntityVTable    :: {
-        init    :: (. : @ Entity) {}
-        print   :: (. : @ Entity) {}
+	init    :: (. : @ Entity) {}
+	print   :: (. : @ Entity) {}
 }
 
 DoorVTable      :: {
-        init    :: (. : @ Door) {
-                x, y, z = 3.1415;
-                state = .Open;
-        }
-        print   :: (. : @ Door) {
-                print("Door:\n");
-                print("\tis at: ({}, {}, {})\n", x, y, z);
-                print("\tis   : {}\n", state);
-        }
+	init    :: (. : @ Door) {
+		x, y, z = 3.1415;
+		state = .Open;
+	}
+	print   :: (. : @ Door) {
+		print("Door:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tis   : {}\n", state);
+	}
 }
 
 HumanVTable     :: {
-        init    :: (. : @ Human) {
-                x, y, z = 3.1415;
-                name = "Ahmed S. Lilah"
-        }
-        print   :: (. : @ Humand) {
-                print("Human:\n");
-                print("\tis at: ({}, {}, {})\n", x, y, z);
-                print("\tname : \"{}\"\n", name);
-        }
+	init    :: (. : @ Human) {
+		x, y, z = 3.1415;
+		name = "Ahmed S. Lilah"
+	}
+	print   :: (. : @ Humand) {
+		print("Human:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tname : \"{}\"\n", name);
+	}
 }
 
 entityVTable    : EntityVTable;
 doorVTable      : DoorVTable;
 humanVTable     : HumanVTable;
 
-vTables : [3] @ EntityVTable = {auto @enityVTable, auto @doorVTable, auto @humanVTable};
+vTables : [3] @ void = {auto @enityVTable, auto @doorVTable, auto @humanVTable};
+vTables : [3] @ Any  = {auto @enityVTable, auto @doorVTable, auto @humanVTable};
 
-door    := alloc(DoorEntity);
-human   := alloc(HumanEntity);
+door    := alloc(Door);
+human   := alloc(Human);
 
 door.print(door);
 door.init(door);
@@ -1594,6 +1778,78 @@ door.print(door);
 human.print(human);
 human.init(human);
 human.print(human);
+
+
+
+// rethinking this.
+// ---------------------------------------------------------
+Entity          :: #(V : T) {
+	.       :: V;
+	x, y, z :  f32;
+}
+
+DoorState       :: enum u8 {
+	Closed;
+	Open;
+}
+
+Door            :: #(V : T) {
+	.       :  Entity(V);
+	state   := DoorState.Closed;
+}
+
+Human           :: #(V : T) {
+	.       :  Entity(V);
+	name    := "unnamed";
+}
+
+EntityVTable    :: {
+	init    :: (. : @ Entity) {}
+	print   :: (. : @ Entity) {}
+}
+
+DoorVTable      :: {
+	init    :: (. : @ Door) {
+		x, y, z = 3.1415;
+		state = .Open;
+	}
+	print   :: (. : @ Door) {
+		print("Door:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tis   : {}\n", state);
+	}
+}
+
+HumanVTable     :: {
+	init    :: (. : @ Human) {
+		x, y, z = 3.1415;
+		name = "Ahmed S. Lilah"
+	}
+	print   :: (. : @ Humand) {
+		print("Human:\n");
+		print("\tis at: ({}, {}, {})\n", x, y, z);
+		print("\tname : \"{}\"\n", name);
+	}
+}
+
+entityVTable    :: EntityVTable {};
+doorVTable      :: DoorVTable   {};
+humanVTable     :: HumanVTable  {};
+
+door    := alloc(Door(doorVTable));
+human   := alloc(Human(humanVTable));
+
+door.print(door);
+door.init(door);
+door.print(door);
+
+human.print(human);
+human.init(human);
+human.print(human);
+
+
+
+
 
 
 
@@ -1642,10 +1898,57 @@ vec4    :: (value : f32) -> (vec : Vec4) {
 
 rgba, hsla, hsva, quat :: alias vec4;
 
+
+
+
+
+// Subtype Aliasing
+// -----------------------------------------------------------------
+// The problem with aliasing in the struct itself is that if we have
+// aliases that use the same name but in different order it makes it
+// a problem to have aliases of both in the struct.
+// Example: RGB vs BGR color vectors.
+// 	Both should be aliases to the same Vec3 struct. but due to the
+// 	different memory order we cant have to place in the same struct
+// 	witht the same name.
+Vec4    :: {
+	x, y, z, w : f32;
+
+	// defining aliases for each field to allow flexability based on the used usage context.
+	r, h, R :: alias x;
+	g, s, I :: alias y;
+	b, l, v :: alias z;
+	a    	:: alias w;
+}
+
+
+// This now forces the re aliasing of sub-aliases.
+BGRA :: alais Vec4 {
+	// defining aliases for each field to allow flexability based on the used usage context.
+	b, h, R :: alias x;
+	g, s, I :: alias y;
+	r, l, v :: alias z;
+	a    	:: alias w;
+}
+
+// These have the same internal types and aliases as the original vector.
+RGBA, HSLA, HSVA, Quat :: alias Vec4;
+
+vec4    :: (value : f32) -> (vec : Vec4) {
+	vec.x, vec.y, vec.z, vec.w = value;
+	return;
+}
+
+rgba, hsla, hsva, quat, bgra :: alias vec4;
+
 // Note:
 //	Not sure if this the correct place to add this but,
 // 	Functions that accept one type should also accept it's alias
 //	Should 'alias' be the opposite to 'destinct'?
+// 		Yes, Probably!
+
+
+
 
 
 
@@ -1693,9 +1996,9 @@ rgba, hsla, hsva, quat :: alias vec4;
 // UFCS Vs Methods Receivers
 // -----------------------------------------------------------------
 // 	This was first explored a long time a go and i'm still not sure weather or not
-// 	it should still be a thing at the end of this.
-//	it might help a while with some syntax suggar but is it worth the hassle and other
-//	problems it's gonna make with obfiscation and function calling order and prioritization.
+// 	it should still be a thing at the end of this. it might help a while with some
+// 	syntax suggar but is it worth the hassle and other problems it's gonna make w-
+// 	ith obfiscation and function calling order and prioritization.
 2DPoints :: {
 	x, y : s8;
 }
@@ -2093,19 +2396,207 @@ sizeImprotantFunction :: call (data : []) -> (bool) {}
 // destinct
 // -----------------------------------------------------------------
 	// used to define types form other ones that are opposite to aliases.
-        // even though they are the same type a compiler refuses to use one inplace of the other
-        // in the normal case the the if condition will evaluate to true.
+	// even though they are the same type a compiler refuses to use one inplace of the other
+	// in the normal case the the if condition will evaluate to true.
 LogicAnswer :: bool;
 if typeof(LogicAnswer) == typeof(bool) {
-        compiler.log("same type");
+	compiler.log("same type");
 } else {
-        compiler.log("different types");
+	compiler.log("different types");
 }
 
 // using the destinct keyword the if condition will evaluate to false.
 LogicAnswer :: destinct bool;
 if typeof(LogicAnswer) == typeof(bool) {
-        compiler.log("same type");
+	compiler.log("same type");
 } else {
-        compiler.log("different types");
+	compiler.log("different types");
+}
+
+
+
+
+
+
+
+
+
+
+// Hint:
+// 	call replacement
+// 		inst (instantiate/instant), bind, share, use
+// 	inline replacement
+// 		flatten, expand, isolate, unique, inst
+// 	caller_location replacement
+// 		hierarchy, path, instantPath, instPath
+
+
+
+
+
+NOT :: (A : bit) -> (Y : bit) {
+
+}
+
+OR  :: (A : bit, B : bit) -> (Y : bit) {
+
+}
+
+AND :: (A : bit, B : bit) -> (Y : bit) {
+
+}
+
+XOR :: (A : bit, B : bit) -> (Y : bit) {
+
+}
+
+
+FullAdder :: (A : bit, B : bit, Cin : bit) -> (Sum : bit, Cout : bit) {
+	W1 :: XOR(A, B);
+	W2 :: AND(A, B);
+	W3 :: AND(W1, Cin);
+
+	return XOR(W1, Cin), OR(W1, W3);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// Question:
+// 	What about adding a symbol to reuse the variables.
+// Using the `.` sybmol
+.a, b, c, .d := f();
+
+// Using the `$` symbol
+$a, b, c, $d := f();
+
+
+
+
+
+
+
+
+
+
+
+// `::` and `:=` are allowed once per scope for each name return type.
+// -----------------------------------------------------------------
+// if we want to use `::` for wire assignment and `:=` for reg/FF assignment how would it be without making a case that is impossible in SW mode?
+
+ConfigCommand :: struct {
+	target_port  : u8;
+	baud_rate    : u32;
+}
+
+DataPayload :: struct {
+	length       : u16;
+	checksum     : u16;
+}
+
+PacketType :: enum union {
+	config       : ConfigCommand;
+	data         : DataPayload;
+	reset        : types.ResetSignal;
+	fault        : types.FaultReport;
+}
+
+RouterState :: enum {
+	IDLE;
+	RECEIVING;
+	PROCESSING;
+	ERROR_STATE;
+}
+
+PacketRouterController :: (clk : clock, reset_n : bit, packet_in : PacketType) -> (route_valid : bit, destination : u8, error_code : u16) {
+	is_urgent     :: packet_in.tag == .config;
+	checksum_pass :: verify_packet_integrity(packet_in);
+
+	current_state  := RouterState.IDLE;
+	packet_counter := 0u16;
+	fault_logged   := false;
+
+	route_valid    := 0;
+	destination    := 0x00;
+	error_code     := 0x0000;
+
+	if posedge(clk) {
+		if not reset_n {
+			// Synchronous Reset
+			current_state  = .IDLE;
+			packet_counter = 0;
+			fault_logged   = false;
+			route_valid    = 0;
+			destination    = 0x00;
+			error_code     = 0x0000;
+		} else {
+
+			// Default cycle defaults to prevent latch inference
+			route_valid = 0;
+
+			// FSM State Dispatch using the 'in' block for plain enums
+			if current_state {
+
+				case .IDLE {
+					if checksum_pass {
+						current_state = .RECEIVING;
+					} else {
+						current_state = .ERROR_STATE;
+						error_code    = 0xDEAD;
+					}
+				}
+
+				case .RECEIVING {
+					// Pattern matching on the PacketType enum union with explicit payload binding (cfg, dat, etc.)
+					if packet_in {
+
+						case cfg : .config {
+						    destination   = cfg.target_port; // Explicitly bound payload variable
+						    route_valid   = 1;
+						    current_state = .PROCESSING;
+						}
+
+						case dat : .data {
+						    packet_counter = packet_counter + 1;
+						    destination    = 0xFF; // Broadcast
+						    route_valid    = 1;
+						}
+
+						case .reset {
+							current_state = .IDLE;
+						}
+
+						case .fault {
+							fault_logged  = true;
+							current_state = .ERROR_STATE;
+						}
+					}
+				}
+
+				case .PROCESSING {
+					priority_level := if is_urgent then 3 else 1;
+
+					if packet_counter > 1024 {
+						current_state  = .IDLE;
+						packet_counter = 0;
+					}
+				}
+
+				case .ERROR_STATE {
+					route_valid = 0;
+					if not fault_logged {
+						error_code = 0xEE01;
+					}
+				}
+			}
+		}
+	}
 }

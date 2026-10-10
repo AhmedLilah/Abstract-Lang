@@ -225,3 +225,69 @@ for value in map #(iterationMacro) {
         println("${value}");
 }
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Constants Declaration/Definition
+// -----------------------------------------------------------------
+// Value Initialized Type Inferred Compile Time Constants
+identifier :: value;				// This defines a compile time constant and infer the type from the initialization value.
+
+// Value Initialized Multiple Type Inferred Compile Time Constants
+identifier, identifier :: value;		// This defines multiple compile time constants and infer the type from the initialization value.
+
+// Value Initialized Type Defined Compile Time Constants
+identifier : constantType : vlaue;		// This defines a compile time constants and by specifying the type before assigning the value.
+
+// Discarded Value Initialized Type Inferred Compile Time Constants
+_ :: value;					// Discarded value compile time constant.
+
+// Partially Discarded Value Initialized Type Inferred Compiler Time Constants
+_, identifier :: value, value;			// This discard the value corresponding the `_` operator.
+
+
+
+
+// Variables Declaration/Definition
+// -----------------------------------------------------------------
+// Value  Initialized Type Inferred Variable
+identifier := value;				// This defines a variable and infer the type from the initialization value.
+
+// Value Initialized Multiple Type Inferred Variable
+identifier, identifier := value;		// This defines multiple vairables and infer the type from the initialization value.
+
+// Value Initialized Type Variable Declaration
+identifier : variableType = value;		// This defines a variable and by specifying the type before assigning the value.
+
+// Default Initialized Type Variable Declaration
+identifier : varibleType;			// This defines a default initialized variable and specifies it's type.
+
+// Variable Assignment
+identifier = value;				// This assigns a value to a pre-defined variable.
+
+// Multiple Value Initialized Type Inferred Variables
+identifier, identifier := value, value;		// This assigned each identifier to the corresponding value and give it the inferred type of the value.
+
+// Discarded Value Initialized Variable
+_ := value;					// Discarded value variable
+
+// Partially Discarded Value Initialized Type Inferred Variable
+_, identifier := value, value;			// This discard the value corresponding the `_` operator.
+
+
